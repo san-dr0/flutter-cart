@@ -1,17 +1,19 @@
 import 'package:clean_arch2/config/db/app_db.dart';
+import 'package:clean_arch2/config/db/hive_model/product_model/product_model.dart';
 import 'package:clean_arch2/config/routes/routes.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart' as path_provider;
+// import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:hive_flutter/hive_flutter.dart';
 
 // flutter pub run build_runner build --delete-conflicting-outputs
 // flutter pub run build_runner build
 // flutter pub run build_runner watch
+// https://medium.com/gytworkz/hive-database-in-flutter-store-and-retrieve-data-locally-d53b333d74ee // BLOG ABOUT HIVE
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final appDoc = await path_provider.getApplicationCacheDirectory();
-  await Hive.initFlutter(appDoc.path);
-  // Hive..registerAdapter(Product);
+  // final appDoc = await path_provider.getApplicationCacheDirectory();
+  // await Hive.initFlutter(appDoc.path);
+  Hive.registerAdapter(ProductEntityAdapter());
   
   AppDatabase appDB = AppDatabase();
   appDB.initBaseRecords();

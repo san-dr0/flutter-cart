@@ -1,0 +1,2 @@
+C:/Users/vbati/OneDrive/Desktop/Angular/flutter/flutter-cart/android/app/.cxx/Debug/5d505153/x86/CMakeFiles/edit_cache.dir
+C:/Users/vbati/OneDrive/Desktop/Angular/flutter/flutter-cart/android/app/.cxx/Debug/5d505153/x86/CMakeFiles/rebuild_cache.dir

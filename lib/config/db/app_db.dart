@@ -15,16 +15,17 @@ class AppDatabase {
       return;
     }
     
-    // List<ProductEntity> productList = [
-    //   ProductEntity(name: "Hansel", quantity: 10, price: 5.0),
-    //   ProductEntity(name: "Fita", quantity: 7, price: 8.0),
-    //   ProductEntity(name: "Hansel", quantity: 10, price: 8.0),
-    //   ProductEntity(name: "Cream-0", quantity: 12, price: 6.0),
-    //   ProductEntity(name: "Barnuts", quantity: 33, price: 5.0),
-    //   ProductEntity(name: "Snow Bear", quantity: 5, price: 3.0),
-    //   ProductEntity(name: "Happy", quantity: 22, price: 3.0),
-    // ];
+    List<ProductEntity> productList = [
+      ProductEntity(name: "Hansel", quantity: 10, price: 5.0),
+      ProductEntity(name: "Fita", quantity: 7, price: 8.0),
+      ProductEntity(name: "Hansel", quantity: 10, price: 8.0),
+      ProductEntity(name: "Cream-0", quantity: 12, price: 6.0),
+      ProductEntity(name: "Barnuts", quantity: 33, price: 5.0),
+      ProductEntity(name: "Snow Bear", quantity: 5, price: 3.0),
+      ProductEntity(name: "Happy", quantity: 22, price: 3.0),
+    ];
 
-    // hiveEcommerce.put("product", productList);
+    final productBox = Hive.box("eCommerce");
+    productBox.put("product", productList);
   }
 }
