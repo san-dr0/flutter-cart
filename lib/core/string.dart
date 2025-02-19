@@ -3,3 +3,4 @@ const String signupTitle = "Signup";
 const String loginTitle = "Login";
 const String productListTitle = "Product Lists";
 const String cartTitle = "Cart";
+const String noCartRecordTitle = "No card records.";

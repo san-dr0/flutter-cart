@@ -3,14 +3,18 @@ import 'package:flutter/material.dart';
 
 abstract class CartEvent {}
 
-class CartOnBuyProduct extends CartEvent {
+class CartOnBuyProductEvent extends CartEvent {
   ProductModel productModel;
 
-  CartOnBuyProduct({required this.productModel});
+  CartOnBuyProductEvent({required this.productModel});
 }
 
-class CartOnViewProduct extends CartEvent {
+class CartOnViewProductListEvent extends CartEvent {
   BuildContext context;
 
-  CartOnViewProduct({required  this.context});
+  CartOnViewProductListEvent({required  this.context});
+}
+
+class CartOnAmountToPaidEvent extends CartEvent {
+  
 }

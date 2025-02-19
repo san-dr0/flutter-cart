@@ -29,7 +29,11 @@ class _HomePage extends State<HomePage> {
   }
 
   void onBuyProduct(ProductModel productModel) {
-    context.read<CartBloc>().add(CartOnBuyProduct(productModel: productModel));
+    context.read<CartBloc>().add(CartOnBuyProductEvent(productModel: productModel));
+  }
+
+  void onGoToCart() {
+    context.read<CartBloc>().add(CartOnViewProductListEvent(context: context));
   }
 
   @override
@@ -49,7 +53,9 @@ class _HomePage extends State<HomePage> {
           Stack(
             children: [
               IconButton(
-                onPressed: () {}, 
+                onPressed: () {
+                  onGoToCart();
+                }, 
                 icon: Icon(
                   Icons.shopping_cart,
                   color: Colors.red[300]

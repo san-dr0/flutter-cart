@@ -17,3 +17,14 @@ class CartProductState extends CartState {
   @override
   List<Object?> get props => [productList]; 
 }
+
+class CartProductToPaidSatate extends CartState {
+  double totalToPaid = 0.00;
+
+  CartProductToPaidSatate({required this.totalToPaid});
+  
+  @override
+  // TODO: implement props
+  List<Object?> get props => [totalToPaid];
+  
+}
