@@ -3,15 +3,17 @@ part 'product_model.g.dart';
 
 @HiveType(typeId: 1)
 class ProductEntity {
-  ProductEntity({required this.name, required this.quantity, required this.price});
+  ProductEntity({required this.id, required this.name, required this.quantity, required this.price});
 
   @HiveField(0)
+  int id;
+  @HiveField(1)
   String name;
 
-  @HiveField(1)
+  @HiveField(2)
   int quantity;
   
-  @HiveField(2)
+  @HiveField(3)
   double price;
 
   @override
