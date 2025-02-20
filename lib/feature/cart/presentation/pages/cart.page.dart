@@ -3,8 +3,11 @@ import 'package:clean_arch2/core/string.dart';
 import 'package:clean_arch2/feature/cart/presentation/bloc/cart.bloc.dart';
 import 'package:clean_arch2/feature/cart/presentation/bloc/cart.event.dart';
 import 'package:clean_arch2/feature/cart/presentation/bloc/cart.state.dart';
+import 'package:clean_arch2/feature/home/domain/product.domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../core/text.style.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({super.key});
@@ -14,15 +17,31 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPage extends State<CartPage> {
-
+  late CartBloc cartBloc;
   @override
   void initState() {
     super.initState();
-    context.read<CartBloc>().add(CartOnAmountToPaidEvent());
+    cartBloc = context.read<CartBloc>();
+    cartBloc.add(CartOnAmountToPaidEvent());
   }
 
-  void onCheckout () {
+  void onCheckout() {
 
+  }
+
+  void onDeductQuantity (ProductModel productModel) {
+    cartBloc.add(CartOnDeductQuanityEvent(productModel: productModel));
+    cartBloc.add(CartOnAmountToPaidEvent());
+  }
+
+  void onAddQuantity (ProductModel productModel) {
+    cartBloc.add(CartOnAddQuantityEvent(productModel: productModel));
+    cartBloc.add(CartOnAmountToPaidEvent());
+  }
+
+  void onRemoveProduct(ProductModel productModel) {
+    cartBloc.add(CartOnRemoveProductEvent(productModel: productModel));
+    cartBloc.add(CartOnAmountToPaidEvent());
   }
 
   @override
@@ -35,7 +54,7 @@ class _CartPage extends State<CartPage> {
       body: Stack(
         children: [
           BlocBuilder(
-            bloc: context.read<CartBloc>(),
+            bloc: cartBloc,
             builder: (context, state) {
             if (state is CartProductState) {
               return ListView.separated(
@@ -55,7 +74,9 @@ class _CartPage extends State<CartPage> {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               InkWell(
-                                onTap: () {},
+                                onTap: () {
+                                  onAddQuantity(state.productList[index]);
+                                },
                                 splashColor: Colors.teal[800],
                                 borderRadius: BorderRadius.all(Radius.circular(10.0)),
                                 child: Ink(
@@ -75,7 +96,9 @@ class _CartPage extends State<CartPage> {
                               ),
                               const SizedBox(width: 8.0,),
                               InkWell(
-                                onTap: () {},
+                                onTap: () {
+                                  onDeductQuantity(state.productList[index]);
+                                },
                                 splashColor: Colors.teal[800],
                                 borderRadius: BorderRadius.all(Radius.circular(10.0)),
                                 child: Ink(
@@ -88,6 +111,28 @@ class _CartPage extends State<CartPage> {
                                     child: Icon(
                                       Icons.remove,
                                       color: Colors.white,
+                                      size: 22.0,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 8.0,),
+                              InkWell(
+                                onTap: () {
+                                  onRemoveProduct(state.productList[index]);
+                                },
+                                splashColor: Colors.red[200],
+                                borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                child: Ink(
+                                  decoration: BoxDecoration(
+                                    color: Colors.red[100],
+                                    borderRadius: BorderRadius.all(Radius.circular(10.0))
+                                  ),
+                                  child: Container(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: Icon(
+                                      Icons.delete,
+                                      color: Colors.red[400],
                                       size: 22.0,
                                     ),
                                   ),
@@ -114,7 +159,9 @@ class _CartPage extends State<CartPage> {
                 )
               ],
             );
-          },),
+          },
+          // buildWhen: (previous, current) => previous != current,
+          ),
           Positioned(
             bottom: 1.00,
             child: SizedBox(
@@ -128,18 +175,24 @@ class _CartPage extends State<CartPage> {
                       padding: const EdgeInsets.all(10.0),
                       child: Center(
                         child: BlocBuilder(
-                          bloc: context.read<CartBloc>(),
+                          bloc: cartBloc,
                           builder: (context, state) {
                             if (state is CartProductToPaidSatate) {
                               return Text(
                                 "PHP ${state.totalToPaid.toString()}",
-                                style: _textStyle(color: Colors.black, fontSize: 18.0),
+                                style: textStyle(
+                                  color: Colors.black,
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold
+                                ),
                               );
                             }
                     
                             return Text(
                               "0.00",
-                              style: _textStyle(color: Colors.black, fontSize: 18.0),
+                              style: textStyle(
+                                fontSize: 18.0
+                              ),
                             );
                         },
                         buildWhen: (previous, current) => current is CartProductToPaidSatate,
@@ -161,9 +214,8 @@ class _CartPage extends State<CartPage> {
                           padding: const EdgeInsets.all(10.0),
                           child: Text(
                             checkoutTitle,
-                            style: _textStyle(
-                              fontSize: 18.0,
-                              color: Colors.white
+                            style: textStyle(
+                              fontSize: 20.0
                             ),
                           ),
                         ),
@@ -179,16 +231,4 @@ class _CartPage extends State<CartPage> {
       )
     );
   }
-}
-
-TextStyle _textStyle({
-  double fontSize = 15.0, 
-  FontWeight fontWeight = FontWeight.normal,
-  Color color = Colors.white,
-  }) {
-  return TextStyle(
-    fontSize: fontSize,
-    fontWeight: fontWeight,
-    color: color,
-  );
 }

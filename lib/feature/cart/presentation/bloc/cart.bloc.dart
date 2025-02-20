@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:clean_arch2/core/string.dart';
 import 'package:clean_arch2/feature/cart/presentation/bloc/cart.event.dart';
@@ -16,6 +15,12 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     on<CartOnBuyProductEvent>(cartOnBuyProduct);
     on<CartOnViewProductListEvent>(cartOnViewProductList);
     on<CartOnAmountToPaidEvent>(cartOnAmountToPaidEvent);
+    // remove product
+    on<CartOnRemoveProductEvent>(cartOnRemoveProductEvent);
+    // deduct product quantity
+    on<CartOnDeductQuanityEvent>(cartOnDeductQuanityEvent);
+    // add product quantity
+    on<CartOnAddQuantityEvent>(cartOnAddQuantityEvent);
   }
 
   FutureOr<void> cartOnBuyProduct(CartOnBuyProductEvent event, Emitter<CartState> emit) {
@@ -30,17 +35,15 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       quantity: 1
     );
 
-    final r = cartList.where((cl) => cl.id == tempProductModel.id);
-    log(r.toString());
-    // for(ProductModel pm in cartList) {
-    //   if (pm.id == tempProductModel.id) {
-    //     pm.quantity = pm.quantity + 1;
-    //     isFound = true;
-    //     break;
-    //   }
-    // }
+    for(ProductModel pm in cartList) {
+      if (pm.id == tempProductModel.id) {
+        pm.quantity = pm.quantity + 1;
+        isFound = true;
+        break;
+      }
+    }
 
-    if (r.isEmpty) {
+    if (!isFound) {
       cartList.add(productModel);
       Fluttertoast.showToast(msg: productQuantityUpdatedTitle);
     }
@@ -49,7 +52,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     
     emit(CartOnLoadedState());
     emit(CartProductState(productList: cartList));
-    // Fluttertoast.showToast(msg: productAddedTitle);
+    Fluttertoast.showToast(msg: productAddedTitle, toastLength: Toast.LENGTH_SHORT);
   }
 
   FutureOr<void> cartOnViewProductList(CartOnViewProductListEvent event, Emitter<CartState> emit) {
@@ -68,5 +71,43 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
     emit(CartProductToPaidSatate(totalToPaid: toPay));
     emit(CartProductState(productList: cartList));
+  }
+
+  FutureOr<void> cartOnRemoveProductEvent(CartOnRemoveProductEvent event, Emitter<CartState> emit) {
+    ProductModel productModel = event.productModel;
+    List<ProductModel> cartList = state is CartProductState? (state as CartProductState).productList : [];
+
+    cartList.remove(productModel);
+
+    emit(CartOnLoadedState());
+    emit(CartProductState(productList: cartList));
+    Fluttertoast.showToast(msg: itemRemovedTitle, toastLength: Toast.LENGTH_SHORT);
+  }
+
+  FutureOr<void> cartOnDeductQuanityEvent(CartOnDeductQuanityEvent event, Emitter<CartState> emit) {
+    ProductModel productModel = event.productModel;
+    List<ProductModel> cartList = state is CartProductState? (state as CartProductState).productList : [];
+    for(ProductModel cl in cartList) {
+      if (cl.id == productModel.id) {
+        cl.quantity = cl.quantity - 1;
+        if (cl.quantity == 0) {
+          cartList.remove(cl);
+        }
+        break;
+      }
+    }
+    // we don't emit a state here; because we are using the "CartOnAmountToPaidEvent" event
+    // it's doing the emitting of new state;
+  }
+
+  FutureOr<void> cartOnAddQuantityEvent(CartOnAddQuantityEvent event, Emitter<CartState> emit) {
+    ProductModel productModel = event.productModel;
+    List<ProductModel> cartList = state is CartProductState? (state as CartProductState).productList : [];
+    for(ProductModel cl in cartList) {
+      if (cl.id == productModel.id) {
+        cl.quantity = cl.quantity + 1;
+        break;
+      }
+    }
   }
 }

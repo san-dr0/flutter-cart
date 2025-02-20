@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:developer';
+
 import 'package:clean_arch2/config/db/hive_model/product_model/product_model.dart';
 import 'package:clean_arch2/feature/home/domain/product.domain.dart';
 import 'package:hive/hive.dart';
@@ -18,7 +18,7 @@ class AppDatabase {
     sharedPref.setString("isInitialized", "has_value");
     
     List<ProductEntity> productList = [
-      ProductEntity(id: 1, name: "Hansel", quantity: 10, price: 5.0),
+      ProductEntity(id: 1, name: "Cheese Ring", quantity: 10, price: 5.0),
       ProductEntity(id: 2, name: "Fita", quantity: 7, price: 8.0),
       ProductEntity(id: 3, name: "Hansel", quantity: 10, price: 8.0),
       ProductEntity(id: 4, name: "Cream-0", quantity: 12, price: 6.0),
@@ -42,4 +42,6 @@ class AppDatabase {
     }
     return  productList;
   }
+
+
 }

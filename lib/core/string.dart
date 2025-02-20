@@ -8,3 +8,4 @@ const String checkoutTitle = "Check out";
 const String productAddedTitle = "Product added";
 const String productQuantityUpdatedTitle = "Product updated";
 const String viewCertainProductTitle = "Certain Product";
+const String itemRemovedTitle = "Item removed";

@@ -16,3 +16,19 @@ class CartOnViewProductListEvent extends CartEvent {
 }
 
 class CartOnAmountToPaidEvent extends CartEvent {}
+
+class CartOnRemoveProductEvent extends CartEvent {
+  ProductModel productModel;
+  CartOnRemoveProductEvent({required this.productModel});
+}
+
+class CartOnDeductQuanityEvent extends CartEvent {
+  ProductModel productModel;
+
+  CartOnDeductQuanityEvent({required this.productModel});
+}
+
+class CartOnAddQuantityEvent extends CartEvent {
+  ProductModel productModel;
+  CartOnAddQuantityEvent({required this.productModel});
+}
