@@ -20,7 +20,8 @@ final Di = GetIt.instance;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Hive.registerAdapter(ProductEntityAdapter());
-  Di.registerLazySingleton(() => AuthBloc());
+  Di.registerLazySingleton(() => AppDatabase());
+  Di.registerLazySingleton(() => AuthBloc(appDatabase: Di()));
   // final appDoc = await path_provider.getApplicationCacheDirectory();
   await Hive.initFlutter();
   
@@ -32,7 +33,7 @@ void main() async {
       providers: [
         BlocProvider(create: (context) => HomeProductBloc(appDatabase: appDB),),
         BlocProvider(create: (context) => CartBloc(authBloc: Di())),
-        BlocProvider(create: (context) => AuthBloc()),
+        BlocProvider(create: (context) => AuthBloc(appDatabase: Di())),
       ], 
       child: const MyApp()
     )

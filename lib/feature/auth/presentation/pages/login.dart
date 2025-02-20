@@ -2,6 +2,7 @@ import 'package:clean_arch2/core/color.dart';
 import 'package:clean_arch2/core/string.dart';
 import 'package:clean_arch2/core/text.style.dart';
 import 'package:clean_arch2/feature/auth/presentation/bloc/auth.bloc.dart';
+import 'package:clean_arch2/feature/auth/presentation/bloc/auth.state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -37,13 +38,18 @@ class _LoginPage extends State<LoginPage> {
     if (!formKey.currentState!.validate()) {
       return;
     }
+
     authBloc.add(
       AuthOnLoginEvent(
         email: email,
         password: password,
-        contet: context
+        context: context
       )
     );
+  }
+
+  void onNotRegisteredYet() {
+    authBloc.add(AuthOnNavigateToSignupEvent(context: context));
   }
 
   @override
@@ -62,6 +68,22 @@ class _LoginPage extends State<LoginPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              BlocBuilder(
+                bloc: authBloc,
+                builder: (context, state) {
+                  if (state is AuthOnInvalidCredentials) {
+                    return Text(
+                      invalidCredsTitle,
+                      style: textStyle(
+                        color: Colors.red[800]!,
+                        fontSize: 18.0
+                      ),
+                    );
+                  }
+                  return Text("");
+                },
+                buildWhen: (previous, current) => current is AuthOnInvalidCredentials,
+              ),
               TextFormField(
                 controller: textEmail,
                 decoration: InputDecoration(
@@ -118,8 +140,13 @@ class _LoginPage extends State<LoginPage> {
                   ),
                 ),
               ),
+              const SizedBox(
+                height: 8.0
+              ),
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  onNotRegisteredYet();
+                },
                 splashColor: Colors.blueGrey,
                 child: Ink(
                   child: Text(

@@ -221,7 +221,7 @@ class _CartPage extends State<CartPage> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 5.0,)
+                    SizedBox(height: 10.0,)
                   ],
                 ),
               )

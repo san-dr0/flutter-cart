@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:clean_arch2/config/db/hive_model/product_model/product_model.dart';
+import 'package:clean_arch2/config/db/request/request.dart';
 import 'package:clean_arch2/feature/home/domain/product.domain.dart';
 import 'package:hive/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -43,4 +45,31 @@ class AppDatabase {
     return  productList;
   }
 
+  FutureOr<int> addUser(Map<String, dynamic> addUser) async {
+    try{
+      Box box = await Hive.openBox("account");
+      box.add(addUser);
+
+      return 1;
+    }
+    catch(error) {
+      return 0;
+    }
+  }
+
+  FutureOr<Request<dynamic>?> validateUserCredentials({String email = "", String password = ""}) async {
+    try{
+      Box box = await Hive.openBox("account");
+      final result = box.get(email);
+      if (result == null) {
+
+        return Request(code: 401, message: "User not found", data: null);
+      }
+
+      return Request(code: 200, message: "User found", data: result);
+    }
+    catch(error) {
+      return Request(code: 500, message: "Something went wrong", data: null);
+    }
+  }
 }

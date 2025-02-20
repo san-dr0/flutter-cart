@@ -8,3 +8,8 @@ class AuthOnValidCredentials extends AuthState {
 
   AuthOnValidCredentials({required this.authCredentialsModel});
 }
+
+class AuthOnInvalidCredentials extends AuthState {
+  String errorMessage;
+  AuthOnInvalidCredentials({required this.errorMessage});
+}
