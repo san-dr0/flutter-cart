@@ -26,7 +26,7 @@ class _CartPage extends State<CartPage> {
   }
 
   void onCheckout() {
-
+    cartBloc.add(CartOnCheckOutEvent(context: context));
   }
 
   void onDeductQuantity (ProductModel productModel) {

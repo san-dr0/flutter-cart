@@ -1,6 +1,9 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:clean_arch2/core/string.dart';
+import 'package:clean_arch2/feature/auth/presentation/bloc/auth.bloc.dart';
+import 'package:clean_arch2/feature/auth/presentation/bloc/auth.state.dart';
 import 'package:clean_arch2/feature/cart/presentation/bloc/cart.event.dart';
 import 'package:clean_arch2/feature/cart/presentation/bloc/cart.state.dart';
 import 'package:clean_arch2/feature/home/domain/product.domain.dart';
@@ -10,7 +13,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 
 class CartBloc extends Bloc<CartEvent, CartState> {
-  CartBloc(): super(CartOnLoadedState()) {
+  AuthBloc authBloc;
+  CartBloc({required this.authBloc}): super(CartOnLoadedState()) {
 
     on<CartOnBuyProductEvent>(cartOnBuyProduct);
     on<CartOnViewProductListEvent>(cartOnViewProductList);
@@ -21,6 +25,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     on<CartOnDeductQuanityEvent>(cartOnDeductQuanityEvent);
     // add product quantity
     on<CartOnAddQuantityEvent>(cartOnAddQuantityEvent);
+    // on checkout
+    on<CartOnCheckOutEvent>(cartOnCheckOutEvent);
   }
 
   FutureOr<void> cartOnBuyProduct(CartOnBuyProductEvent event, Emitter<CartState> emit) {
@@ -65,9 +71,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     List<ProductModel> cartList = state is CartProductState? (state as CartProductState).productList : [];
     double toPay = 0.00;
 
-    for(ProductModel cl in cartList) {
-      toPay += cl.price * cl.quantity;
-    }
+    toPay = cartList.fold(toPay, (p, e) => p+(e.price * e.quantity));
 
     emit(CartProductToPaidSatate(totalToPaid: toPay));
     emit(CartProductState(productList: cartList));
@@ -108,6 +112,15 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         cl.quantity = cl.quantity + 1;
         break;
       }
+    }
+  }
+
+  FutureOr<void> cartOnCheckOutEvent(CartOnCheckOutEvent event, Emitter<CartState> emit) {
+    final authState = state is AuthOnValidCredentials ? (state as AuthOnValidCredentials).authCredentialsModel : null;
+    BuildContext context = event.context;
+
+    if (authState == null) {
+      context.push("/login");
     }
   }
 }

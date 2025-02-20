@@ -1,10 +1,12 @@
 import 'package:clean_arch2/config/db/app_db.dart';
 import 'package:clean_arch2/config/db/hive_model/product_model/product_model.dart';
 import 'package:clean_arch2/config/routes/routes.dart';
+import 'package:clean_arch2/feature/auth/presentation/bloc/auth.bloc.dart';
 import 'package:clean_arch2/feature/cart/presentation/bloc/cart.bloc.dart';
 import 'package:clean_arch2/feature/home/presentation/bloc/home.bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 // import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -12,10 +14,13 @@ import 'package:hive_flutter/hive_flutter.dart';
 // flutter pub run build_runner build
 // flutter pub run build_runner watch
 // https://medium.com/gytworkz/hive-database-in-flutter-store-and-retrieve-data-locally-d53b333d74ee // BLOG ABOUT HIVE
+
+final Di = GetIt.instance;
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Hive.registerAdapter(ProductEntityAdapter());
-
+  Di.registerLazySingleton(() => AuthBloc());
   // final appDoc = await path_provider.getApplicationCacheDirectory();
   await Hive.initFlutter();
   
@@ -26,7 +31,8 @@ void main() async {
     MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => HomeProductBloc(appDatabase: appDB),),
-        BlocProvider(create: (context) => CartBloc(),),
+        BlocProvider(create: (context) => CartBloc(authBloc: Di())),
+        BlocProvider(create: (context) => AuthBloc()),
       ], 
       child: const MyApp()
     )
