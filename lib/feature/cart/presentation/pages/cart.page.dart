@@ -21,6 +21,10 @@ class _CartPage extends State<CartPage> {
     context.read<CartBloc>().add(CartOnAmountToPaidEvent());
   }
 
+  void onCheckout () {
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,6 +41,7 @@ class _CartPage extends State<CartPage> {
               return ListView.separated(
                 itemBuilder: (context, index) {
                   return Card(
+                    elevation: 3.0,
                     child: Container(
                       padding: const EdgeInsets.all(10.0),
                       child: Column(
@@ -115,28 +120,57 @@ class _CartPage extends State<CartPage> {
             child: SizedBox(
               width: MediaQuery.sizeOf(context).width,
               child: Card(
+                elevation: 8.0,
                 color: Colors.white,
-                child: Container(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Center(
-                    child: BlocBuilder(
-                      bloc: context.read<CartBloc>(),
-                      builder: (context, state) {
-                        if (state is CartProductToPaidSatate) {
-                          return Text(
-                            state.totalToPaid.toString(),
-                            style: _textStyle(color: Colors.black, fontSize: 18.0),
-                          );
-                        }
-
-                        return Text(
-                          "0.00",
-                          style: _textStyle(color: Colors.black, fontSize: 18.0),
-                        );
-                    },
-                    buildWhen: (previous, current) => current is CartProductToPaidSatate,
+                child: Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Center(
+                        child: BlocBuilder(
+                          bloc: context.read<CartBloc>(),
+                          builder: (context, state) {
+                            if (state is CartProductToPaidSatate) {
+                              return Text(
+                                "PHP ${state.totalToPaid.toString()}",
+                                style: _textStyle(color: Colors.black, fontSize: 18.0),
+                              );
+                            }
+                    
+                            return Text(
+                              "0.00",
+                              style: _textStyle(color: Colors.black, fontSize: 18.0),
+                            );
+                        },
+                        buildWhen: (previous, current) => current is CartProductToPaidSatate,
+                        ),
+                      ),
                     ),
-                  ),
+                    InkWell(
+                      onTap: () {
+                        onCheckout();
+                      },
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      splashColor: Colors.teal,
+                      child: Ink(
+                        decoration: BoxDecoration(
+                          color: Colors.teal[800],
+                          borderRadius: BorderRadius.all(Radius.circular(10.0))
+                        ),
+                        child: Container(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Text(
+                            checkoutTitle,
+                            style: _textStyle(
+                              fontSize: 18.0,
+                              color: Colors.white
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 5.0,)
+                  ],
                 ),
               )
             ),

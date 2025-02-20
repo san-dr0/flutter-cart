@@ -21,10 +21,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePage extends State<HomePage> {
   List<ProductEntity> productList = [];
+  late CartBloc cartBloc;
   
   @override
   void initState() {
     super.initState();
+    cartBloc = context.read<CartBloc>();
     context.read<HomeProductBloc>().add(HomeOnLoadedEvent());
   }
 
@@ -34,6 +36,13 @@ class _HomePage extends State<HomePage> {
 
   void onGoToCart() {
     context.read<CartBloc>().add(CartOnViewProductListEvent(context: context));
+  }
+
+  void onViewProduct(ProductModel productModel) {
+    context.read<HomeProductBloc>().add(HomeOnViewCertainProductEvent(
+      context: context, 
+      productModel: productModel
+    ));
   }
 
   @override
@@ -65,14 +74,14 @@ class _HomePage extends State<HomePage> {
                 top: 0,
                 right: 10,
                 child: BlocBuilder(
-                  bloc: context.read<CartBloc>(),
+                  bloc: cartBloc,
                   builder: (context, state) {
                     if (state is CartProductState) {
                       return Text(state.productList.length.toString());
                     }
                     return const Text("0");
                   },
-                  buildWhen: (previous, current) => previous != current
+                  // buildWhen: (previous, current) => previous != current
                 ),
               )
             ],
@@ -143,7 +152,7 @@ class _HomePage extends State<HomePage> {
                                     const SizedBox(width: 10.0,),
                                     InkWell(
                                       onTap: () {
-
+                                        onViewProduct(state.productList[index]);
                                       },
                                       borderRadius: BorderRadius.all(Radius.circular(10.0)),
                                       splashColor: Colors.teal[800],

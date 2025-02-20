@@ -15,6 +15,4 @@ class CartOnViewProductListEvent extends CartEvent {
   CartOnViewProductListEvent({required  this.context});
 }
 
-class CartOnAmountToPaidEvent extends CartEvent {
-  
-}
+class CartOnAmountToPaidEvent extends CartEvent {}
