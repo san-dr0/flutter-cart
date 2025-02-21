@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:clean_arch2/config/db/hive_model/product_model/product_model.dart';
 import 'package:clean_arch2/config/db/request/request.dart';
@@ -48,13 +47,11 @@ class AppDatabase {
   FutureOr<int> addUser(Map<String, dynamic> addUser) async {
     try{
       Box box = await Hive.openBox("account");
-
       int isSuccess = 1;
-      log(box.values.toList().toString());
+
       // insert if no records at first;
       if (box.values.isEmpty) {
         box.add(addUser);
-
         return isSuccess;
       }
       

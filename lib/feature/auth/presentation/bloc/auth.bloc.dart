@@ -61,5 +61,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     };
 
     int response = await appDatabase.addUser(userInfo);
+    if (response == 1) {
+      emit(AuthOnIssueInSigningUpState(message: "User was created successfully"));
+    } // SUCCESS
+    else if (response == 0) {
+      emit(AuthOnIssueInSigningUpState(message: "User already exists"));
+    } // FAIL
   }
 }

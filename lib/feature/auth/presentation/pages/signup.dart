@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:clean_arch2/core/color.dart';
 import 'package:clean_arch2/core/string.dart';
 import 'package:clean_arch2/core/text.style.dart';
@@ -6,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../bloc/auth.event.dart';
+import '../bloc/auth.state.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -157,6 +160,26 @@ class _SignupPage extends State<SignupPage> {
                     ),
                   ),
                 ),
+              ),
+              BlocListener(
+                bloc: authBloc,
+                listener: (context, state) {
+                  if (state is AuthOnIssueInSigningUpState) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(state.message),
+                        action: SnackBarAction(
+                          label: "label", 
+                          onPressed: () {
+                            log("Tests");
+                          }),
+                      )
+                    );
+                  }
+                },
+                listenWhen: (previous, current) {
+                  return current is AuthOnIssueInSigningUpState;
+                },
               )
             ],
           ),
