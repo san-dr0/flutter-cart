@@ -12,10 +12,11 @@ import 'auth.event.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AppDatabase appDatabase;
 
-  AuthBloc({required this.appDatabase}): super(AuthOnValidCredentials(authCredentialsModel: null)) {
+  AuthBloc({required this.appDatabase}): super(AuthOnValidCredentialsState(authCredentialsModel: null)) {
     on<AuthOnLoginEvent>(authOnLoginEvent);
     on<AuthOnLogoutEvent>(authOnLogoutEvent);
     on<AuthOnNavigateToSignupEvent>(authOnNavigateToSignup);
+    on<AuthOnSignupUserEvent>(authOnSignupUserEvent);
   }
 
   FutureOr<void> authOnLoginEvent(AuthOnLoginEvent event, Emitter<AuthState> emit) async {
@@ -29,7 +30,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
       }
       else if (req.code == 401) {
-        emit(AuthOnInvalidCredentials(errorMessage: req.message));
+        emit(AuthOnInvalidCredentialsState(errorMessage: req.message));
       }
     }
   }
@@ -40,7 +41,25 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   FutureOr<void> authOnNavigateToSignup(AuthOnNavigateToSignupEvent event, Emitter<AuthState> emit) {
     BuildContext context = event.context;
-
     context.push("/signup");
+  }
+
+  FutureOr<void> authOnSignupUserEvent(AuthOnSignupUserEvent event, Emitter<AuthState> emit) async {
+    String firstName = event.firstName;
+    String middleName = event.middleName;
+    String lastName = event.lastName;
+    String email = event.email;
+    String password = event.password;
+    BuildContext context = event.context;
+
+    Map<String, dynamic> userInfo = {
+      "firstName": firstName,
+      "middleName": middleName,
+      "lastName": lastName,
+      "email": email,
+      "password": password,
+    };
+
+    int response = await appDatabase.addUser(userInfo);
   }
 }

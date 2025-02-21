@@ -16,3 +16,22 @@ class AuthOnNavigateToSignupEvent extends AuthEvent {
 
   AuthOnNavigateToSignupEvent({required this.context});
 }
+
+class AuthOnSignupUserEvent extends AuthEvent {
+  String firstName;
+  String middleName;
+  String lastName;
+  String email;
+  String password;
+
+  BuildContext context;
+
+  AuthOnSignupUserEvent({
+    required this.firstName, 
+    required this.middleName, 
+    required this.lastName, 
+    required this.email,
+    required this.password,
+    required this.context
+  });
+}

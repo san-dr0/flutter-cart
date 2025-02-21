@@ -71,7 +71,7 @@ class _LoginPage extends State<LoginPage> {
               BlocBuilder(
                 bloc: authBloc,
                 builder: (context, state) {
-                  if (state is AuthOnInvalidCredentials) {
+                  if (state is AuthOnInvalidCredentialsState) {
                     return Text(
                       invalidCredsTitle,
                       style: textStyle(
@@ -82,7 +82,7 @@ class _LoginPage extends State<LoginPage> {
                   }
                   return Text("");
                 },
-                buildWhen: (previous, current) => current is AuthOnInvalidCredentials,
+                buildWhen: (previous, current) => current is AuthOnInvalidCredentialsState,
               ),
               TextFormField(
                 controller: textEmail,

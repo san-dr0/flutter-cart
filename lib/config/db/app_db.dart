@@ -48,9 +48,36 @@ class AppDatabase {
   FutureOr<int> addUser(Map<String, dynamic> addUser) async {
     try{
       Box box = await Hive.openBox("account");
-      box.add(addUser);
 
-      return 1;
+      int isSuccess = 1;
+      log(box.values.toList().toString());
+      // insert if no records at first;
+      if (box.values.isEmpty) {
+        box.add(addUser);
+
+        return isSuccess;
+      }
+      
+      bool isFound = false;
+      for(final b in box.values.toList()) {
+        if (b['email'] == addUser['email']) {
+          isFound = true;
+          break;
+        }
+      }
+
+      isSuccess = 0;
+      // user exists
+      if (isFound) {
+        isSuccess = 0;
+      }
+      // means no user found; and insert it to DB
+      else {
+        isSuccess = 1;
+        box.add(addUser);
+      }
+
+      return isSuccess;
     }
     catch(error) {
       return 0;

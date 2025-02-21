@@ -1,8 +1,11 @@
 import 'package:clean_arch2/core/color.dart';
 import 'package:clean_arch2/core/string.dart';
 import 'package:clean_arch2/core/text.style.dart';
+import 'package:clean_arch2/feature/auth/presentation/bloc/auth.bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../bloc/auth.event.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -17,11 +20,34 @@ class _SignupPage extends State<SignupPage> {
   TextEditingController txtLastname = TextEditingController();
   TextEditingController txtEmail = TextEditingController();
   TextEditingController txtPassword = TextEditingController();
-  
+  late AuthBloc authBloc;
   final formKey = GlobalKey<FormState>();
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    authBloc = context.read<AuthBloc>();
+  }
   void onLoginUser() {
+    if (!formKey.currentState!.validate()) {
+      return;
+    }
+    
+    String firstName = txtFirstname.text;
+    String middleName = txtMiddlename.text;
+    String lastName = txtLastname.text;
+    String email = txtEmail.text;
+    String password = txtPassword.text;
 
+    authBloc.add(AuthOnSignupUserEvent(
+      firstName: firstName,
+      middleName: middleName,
+      lastName: lastName,
+      email: email,
+      password: password,
+      context: context,
+    ));
   }
   
   @override
@@ -42,18 +68,39 @@ class _SignupPage extends State<SignupPage> {
                 decoration: _textDecoration(
                   label: "Firstname"
                 ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Firstname is required";
+                  }
+
+                  return null;
+                },
               ),
               TextFormField(
                 controller: txtMiddlename,
                 decoration: _textDecoration(
                   label: "Middlename"
                 ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Middlename is required";
+                  }
+
+                  return null;
+                },
               ),
               TextFormField(
                 controller: txtLastname,
                 decoration: _textDecoration(
                   label: "Lastname"
                 ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Lastname is required";
+                  }
+
+                  return null;
+                },
               ),
               TextFormField(
                 controller: txtEmail,
@@ -61,6 +108,13 @@ class _SignupPage extends State<SignupPage> {
                   label: "Email"
                 ),
                 keyboardType: TextInputType.emailAddress,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Email is required";
+                  }
+
+                  return null;
+                },
               ),
               TextFormField(
                 controller: txtPassword,
@@ -68,6 +122,13 @@ class _SignupPage extends State<SignupPage> {
                   label: "Pass***"
                 ),
                 obscureText: true,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Password is required";
+                  }
+
+                  return null;
+                },
               ),
               const SizedBox(height: 12.0,),
               SizedBox(
