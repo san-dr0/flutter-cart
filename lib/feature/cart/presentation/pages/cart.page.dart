@@ -63,80 +63,98 @@ class _CartPage extends State<CartPage> {
                     elevation: 3.0,
                     child: Container(
                       padding: const EdgeInsets.all(10.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("Name: ${state.productList[index].name}"),
-                          Text("Price: ${state.productList[index].price}"),
-                          Text("Quantity: ${state.productList[index].quantity}"),
-
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              InkWell(
-                                onTap: () {
-                                  onAddQuantity(state.productList[index]);
-                                },
-                                splashColor: Colors.teal[800],
-                                borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                                child: Ink(
-                                  decoration: BoxDecoration(
-                                    color: Colors.teal,
-                                    borderRadius: BorderRadius.all(Radius.circular(10.0))
-                                  ),
-                                  child: Container(
-                                    padding: const EdgeInsets.all(5.0),
-                                    child: Icon(
-                                      Icons.add,
-                                      color: Colors.white,
-                                      size: 22.0,
-                                    ),
-                                  ),
+                              Text("Name: ${state.productList[index].name}"),
+                              Text("Price: ${state.productList[index].price}"),
+                              Text("Quantity: ${state.productList[index].quantity}"),
+                            ],
+                          ),
+
+                          Column(
+                            children: [
+                              Text(
+                                "PHP: ${state.productList[index].price * state.productList[index].quantity}",
+                                style: textStyle(
+                                  color: Colors.black,
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold
                                 ),
                               ),
-                              const SizedBox(width: 8.0,),
-                              InkWell(
-                                onTap: () {
-                                  onDeductQuantity(state.productList[index]);
-                                },
-                                splashColor: Colors.teal[800],
-                                borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                                child: Ink(
-                                  decoration: BoxDecoration(
-                                    color: Colors.teal,
-                                    borderRadius: BorderRadius.all(Radius.circular(10.0))
-                                  ),
-                                  child: Container(
-                                    padding: const EdgeInsets.all(5.0),
-                                    child: Icon(
-                                      Icons.remove,
-                                      color: Colors.white,
-                                      size: 22.0,
+                              const SizedBox(height: 10.0,),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      onAddQuantity(state.productList[index]);
+                                    },
+                                    splashColor: Colors.teal[800],
+                                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                    child: Ink(
+                                      decoration: BoxDecoration(
+                                        color: Colors.teal,
+                                        borderRadius: BorderRadius.all(Radius.circular(10.0))
+                                      ),
+                                      child: Container(
+                                        padding: const EdgeInsets.all(5.0),
+                                        child: Icon(
+                                          Icons.add,
+                                          color: Colors.white,
+                                          size: 22.0,
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ),
-                              const SizedBox(width: 8.0,),
-                              InkWell(
-                                onTap: () {
-                                  onRemoveProduct(state.productList[index]);
-                                },
-                                splashColor: Colors.red[200],
-                                borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                                child: Ink(
-                                  decoration: BoxDecoration(
-                                    color: Colors.red[100],
-                                    borderRadius: BorderRadius.all(Radius.circular(10.0))
-                                  ),
-                                  child: Container(
-                                    padding: const EdgeInsets.all(5.0),
-                                    child: Icon(
-                                      Icons.delete,
-                                      color: Colors.red[400],
-                                      size: 22.0,
+                                  const SizedBox(width: 8.0,),
+                                  InkWell(
+                                    onTap: () {
+                                      onDeductQuantity(state.productList[index]);
+                                    },
+                                    splashColor: Colors.teal[800],
+                                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                    child: Ink(
+                                      decoration: BoxDecoration(
+                                        color: Colors.teal,
+                                        borderRadius: BorderRadius.all(Radius.circular(10.0))
+                                      ),
+                                      child: Container(
+                                        padding: const EdgeInsets.all(5.0),
+                                        child: Icon(
+                                          Icons.remove,
+                                          color: Colors.white,
+                                          size: 22.0,
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
+                                  const SizedBox(width: 8.0,),
+                                  InkWell(
+                                    onTap: () {
+                                      onRemoveProduct(state.productList[index]);
+                                    },
+                                    splashColor: Colors.red[200],
+                                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                    child: Ink(
+                                      decoration: BoxDecoration(
+                                        color: Colors.red[100],
+                                        borderRadius: BorderRadius.all(Radius.circular(10.0))
+                                      ),
+                                      child: Container(
+                                        padding: const EdgeInsets.all(5.0),
+                                        child: Icon(
+                                          Icons.delete,
+                                          color: Colors.red[400],
+                                          size: 22.0,
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
                               )
                             ],
                           )

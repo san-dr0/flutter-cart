@@ -120,9 +120,9 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   FutureOr<void> cartOnCheckOutEvent(CartOnCheckOutEvent event, Emitter<CartState> emit) {
     final authState = state is AuthOnValidCredentialsState ? (state as AuthOnValidCredentialsState).authCredentialsModel : null;
     BuildContext context = event.context;
-
+    
     if (authState == null) {
-      context.push("/login");
+      // context.push("/login");
     }
   }
 

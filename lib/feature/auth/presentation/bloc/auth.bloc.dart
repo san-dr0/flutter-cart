@@ -80,6 +80,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   FutureOr<void> authOnAlreadyHaveAnAccountEvent(AuthOnAlreadyHaveAnAccountEvent event, Emitter<AuthState> emit) {
     BuildContext context = event.context;
-    context.push("/login");
+    
+    if (state is AuthOnValidCredentialsState) {
+      final authCreds = state as AuthOnValidCredentialsState;
+
+      if (authCreds.authCredentialsModel != null) {
+        context.push('/dashboard');
+      }
+      else {
+        context.push("/login");
+      }
+    }
   }
 }

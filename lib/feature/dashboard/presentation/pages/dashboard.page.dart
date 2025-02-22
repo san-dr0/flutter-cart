@@ -6,6 +6,7 @@ import 'package:clean_arch2/feature/cart/presentation/bloc/cart.bloc.dart';
 import 'package:clean_arch2/feature/cart/presentation/bloc/cart.event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class DashBoardPage extends StatefulWidget {
   const DashBoardPage({super.key});
@@ -46,13 +47,23 @@ class _DashBoardPage extends State<DashBoardPage> {
         child: ListView(
           children: [
             DrawerHeader(
+              decoration: BoxDecoration(
+                color: tealColor
+              ),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   BlocBuilder(
                     bloc: authBloc,
                     builder: (context, state) {
                     if (state is AuthOnValidCredentialsState) {
-                      return Text("${state.authCredentialsModel!.lastName}, ${state.authCredentialsModel!.firstName}");
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Name: ${state.authCredentialsModel!.lastName}, ${state.authCredentialsModel!.firstName}"),
+                          Text("Email: ${state.authCredentialsModel!.email}"),
+                        ],
+                      );
                     }
                     return Text("No user");
                   },)
