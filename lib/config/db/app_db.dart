@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:clean_arch2/config/db/hive_model/product_model/product_model.dart';
 import 'package:clean_arch2/config/db/request/request.dart';
+import 'package:clean_arch2/feature/auth/domain/auth.domain.dart';
 import 'package:clean_arch2/feature/home/domain/product.domain.dart';
 import 'package:hive/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -81,18 +83,26 @@ class AppDatabase {
     }
   }
 
-  FutureOr<Request<dynamic>?> validateUserCredentials({String email = "", String password = ""}) async {
+  FutureOr<Request<AuthCredentialsModel>?> validateUserCredentials({String email = "", String password = ""}) async {
     try{
       Box box = await Hive.openBox("account");
-      final result = box.get(email);
-      if (result == null) {
-
+      final result = box.values.where((creds) => creds['email'] == email && creds['password'] == password).toList();
+      
+      if (result.isEmpty) {
         return Request(code: 401, message: "User not found", data: null);
       }
-
-      return Request(code: 200, message: "User found", data: result);
+      
+      AuthCredentialsModel authCredentialsModel = AuthCredentialsModel(
+        firstName: result[0]['firstName'], 
+        middleName: result[0]['middleName'], 
+        lastName: result[0]['lastName'], 
+        email: email
+      );
+      return Request(code: 200, message: "User found", data: authCredentialsModel);
     }
     catch(error) {
+      log('Err >> ');
+      log(error.toString());
       return Request(code: 500, message: "Something went wrong", data: null);
     }
   }

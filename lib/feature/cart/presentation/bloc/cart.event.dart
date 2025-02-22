@@ -44,3 +44,9 @@ class CartOnCheckOutEvent extends CartEvent {
   
   CartOnCheckOutEvent({required this.context});
 }
+
+class CartOnNavigateShoppingEvent extends CartEvent {
+  BuildContext context;
+
+  CartOnNavigateShoppingEvent({required this.context});
+}

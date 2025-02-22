@@ -1,10 +1,17 @@
 class AuthCredentialsModel {
-  String name;
-  String email;
+  final String firstName;
+  final String middleName;
+  final String lastName;
+  final String email;
 
-  AuthCredentialsModel({required this.name, required this.email});
+  AuthCredentialsModel({required this.firstName, required this.middleName, required this.lastName, required this.email});
 
-  factory AuthCredentialsModel.fromJson(Map<String, dynamic> json) {
-    return AuthCredentialsModel(name: json['name'], email: json['email']);
+  factory AuthCredentialsModel.fromJson(AuthCredentialsModel json) {
+    return AuthCredentialsModel(
+      firstName: json.firstName, 
+      middleName: json.middleName,
+      lastName: json.lastName,
+      email: json.email
+    );
   }
 }

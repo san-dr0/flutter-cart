@@ -13,3 +13,5 @@ const String emailTitle = "Email";
 const String passwordTitle = "Password";
 const String notRegisteredYet = "Not yet registered ?";
 const String invalidCredsTitle = "Invalid user";
+const String alreadyHaveAnAccount = "Already have an account ?";
+const String dashBoardTitle = "Dashboard";

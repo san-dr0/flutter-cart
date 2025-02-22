@@ -73,7 +73,7 @@ class _LoginPage extends State<LoginPage> {
                 builder: (context, state) {
                   if (state is AuthOnInvalidCredentialsState) {
                     return Text(
-                      invalidCredsTitle,
+                      state.errorMessage,
                       style: textStyle(
                         color: Colors.red[800]!,
                         fontSize: 18.0
@@ -83,7 +83,7 @@ class _LoginPage extends State<LoginPage> {
                   return Text("");
                 },
                 buildWhen: (previous, current) => current is AuthOnInvalidCredentialsState,
-              ),
+              ), // FOR INVALID CREDENTIALS
               TextFormField(
                 controller: textEmail,
                 decoration: InputDecoration(

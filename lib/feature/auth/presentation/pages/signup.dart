@@ -53,6 +53,10 @@ class _SignupPage extends State<SignupPage> {
     ));
   }
   
+  void onAlreadyHaveAnAccount() {
+    authBloc.add(AuthOnAlreadyHaveAnAccountEvent(context: context));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -162,25 +166,41 @@ class _SignupPage extends State<SignupPage> {
                 ),
               ),
               BlocListener(
-                bloc: authBloc,
+                bloc: context.read<AuthBloc>(),
                 listener: (context, state) {
                   if (state is AuthOnIssueInSigningUpState) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text(state.message),
-                        action: SnackBarAction(
-                          label: "label", 
-                          onPressed: () {
-                            log("Tests");
-                          }),
                       )
                     );
                   }
                 },
-                listenWhen: (previous, current) {
-                  return current is AuthOnIssueInSigningUpState;
+                child: const SizedBox(
+                  height: 5.0,
+                ),
+              ),
+              
+              InkWell(
+                onTap: () {
+                  onAlreadyHaveAnAccount();
                 },
+                borderRadius: BorderRadius.circular(10.0),
+                splashColor: Colors.blueGrey,
+                child: Ink(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0))
+                  ),
+                  child: Text(
+                    alreadyHaveAnAccount,
+                    style: textStyle(
+                      color: Colors.black,
+                      fontSize: 15.0
+                    ),
+                  ),
+                ),
               )
+
             ],
           ),
         ),

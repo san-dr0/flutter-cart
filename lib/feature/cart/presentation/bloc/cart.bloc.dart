@@ -27,6 +27,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     on<CartOnAddQuantityEvent>(cartOnAddQuantityEvent);
     // on checkout
     on<CartOnCheckOutEvent>(cartOnCheckOutEvent);
+    // on go to shoping
+    on<CartOnNavigateShoppingEvent>(cartOnNavigateShoppingEvent);
   }
 
   FutureOr<void> cartOnBuyProduct(CartOnBuyProductEvent event, Emitter<CartState> emit) {
@@ -122,5 +124,11 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     if (authState == null) {
       context.push("/login");
     }
+  }
+
+  FutureOr<void> cartOnNavigateShoppingEvent(CartOnNavigateShoppingEvent event, Emitter<CartState> emit) {
+    BuildContext context = event.context;
+
+    context.push("/");
   }
 }

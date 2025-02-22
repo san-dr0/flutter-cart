@@ -1,5 +1,7 @@
 import 'package:clean_arch2/config/db/hive_model/product_model/product_model.dart';
 import 'package:clean_arch2/core/string.dart';
+import 'package:clean_arch2/feature/auth/presentation/bloc/auth.bloc.dart';
+import 'package:clean_arch2/feature/auth/presentation/bloc/auth.event.dart';
 import 'package:clean_arch2/feature/cart/presentation/bloc/cart.bloc.dart';
 import 'package:clean_arch2/feature/cart/presentation/bloc/cart.state.dart';
 import 'package:clean_arch2/feature/home/domain/product.domain.dart';
@@ -45,6 +47,10 @@ class _HomePage extends State<HomePage> {
     ));
   }
 
+  void onLoginUser() {
+    context.read<AuthBloc>().add(AuthOnAlreadyHaveAnAccountEvent(context: context));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +59,9 @@ class _HomePage extends State<HomePage> {
         backgroundColor: tealColor,
         actions: [
           IconButton(
-            onPressed: () {}, 
+            onPressed: () {
+              onLoginUser();
+            }, 
             icon: Icon(
               Icons.person,
               color: Colors.white,

@@ -35,3 +35,9 @@ class AuthOnSignupUserEvent extends AuthEvent {
     required this.context
   });
 }
+
+class AuthOnAlreadyHaveAnAccountEvent extends AuthEvent {
+  BuildContext context;
+
+  AuthOnAlreadyHaveAnAccountEvent({required this.context});
+}
