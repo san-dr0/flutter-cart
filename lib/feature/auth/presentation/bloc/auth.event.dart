@@ -42,4 +42,8 @@ class AuthOnAlreadyHaveAnAccountEvent extends AuthEvent {
   AuthOnAlreadyHaveAnAccountEvent({required this.context});
 }
 
-class AuthOnCheckoutEvent extends AuthEvent {}
+class AuthOnCheckoutEvent extends AuthEvent {
+  BuildContext context;
+
+  AuthOnCheckoutEvent({required this.context});
+}

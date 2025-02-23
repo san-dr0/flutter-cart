@@ -65,8 +65,22 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
   FutureOr<void> cartOnViewProductList(CartOnViewProductListEvent event, Emitter<CartState> emit) {
     BuildContext context = event.context;
+    
+    if (state is CartProductState) {
+      final cartProductList = (state as CartProductState).productList;
 
-    context.push("/cart");
+      if (cartProductList.isNotEmpty) {
+        context.push("/cart");
+      }
+      else {
+        emit(CartProductEmptyState());
+      }
+    }
+    else {
+      emit(CartProductEmptyState());
+      emit(CartOnLoadedState());
+    }
+
   }
 
   FutureOr<void> cartOnAmountToPaidEvent(CartOnAmountToPaidEvent event, Emitter<CartState> emit) {

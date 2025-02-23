@@ -15,3 +15,5 @@ const String notRegisteredYet = "Not yet registered ?";
 const String invalidCredsTitle = "Invalid user";
 const String alreadyHaveAnAccount = "Already have an account ?";
 const String dashBoardTitle = "Dashboard";
+const String emptyCartTitle = "Empty cart";
+const String authNotLoggedInTitle = "Please logged in first";

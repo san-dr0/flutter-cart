@@ -28,3 +28,9 @@ class CartProductToPaidSatate extends CartState {
   List<Object?> get props => [totalToPaid];
   
 }
+
+class CartProductEmptyState extends CartState {
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+}

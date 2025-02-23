@@ -10,6 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/text.style.dart';
 import '../../../auth/presentation/bloc/auth.event.dart';
+import '../../../auth/presentation/bloc/auth.state.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({super.key});
@@ -20,17 +21,19 @@ class CartPage extends StatefulWidget {
 
 class _CartPage extends State<CartPage> {
   late CartBloc cartBloc;
+  late AuthBloc authBloc;
 
   @override
   void initState() {
     super.initState();
     cartBloc = context.read<CartBloc>();
+    authBloc = context.read<AuthBloc>();
     cartBloc.add(CartOnAmountToPaidEvent());
   }
 
   void onCheckout() {
     // cartBloc.add(CartOnCheckOutEvent(context: context));
-    context.read<AuthBloc>().add(AuthOnCheckoutEvent());
+    context.read<AuthBloc>().add(AuthOnCheckoutEvent(context: context));
   }
 
   void onDeductQuantity (ProductModel productModel) {
@@ -248,6 +251,19 @@ class _CartPage extends State<CartPage> {
                 ),
               )
             ),
+          ),
+          BlocListener(
+            bloc: authBloc,
+            listener: (context, state) {
+              ScaffoldMessenger.of(context)
+                .showSnackBar(
+                  SnackBar(content: Text(authNotLoggedInTitle))
+                );
+            },
+            listenWhen: (previous, current) {
+              return current is AuthNotLoggedInState;
+            },
+            child: Text(""),
           )
         ],
       )

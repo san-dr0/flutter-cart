@@ -19,3 +19,5 @@ class AuthOnIssueInSigningUpState extends AuthState {
 
   AuthOnIssueInSigningUpState({required this.message});
 }
+
+class AuthNotLoggedInState extends AuthState {}

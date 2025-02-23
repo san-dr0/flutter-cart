@@ -201,6 +201,18 @@ class _HomePage extends State<HomePage> {
                   return const Text("No record");
                 },
               ),
+            ),
+            BlocListener(
+              bloc: cartBloc,
+              listener: (context, state) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(emptyCartTitle))
+                );
+              },
+              listenWhen: (previous, current) {
+                return current is CartProductEmptyState;
+              },
+              child: Text(""),
             )
           ],
         ),
