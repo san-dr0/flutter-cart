@@ -22,6 +22,7 @@ void main() async {
   Hive.registerAdapter(ProductEntityAdapter());
   Di.registerLazySingleton(() => AppDatabase());
   Di.registerLazySingleton(() => AuthBloc(appDatabase: Di()));
+  Di.registerLazySingleton(() => CartBloc(authBloc: Di()));
   // final appDoc = await path_provider.getApplicationCacheDirectory();
   await Hive.initFlutter();
   
@@ -32,8 +33,8 @@ void main() async {
     MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => HomeProductBloc(appDatabase: appDB),),
-        BlocProvider(create: (context) => CartBloc(authBloc: Di())),
         BlocProvider(create: (context) => AuthBloc(appDatabase: Di())),
+        BlocProvider(create: (context) => CartBloc(authBloc: Di())),
       ], 
       child: const MyApp()
     )

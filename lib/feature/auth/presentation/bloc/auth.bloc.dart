@@ -19,6 +19,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthOnNavigateToSignupEvent>(authOnNavigateToSignup);
     on<AuthOnSignupUserEvent>(authOnSignupUserEvent);
     on<AuthOnAlreadyHaveAnAccountEvent>(authOnAlreadyHaveAnAccountEvent);
+    on<AuthOnCheckoutEvent>(authOnCheckoutEvent);
   }
 
   FutureOr<void> authOnLoginEvent(AuthOnLoginEvent event, Emitter<AuthState> emit) async {
@@ -90,6 +91,21 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       else {
         context.push("/login");
       }
+    }
+  }
+
+  FutureOr<void> authOnCheckoutEvent(AuthOnCheckoutEvent event, Emitter<AuthState> emit) {
+    try{
+      // BuildContext context = event.context;
+      if (state is AuthOnValidCredentialsState) {
+        final authState = state as AuthOnValidCredentialsState;
+        log('Athe Auth --- ');
+        log(authState.authCredentialsModel?.firstName ?? '');
+      }
+    }
+    catch(error) {
+      log('errrr >>> ');
+      log(error.toString());
     }
   }
 }

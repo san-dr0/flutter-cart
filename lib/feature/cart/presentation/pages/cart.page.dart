@@ -1,5 +1,6 @@
 import 'package:clean_arch2/core/color.dart';
 import 'package:clean_arch2/core/string.dart';
+import 'package:clean_arch2/feature/auth/presentation/bloc/auth.bloc.dart';
 import 'package:clean_arch2/feature/cart/presentation/bloc/cart.bloc.dart';
 import 'package:clean_arch2/feature/cart/presentation/bloc/cart.event.dart';
 import 'package:clean_arch2/feature/cart/presentation/bloc/cart.state.dart';
@@ -8,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/text.style.dart';
+import '../../../auth/presentation/bloc/auth.event.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({super.key});
@@ -18,6 +20,7 @@ class CartPage extends StatefulWidget {
 
 class _CartPage extends State<CartPage> {
   late CartBloc cartBloc;
+
   @override
   void initState() {
     super.initState();
@@ -26,7 +29,8 @@ class _CartPage extends State<CartPage> {
   }
 
   void onCheckout() {
-    cartBloc.add(CartOnCheckOutEvent(context: context));
+    // cartBloc.add(CartOnCheckOutEvent(context: context));
+    context.read<AuthBloc>().add(AuthOnCheckoutEvent());
   }
 
   void onDeductQuantity (ProductModel productModel) {

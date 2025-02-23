@@ -26,7 +26,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     // add product quantity
     on<CartOnAddQuantityEvent>(cartOnAddQuantityEvent);
     // on checkout
-    on<CartOnCheckOutEvent>(cartOnCheckOutEvent);
+    // on<CartOnCheckOutEvent>(cartOnCheckOutEvent);
     // on go to shoping
     on<CartOnNavigateShoppingEvent>(cartOnNavigateShoppingEvent);
   }
@@ -117,14 +117,24 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     }
   }
 
-  FutureOr<void> cartOnCheckOutEvent(CartOnCheckOutEvent event, Emitter<CartState> emit) {
-    final authState = state is AuthOnValidCredentialsState ? (state as AuthOnValidCredentialsState).authCredentialsModel : null;
-    BuildContext context = event.context;
+  // FutureOr<void> cartOnCheckOutEvent(CartOnCheckOutEvent event, Emitter<CartState> emit) {
+  //   try{
+  //     BuildContext context = event.context;
     
-    if (authState == null) {
-      // context.push("/login");
-    }
-  }
+  //     if (authBloc.state is AuthOnValidCredentialsState) {
+  //       log('The state is ');
+  //       log(authBloc.state.toString());
+  //       final auth = authBloc.state as AuthOnValidCredentialsState;
+
+  //       log('The auth');
+  //       log(auth.authCredentialsModel?.email ?? 'Empty');
+  //     }
+  //   }
+  //   catch(error) {
+  //     log('errrr >>> ');
+  //     log(error.toString());
+  //   }
+  // }
 
   FutureOr<void> cartOnNavigateShoppingEvent(CartOnNavigateShoppingEvent event, Emitter<CartState> emit) {
     BuildContext context = event.context;
