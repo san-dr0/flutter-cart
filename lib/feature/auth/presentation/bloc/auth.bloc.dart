@@ -6,6 +6,9 @@ import 'package:clean_arch2/config/db/request/request.dart';
 import 'package:clean_arch2/core/text.style.dart';
 import 'package:clean_arch2/feature/auth/domain/auth.domain.dart';
 import 'package:clean_arch2/feature/auth/presentation/bloc/auth.state.dart';
+import 'package:clean_arch2/feature/cart/presentation/bloc/cart.bloc.dart';
+import 'package:clean_arch2/feature/cart/presentation/bloc/cart.event.dart';
+import 'package:clean_arch2/feature/cart/presentation/bloc/cart.state.dart';
 import 'package:clean_arch2/feature/home/domain/product.domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,8 +17,9 @@ import 'auth.event.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AppDatabase appDatabase;
+  CartBloc cartBloc;
 
-  AuthBloc({required this.appDatabase}): super(AuthOnValidCredentialsState(authCredentialsModel: null)) {
+  AuthBloc({required this.appDatabase, required this.cartBloc}): super(AuthOnValidCredentialsState(authCredentialsModel: null)) {
     on<AuthOnLoginEvent>(authOnLoginEvent);
     on<AuthOnLogoutEvent>(authOnLogoutEvent);
     on<AuthOnNavigateToSignupEvent>(authOnNavigateToSignup);
@@ -192,8 +196,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     List<ProductModel> cartProductList = event.cartProductList;
     
     final response = await appDatabase.saveCartRecordPerUser(cartProductList);
+    log('The resp >>> ');
+    log(response.toString());
     if (response == 1) {
-      
+      cartBloc.add(CartOnResetProductListEvent());
     }
     else {
 

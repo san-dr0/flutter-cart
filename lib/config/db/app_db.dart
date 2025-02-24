@@ -112,7 +112,7 @@ class AppDatabase {
       final cartBox = await Hive.openBox("cart");
 
       DateTime dateTime = DateTime.now();
-      cartBox.put(dateTime, cartList);
+      // cartBox.put(dateTime, cartList);
       
       return 1;
     }

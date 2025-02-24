@@ -28,6 +28,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     // on<CartOnCheckOutEvent>(cartOnCheckOutEvent);
     // on go to shoping
     on<CartOnNavigateShoppingEvent>(cartOnNavigateShoppingEvent);
+    on<CartOnResetProductListEvent>(cartOnResetProductListEvent);
   }
 
   FutureOr<void> cartOnBuyProduct(CartOnBuyProductEvent event, Emitter<CartState> emit) {
@@ -134,5 +135,11 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     BuildContext context = event.context;
 
     context.push("/");
+  }
+
+  FutureOr<void> cartOnResetProductListEvent(CartOnResetProductListEvent event, Emitter<CartState> emit) {
+    log('yep emitted');
+    emit(CartProductState(productList: []));
+    emit(CartOnLoadedState());
   }
 }

@@ -50,3 +50,5 @@ class CartOnNavigateShoppingEvent extends CartEvent {
 
   CartOnNavigateShoppingEvent({required this.context});
 }
+
+class CartOnResetProductListEvent extends CartEvent {}

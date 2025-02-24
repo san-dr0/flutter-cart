@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:clean_arch2/core/color.dart';
 import 'package:clean_arch2/core/string.dart';
 import 'package:clean_arch2/feature/auth/presentation/bloc/auth.bloc.dart';
@@ -61,8 +63,10 @@ class _CartPage extends State<CartPage> {
       body: Stack(
         children: [
           BlocBuilder(
-            bloc: cartBloc,
+            bloc: context.read<CartBloc>(),
             builder: (context, state) {
+              log('Curr state');
+              log(state.toString());
             if (state is CartProductState) {
               return ListView.separated(
                 itemBuilder: (context, index) {
@@ -185,7 +189,7 @@ class _CartPage extends State<CartPage> {
               ],
             );
           },
-          // buildWhen: (previous, current) => previous != current,
+          buildWhen: (previous, current) => current is CartProductState,
           ),
           Positioned(
             bottom: 1.00,
