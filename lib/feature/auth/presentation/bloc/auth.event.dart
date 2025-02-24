@@ -1,3 +1,4 @@
+import 'package:clean_arch2/feature/home/domain/product.domain.dart';
 import 'package:flutter/material.dart';
 
 abstract class AuthEvent {}
@@ -44,6 +45,19 @@ class AuthOnAlreadyHaveAnAccountEvent extends AuthEvent {
 
 class AuthOnCheckoutEvent extends AuthEvent {
   BuildContext context;
+  List<ProductModel> cartProductList = [];
 
-  AuthOnCheckoutEvent({required this.context});
+  AuthOnCheckoutEvent({required this.context, required this.cartProductList});
+}
+
+class AuthCancelCartConfirmationDialog extends AuthEvent {
+  BuildContext context;
+
+  AuthCancelCartConfirmationDialog({required this.context});
+}
+
+class AuthProceedBuyCartItemConfirmationDialog extends AuthEvent {
+  List<ProductModel> cartProductList;
+
+  AuthProceedBuyCartItemConfirmationDialog({required this.cartProductList});
 }

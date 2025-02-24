@@ -31,9 +31,9 @@ class _CartPage extends State<CartPage> {
     cartBloc.add(CartOnAmountToPaidEvent());
   }
 
-  void onCheckout() {
+  void onCheckout(List<ProductModel> cartProductList) {
     // cartBloc.add(CartOnCheckOutEvent(context: context));
-    context.read<AuthBloc>().add(AuthOnCheckoutEvent(context: context));
+    context.read<AuthBloc>().add(AuthOnCheckoutEvent(context: context, cartProductList: cartProductList));
   }
 
   void onDeductQuantity (ProductModel productModel) {
@@ -224,27 +224,35 @@ class _CartPage extends State<CartPage> {
                         ),
                       ),
                     ),
-                    InkWell(
-                      onTap: () {
-                        onCheckout();
-                      },
-                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                      splashColor: Colors.teal,
-                      child: Ink(
-                        decoration: BoxDecoration(
-                          color: Colors.teal[800],
-                          borderRadius: BorderRadius.all(Radius.circular(10.0))
-                        ),
-                        child: Container(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Text(
-                            checkoutTitle,
-                            style: textStyle(
-                              fontSize: 20.0
+                    BlocBuilder(
+                      bloc: cartBloc,
+                      builder: (context, state) {
+                        if (state is CartProductState) {
+                          return InkWell(
+                            onTap: () {
+                              onCheckout(state.productList);
+                            },
+                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                            splashColor: Colors.teal,
+                            child: Ink(
+                              decoration: BoxDecoration(
+                                color: Colors.teal[800],
+                                borderRadius: BorderRadius.all(Radius.circular(10.0))
+                              ),
+                              child: Container(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Text(
+                                  checkoutTitle,
+                                  style: textStyle(
+                                    fontSize: 20.0
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      ),
+                          );
+                        }
+                        return SizedBox();
+                      },
                     ),
                     SizedBox(height: 10.0,)
                   ],

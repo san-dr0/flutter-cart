@@ -106,4 +106,18 @@ class AppDatabase {
       return Request(code: 500, message: "Something went wrong", data: null);
     }
   }
+
+  FutureOr<int> saveCartRecordPerUser(List<ProductModel> cartList) async {
+    try{
+      final cartBox = await Hive.openBox("cart");
+
+      DateTime dateTime = DateTime.now();
+      cartBox.put(dateTime, cartList);
+      
+      return 1;
+    }
+    catch(error) {
+      return 0;
+    }
+  }
 }

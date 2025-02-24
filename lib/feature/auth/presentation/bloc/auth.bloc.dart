@@ -3,8 +3,10 @@ import 'dart:developer';
 
 import 'package:clean_arch2/config/db/app_db.dart';
 import 'package:clean_arch2/config/db/request/request.dart';
+import 'package:clean_arch2/core/text.style.dart';
 import 'package:clean_arch2/feature/auth/domain/auth.domain.dart';
 import 'package:clean_arch2/feature/auth/presentation/bloc/auth.state.dart';
+import 'package:clean_arch2/feature/home/domain/product.domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -20,6 +22,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthOnSignupUserEvent>(authOnSignupUserEvent);
     on<AuthOnAlreadyHaveAnAccountEvent>(authOnAlreadyHaveAnAccountEvent);
     on<AuthOnCheckoutEvent>(authOnCheckoutEvent);
+    on<AuthCancelCartConfirmationDialog>(authCancelCartConfirmationDialog);
+    on<AuthProceedBuyCartItemConfirmationDialog>(authProceedBuyCartItemConfirmationDialog);
   }
 
   FutureOr<void> authOnLoginEvent(AuthOnLoginEvent event, Emitter<AuthState> emit) async {
@@ -98,12 +102,70 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   FutureOr<void> authOnCheckoutEvent(AuthOnCheckoutEvent event, Emitter<AuthState> emit) {
+    BuildContext context = event.context;
+    List<ProductModel> cartProductList = event.cartProductList;
     try{
       // BuildContext context = event.context;
       if (state is AuthOnValidCredentialsState) {
         final authState = (state as AuthOnValidCredentialsState).authCredentialsModel;
         if (authState != null) {
-
+          showDialog(
+            context: context, 
+            builder: (context) {
+              return AlertDialog(
+                title: Text("Confirm"),
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text("Are you sure you want to buy this item ?")
+                  ],
+                ),
+                actions: [
+                  InkWell(
+                    onTap: () {
+                      add(AuthCancelCartConfirmationDialog(context: context));
+                    },
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                    splashColor: Colors.teal,
+                    child: Ink(
+                      decoration: BoxDecoration(
+                        color: Colors.teal[800],
+                        borderRadius: BorderRadius.all(Radius.circular(10.0))
+                      ),
+                      child: Container(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Text(
+                          "Cancel",
+                          style: textStyle(),
+                        ),
+                      ),
+                    )
+                  ),
+                  InkWell(
+                    onTap: () {
+                      add(AuthProceedBuyCartItemConfirmationDialog(cartProductList: cartProductList));
+                    },
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                    splashColor: Colors.teal,
+                    child: Ink(
+                      decoration: BoxDecoration(
+                        color: Colors.teal[800],
+                        borderRadius: BorderRadius.all(Radius.circular(10.0))
+                      ),
+                      child: Container(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Text(
+                          "Yes of course",
+                          style: textStyle(),
+                        ),
+                      ),
+                    )
+                  ),
+                ],
+              );
+            },
+            barrierDismissible: false
+          );
         }
         else {
           emit(AuthOnLoadingState());
@@ -118,6 +180,23 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     catch(error) {
       log('errrr >>> ');
       log(error.toString());
+    }
+  }
+
+  FutureOr<void> authCancelCartConfirmationDialog(AuthCancelCartConfirmationDialog event, Emitter<AuthState> emit) {
+    BuildContext context = event.context;
+    Navigator.pop(context);
+  }
+
+  FutureOr<void> authProceedBuyCartItemConfirmationDialog(AuthProceedBuyCartItemConfirmationDialog event, Emitter<AuthState> emit) async {
+    List<ProductModel> cartProductList = event.cartProductList;
+    
+    final response = await appDatabase.saveCartRecordPerUser(cartProductList);
+    if (response == 1) {
+      
+    }
+    else {
+
     }
   }
 }

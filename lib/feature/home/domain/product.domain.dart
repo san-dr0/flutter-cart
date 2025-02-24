@@ -1,6 +1,7 @@
 import 'package:clean_arch2/config/db/hive_model/product_model/product_model.dart';
 import 'package:equatable/equatable.dart';
 
+// ignore: must_be_immutable
 class ProductModel extends Equatable {
   final int id;
   final String name;

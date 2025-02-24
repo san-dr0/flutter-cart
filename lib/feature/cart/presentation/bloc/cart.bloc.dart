@@ -13,8 +13,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 
 class CartBloc extends Bloc<CartEvent, CartState> {
-  AuthBloc authBloc;
-  CartBloc({required this.authBloc}): super(CartOnLoadedState()) {
+  CartBloc(): super(CartOnLoadedState()) {
 
     on<CartOnBuyProductEvent>(cartOnBuyProduct);
     on<CartOnViewProductListEvent>(cartOnViewProductList);
@@ -130,25 +129,6 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       }
     }
   }
-
-  // FutureOr<void> cartOnCheckOutEvent(CartOnCheckOutEvent event, Emitter<CartState> emit) {
-  //   try{
-  //     BuildContext context = event.context;
-    
-  //     if (authBloc.state is AuthOnValidCredentialsState) {
-  //       log('The state is ');
-  //       log(authBloc.state.toString());
-  //       final auth = authBloc.state as AuthOnValidCredentialsState;
-
-  //       log('The auth');
-  //       log(auth.authCredentialsModel?.email ?? 'Empty');
-  //     }
-  //   }
-  //   catch(error) {
-  //     log('errrr >>> ');
-  //     log(error.toString());
-  //   }
-  // }
 
   FutureOr<void> cartOnNavigateShoppingEvent(CartOnNavigateShoppingEvent event, Emitter<CartState> emit) {
     BuildContext context = event.context;
