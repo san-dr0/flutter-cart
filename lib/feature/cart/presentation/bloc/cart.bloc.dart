@@ -1,9 +1,6 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:clean_arch2/core/string.dart';
-import 'package:clean_arch2/feature/auth/presentation/bloc/auth.bloc.dart';
-import 'package:clean_arch2/feature/auth/presentation/bloc/auth.state.dart';
 import 'package:clean_arch2/feature/cart/presentation/bloc/cart.event.dart';
 import 'package:clean_arch2/feature/cart/presentation/bloc/cart.state.dart';
 import 'package:clean_arch2/feature/home/domain/product.domain.dart';
@@ -138,8 +135,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   }
 
   FutureOr<void> cartOnResetProductListEvent(CartOnResetProductListEvent event, Emitter<CartState> emit) {
-    log('yep emitted');
-    emit(CartProductState(productList: []));
     emit(CartOnLoadedState());
+    emit(CartProductState(productList: []));
   }
 }

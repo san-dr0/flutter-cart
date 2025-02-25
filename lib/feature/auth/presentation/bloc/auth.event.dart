@@ -58,6 +58,7 @@ class AuthCancelCartConfirmationDialog extends AuthEvent {
 
 class AuthProceedBuyCartItemConfirmationDialog extends AuthEvent {
   List<ProductModel> cartProductList;
+  BuildContext context;
 
-  AuthProceedBuyCartItemConfirmationDialog({required this.cartProductList});
+  AuthProceedBuyCartItemConfirmationDialog({required this.context, required this.cartProductList});
 }

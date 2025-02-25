@@ -7,12 +7,12 @@ import 'package:clean_arch2/core/text.style.dart';
 import 'package:clean_arch2/feature/auth/domain/auth.domain.dart';
 import 'package:clean_arch2/feature/auth/presentation/bloc/auth.state.dart';
 import 'package:clean_arch2/feature/cart/presentation/bloc/cart.bloc.dart';
-import 'package:clean_arch2/feature/cart/presentation/bloc/cart.event.dart';
-import 'package:clean_arch2/feature/cart/presentation/bloc/cart.state.dart';
 import 'package:clean_arch2/feature/home/domain/product.domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
+import '../../../cart/presentation/bloc/cart.event.dart';
 import 'auth.event.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
@@ -145,9 +145,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
                       ),
                     )
                   ),
+                  BlocListener(
+                    bloc: this,
+                    listener: (context, state) {
+                      log(state.toString());
+                      Fluttertoast.showToast(msg: "Ohhh it should resetted");
+                      // cartBloc.add(CartOnResetProductListEvent());
+                      context.read<CartBloc>().add(CartOnResetProductListEvent());
+                    },
+                    listenWhen: (previous, current) => current is AuthOnResetCartProductList,
+                    child: Text(""),
+                  ),
                   InkWell(
                     onTap: () {
-                      add(AuthProceedBuyCartItemConfirmationDialog(cartProductList: cartProductList));
+                      add(AuthProceedBuyCartItemConfirmationDialog(context: context, cartProductList: cartProductList));
                     },
                     borderRadius: BorderRadius.all(Radius.circular(10.0)),
                     splashColor: Colors.teal,
@@ -164,7 +175,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
                         ),
                       ),
                     )
-                  ),
+                  )
                 ],
               );
             },
@@ -193,16 +204,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   FutureOr<void> authProceedBuyCartItemConfirmationDialog(AuthProceedBuyCartItemConfirmationDialog event, Emitter<AuthState> emit) async {
-    List<ProductModel> cartProductList = event.cartProductList;
-    
-    final response = await appDatabase.saveCartRecordPerUser(cartProductList);
-    log('The resp >>> ');
-    log(response.toString());
-    if (response == 1) {
-      cartBloc.add(CartOnResetProductListEvent());
-    }
-    else {
-
-    }
+    BuildContext context = event.context;
+    emit(
+      AuthOnResetCartProductList()
+    );
+    Navigator.pop(context);
   }
 }
