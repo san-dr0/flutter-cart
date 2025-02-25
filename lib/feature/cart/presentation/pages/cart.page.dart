@@ -32,7 +32,6 @@ class _CartPage extends State<CartPage> {
   }
 
   void onCheckout(List<ProductModel> cartProductList) {
-    // cartBloc.add(CartOnCheckOutEvent(context: context));
     context.read<AuthBloc>().add(AuthOnCheckoutEvent(context: context, cartProductList: cartProductList));
   }
 

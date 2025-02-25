@@ -17,9 +17,8 @@ import 'auth.event.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AppDatabase appDatabase;
-  CartBloc cartBloc;
 
-  AuthBloc({required this.appDatabase, required this.cartBloc}): super(AuthOnValidCredentialsState(authCredentialsModel: null)) {
+  AuthBloc({required this.appDatabase}): super(AuthOnValidCredentialsState(authCredentialsModel: null)) {
     on<AuthOnLoginEvent>(authOnLoginEvent);
     on<AuthOnLogoutEvent>(authOnLogoutEvent);
     on<AuthOnNavigateToSignupEvent>(authOnNavigateToSignup);
@@ -150,10 +149,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
                     listener: (context, state) {
                       log(state.toString());
                       Fluttertoast.showToast(msg: "Ohhh it should resetted");
-                      // cartBloc.add(CartOnResetProductListEvent());
                       context.read<CartBloc>().add(CartOnResetProductListEvent());
                     },
-                    listenWhen: (previous, current) => current is AuthOnResetCartProductList,
+                    listenWhen: (previous, current) => current is AuthOnResetCartProductListState 
+                      || current is AuthOnValidCredentialsState,
                     child: Text(""),
                   ),
                   InkWell(
@@ -205,9 +204,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   FutureOr<void> authProceedBuyCartItemConfirmationDialog(AuthProceedBuyCartItemConfirmationDialog event, Emitter<AuthState> emit) async {
     BuildContext context = event.context;
-    emit(
-      AuthOnResetCartProductList()
-    );
+    AuthCredentialsModel? authModel;
+    
+    if (state is AuthOnValidCredentialsState) {
+      final authState = state as AuthOnValidCredentialsState;
+      authModel = authState.authCredentialsModel;
+    }
+    emit(AuthOnResetCartProductListState());
+    emit(AuthOnValidCredentialsState(authCredentialsModel: authModel));
     Navigator.pop(context);
   }
 }

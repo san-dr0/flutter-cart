@@ -22,6 +22,6 @@ class AuthOnIssueInSigningUpState extends AuthState {
 
 class AuthNotLoggedInState extends AuthState {}
 
-class AuthErrorSavingCartTransction extends AuthState {}
+class AuthErrorSavingCartTransctionState extends AuthState {}
 
-class AuthOnResetCartProductList extends AuthState {}
+class AuthOnResetCartProductListState extends AuthState {}

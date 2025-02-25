@@ -136,6 +136,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
   FutureOr<void> cartOnResetProductListEvent(CartOnResetProductListEvent event, Emitter<CartState> emit) {
     emit(CartOnLoadedState());
+    emit(CartProductToPaidSatate(totalToPaid: 0.00));
     emit(CartProductState(productList: []));
   }
 }
