@@ -45,4 +45,8 @@ class CartOnCheckOutEvent extends CartEvent {
   CartOnCheckOutEvent({required this.context});
 }
 
-class CartOnResetProductListEvent extends CartEvent {}
+class CartOnResetProductListEvent extends CartEvent {
+  String email;
+
+  CartOnResetProductListEvent({required this.email});
+}

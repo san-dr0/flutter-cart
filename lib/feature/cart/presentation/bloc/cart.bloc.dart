@@ -131,10 +131,10 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   }
 
   FutureOr<void> cartOnResetProductListEvent(CartOnResetProductListEvent event, Emitter<CartState> emit) {
+    String email = event.email;
     if (state is CartProductState) {
       final cartList = (state as CartProductState).productList;
-      log('Addded ');
-      appDatabase.saveCartRecordPerUser(cartList);
+      appDatabase.saveCartRecordPerUser(email, cartList);
     }
     emit(CartOnLoadedState());
     emit(CartProductToPaidSatate(totalToPaid: 0.00));

@@ -107,17 +107,24 @@ class AppDatabase {
     }
   }
 
-  FutureOr<int> saveCartRecordPerUser(List<ProductModel> cartList) async {
+  FutureOr<int> saveCartRecordPerUser(String email, List<ProductModel> cartList) async {
     try{
       final cartBox = await Hive.openBox("cart");
 
-      DateTime dateTime = DateTime.now();
-      // cartBox.put(dateTime, cartList);
+      // DateTime dateTime = DateTime.now();
       
       return 1;
     }
     catch(error) {
+      log('Err---');
+      log(error.toString());
       return 0;
     }
+  }
+
+  FutureOr<void> getTransactionRecord(String email) async {
+    Box bx = await Hive.openBox('cart');
+    log('Tests >>> ');
+    log(bx.values.toList().toString());
   }
 }

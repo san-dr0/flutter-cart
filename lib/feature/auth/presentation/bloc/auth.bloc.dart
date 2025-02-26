@@ -147,9 +147,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
                   BlocListener(
                     bloc: this,
                     listener: (context, state) {
-                      log(state.toString());
-                      Fluttertoast.showToast(msg: "Ohhh it should resetted");
-                      context.read<CartBloc>().add(CartOnResetProductListEvent());
+                      context.read<CartBloc>().add(CartOnResetProductListEvent(email: authState.email));
                     },
                     listenWhen: (previous, current) => current is AuthOnResetCartProductListState 
                       || current is AuthOnValidCredentialsState,

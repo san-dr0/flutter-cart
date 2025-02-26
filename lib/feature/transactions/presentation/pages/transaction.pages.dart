@@ -4,6 +4,8 @@ import 'package:clean_arch2/feature/transactions/presentation/bloc/transaction.b
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../bloc/transaction.event.dart';
+
 class TransactionPage extends StatefulWidget {
   const TransactionPage({super.key});
 
@@ -18,6 +20,7 @@ class _TransactionPage extends State<TransactionPage> {
   void initState() {
     super.initState();
     transactionBloc = context.read<TransactionBloc>();
+    transactionBloc.add(TransactionOnLoadedEvent());
   }
 
   @override
@@ -26,6 +29,9 @@ class _TransactionPage extends State<TransactionPage> {
       appBar: AppBar(
         backgroundColor: tealColor,
         title: Text(transactionTitle),
+      ),
+      body: Column(
+        children: [],
       ),
     );
   }
