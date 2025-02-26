@@ -3,10 +3,10 @@ import 'package:clean_arch2/core/string.dart';
 import 'package:clean_arch2/feature/auth/presentation/bloc/auth.bloc.dart';
 import 'package:clean_arch2/feature/auth/presentation/bloc/auth.state.dart';
 import 'package:clean_arch2/feature/cart/presentation/bloc/cart.bloc.dart';
-import 'package:clean_arch2/feature/cart/presentation/bloc/cart.event.dart';
+import 'package:clean_arch2/feature/dashboard/presentation/bloc/dashboard.bloc.dart';
+import 'package:clean_arch2/feature/dashboard/presentation/bloc/dashboard.event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
 class DashBoardPage extends StatefulWidget {
   const DashBoardPage({super.key});
@@ -18,16 +18,22 @@ class DashBoardPage extends StatefulWidget {
 class _DashBoardPage extends State<DashBoardPage> {
   late AuthBloc authBloc;
   late CartBloc cartBloc;
+  late DashBoardBloc dashBoardBloc;
 
   @override
   void initState() {
     super.initState();
     authBloc = context.read<AuthBloc>();
     cartBloc = context.read<CartBloc>();
+    dashBoardBloc = context.read<DashBoardBloc>();
   }
 
   void onNavigateToShop() {
-    cartBloc.add(CartOnNavigateShoppingEvent(context: context));
+    dashBoardBloc.add(DashBoardOnNavigateToShopEvent(context: context));
+  }
+
+  void onNavigateToTransaction() {
+    dashBoardBloc.add(DashBoardOnNavigateToTransactionsEvent(context: context));
   }
 
   @override
@@ -77,7 +83,9 @@ class _DashBoardPage extends State<DashBoardPage> {
               title: Text("Shop"),
             ),
             ListTile(
-              onTap: () {},
+              onTap: () {
+                onNavigateToTransaction();
+              },
               title: Text("Transactions"),
             ),
             ListTile(

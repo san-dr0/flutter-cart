@@ -3,7 +3,9 @@ import 'package:clean_arch2/config/db/hive_model/product_model/product_model.dar
 import 'package:clean_arch2/config/routes/routes.dart';
 import 'package:clean_arch2/feature/auth/presentation/bloc/auth.bloc.dart';
 import 'package:clean_arch2/feature/cart/presentation/bloc/cart.bloc.dart';
+import 'package:clean_arch2/feature/dashboard/presentation/bloc/dashboard.bloc.dart';
 import 'package:clean_arch2/feature/home/presentation/bloc/home.bloc.dart';
+import 'package:clean_arch2/feature/transactions/presentation/bloc/transaction.bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -21,8 +23,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Hive.registerAdapter(ProductEntityAdapter());
   Di.registerLazySingleton(() => AppDatabase());
-  Di.registerLazySingleton(() => CartBloc());
+  Di.registerLazySingleton(() => CartBloc(appDatabase: Di()));
   Di.registerLazySingleton(() => AuthBloc(appDatabase: Di()));
+  Di.registerLazySingleton(() => TransactionBloc(appDatabase: Di()));
   // final appDoc = await path_provider.getApplicationCacheDirectory();
   await Hive.initFlutter();
   
@@ -33,8 +36,10 @@ void main() async {
     MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => HomeProductBloc(appDatabase: appDB),),
-        BlocProvider(create: (context) => CartBloc()),
+        BlocProvider(create: (context) => CartBloc(appDatabase: Di())),
         BlocProvider(create: (context) => AuthBloc(appDatabase: Di())),
+        BlocProvider(create: (context) => DashBoardBloc()),
+        BlocProvider(create: (context) => TransactionBloc(appDatabase: Di())),
       ], 
       child: const MyApp()
     )

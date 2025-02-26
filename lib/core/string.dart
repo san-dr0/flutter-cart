@@ -17,3 +17,4 @@ const String alreadyHaveAnAccount = "Already have an account ?";
 const String dashBoardTitle = "Dashboard";
 const String emptyCartTitle = "Empty cart";
 const String authNotLoggedInTitle = "Please log in first";
+const String transactionTitle = "Transcations";

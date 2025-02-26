@@ -4,6 +4,7 @@ import 'package:clean_arch2/feature/cart/presentation/pages/cart.page.dart';
 import 'package:clean_arch2/feature/dashboard/presentation/pages/dashboard.page.dart';
 import 'package:clean_arch2/feature/home/domain/product.domain.dart';
 import 'package:clean_arch2/feature/home/presentation/pages/home.page.dart';
+import 'package:clean_arch2/feature/transactions/presentation/pages/transaction.pages.dart';
 import 'package:clean_arch2/feature/view_certain_product/pages/view_certain_product.dart';
 import 'package:go_router/go_router.dart';
 
@@ -18,4 +19,5 @@ GoRouter appRoutes = GoRouter(routes: [
   },),
   GoRoute(path: '/login', builder: (context, state) => LoginPage(),),
   GoRoute(path: '/dashboard', builder: (context, state) => DashBoardPage(),),
+  GoRoute(path: '/transactions', builder: (context, state) => TransactionPage(),),
 ]);

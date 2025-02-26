@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:developer';
 
+import 'package:clean_arch2/config/db/app_db.dart';
 import 'package:clean_arch2/core/string.dart';
 import 'package:clean_arch2/feature/cart/presentation/bloc/cart.event.dart';
 import 'package:clean_arch2/feature/cart/presentation/bloc/cart.state.dart';
@@ -10,7 +12,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 
 class CartBloc extends Bloc<CartEvent, CartState> {
-  CartBloc(): super(CartOnLoadedState()) {
+  AppDatabase appDatabase;
+  CartBloc({required this.appDatabase}): super(CartOnLoadedState()) {
 
     on<CartOnBuyProductEvent>(cartOnBuyProduct);
     on<CartOnViewProductListEvent>(cartOnViewProductList);
@@ -24,7 +27,6 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     // on checkout
     // on<CartOnCheckOutEvent>(cartOnCheckOutEvent);
     // on go to shoping
-    on<CartOnNavigateShoppingEvent>(cartOnNavigateShoppingEvent);
     on<CartOnResetProductListEvent>(cartOnResetProductListEvent);
   }
 
@@ -128,13 +130,12 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     }
   }
 
-  FutureOr<void> cartOnNavigateShoppingEvent(CartOnNavigateShoppingEvent event, Emitter<CartState> emit) {
-    BuildContext context = event.context;
-
-    context.push("/");
-  }
-
   FutureOr<void> cartOnResetProductListEvent(CartOnResetProductListEvent event, Emitter<CartState> emit) {
+    if (state is CartProductState) {
+      final cartList = (state as CartProductState).productList;
+      log('Addded ');
+      appDatabase.saveCartRecordPerUser(cartList);
+    }
     emit(CartOnLoadedState());
     emit(CartProductToPaidSatate(totalToPaid: 0.00));
     emit(CartProductState(productList: []));
