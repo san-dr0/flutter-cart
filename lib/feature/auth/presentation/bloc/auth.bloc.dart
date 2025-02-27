@@ -2,15 +2,14 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:clean_arch2/config/db/app_db.dart';
+import 'package:clean_arch2/config/db/hive_model/product_model/product_model.dart';
 import 'package:clean_arch2/config/db/request/request.dart';
 import 'package:clean_arch2/core/text.style.dart';
 import 'package:clean_arch2/feature/auth/domain/auth.domain.dart';
 import 'package:clean_arch2/feature/auth/presentation/bloc/auth.state.dart';
 import 'package:clean_arch2/feature/cart/presentation/bloc/cart.bloc.dart';
-import 'package:clean_arch2/feature/home/domain/product.domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import '../../../cart/presentation/bloc/cart.event.dart';
 import 'auth.event.dart';
@@ -106,7 +105,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   FutureOr<void> authOnCheckoutEvent(AuthOnCheckoutEvent event, Emitter<AuthState> emit) {
     BuildContext context = event.context;
-    List<ProductModel> cartProductList = event.cartProductList;
+    List<ProductEntity> cartProductList = event.cartProductList;
     try{
       // BuildContext context = event.context;
       if (state is AuthOnValidCredentialsState) {

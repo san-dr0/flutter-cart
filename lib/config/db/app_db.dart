@@ -1,12 +1,10 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:clean_arch2/config/db/hive_model/product_model/product_model.dart';
 import 'package:clean_arch2/config/db/hive_model/transaction_model/transaction_model.dart';
 import 'package:clean_arch2/config/db/request/request.dart';
 import 'package:clean_arch2/feature/auth/domain/auth.domain.dart';
-import 'package:clean_arch2/feature/home/domain/product.domain.dart';
 import 'package:hive/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -38,12 +36,13 @@ class AppDatabase {
     }
   }
 
-  FutureOr<List<ProductModel>> getProductRecord () async {
+  FutureOr<List<ProductEntity>> getProductRecord () async {
     Box box = await Hive.openBox("product");
     
-    List<ProductModel> productList = [];
+    List<ProductEntity> productList = [];
     for(final pe in box.values.toList()) {
-      productList.add(ProductModel.fromJson(pe));
+      // productList.add(ProductEntity.fromJson(pe));
+      productList.add(pe);
     }
     return  productList;
   }
@@ -89,7 +88,7 @@ class AppDatabase {
     try{
       Box box = await Hive.openBox("account");
       final result = box.values.where((creds) => creds['email'] == email && creds['password'] == password).toList();
-      
+     
       if (result.isEmpty) {
         return Request(code: 401, message: "User not found", data: null);
       }
@@ -109,7 +108,7 @@ class AppDatabase {
     }
   }
 
-  FutureOr<int> saveCartRecordPerUser(String email, List<ProductModel> cartList) async {
+  FutureOr<int> saveCartRecordPerUser(String email, List<ProductEntity> cartList) async {
     try{
       final cartBox = await Hive.openBox("transactional");
 
@@ -126,15 +125,15 @@ class AppDatabase {
     }
   }
 
-  FutureOr<void> getTransactionRecord(String email) async {
+  FutureOr<List<TransactionEntity>> getTransactionRecordOfCertainUser({String email = ""}) async {
     Box cartBox = await Hive.openBox('transactional');
-    log('Tests >>> ');
     final txtRecords = cartBox.values.toList();
-    Map<String, dynamic> rec = {};
+    List<TransactionEntity> historicalRecords = [];
 
-    log(rec.runtimeType.toString());
-    for(var txtR in txtRecords) {
-      log(txtR);
+    for(TransactionEntity txtR in txtRecords) {
+      historicalRecords.add(txtR);
     }
+
+    return historicalRecords;
   }
 }

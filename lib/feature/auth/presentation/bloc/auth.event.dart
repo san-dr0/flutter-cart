@@ -1,4 +1,4 @@
-import 'package:clean_arch2/feature/home/domain/product.domain.dart';
+import 'package:clean_arch2/config/db/hive_model/product_model/product_model.dart';
 import 'package:flutter/material.dart';
 
 abstract class AuthEvent {}
@@ -45,7 +45,7 @@ class AuthOnAlreadyHaveAnAccountEvent extends AuthEvent {
 
 class AuthOnCheckoutEvent extends AuthEvent {
   BuildContext context;
-  List<ProductModel> cartProductList = [];
+  List<ProductEntity> cartProductList = [];
 
   AuthOnCheckoutEvent({required this.context, required this.cartProductList});
 }
@@ -57,7 +57,7 @@ class AuthCancelCartConfirmationDialog extends AuthEvent {
 }
 
 class AuthProceedBuyCartItemConfirmationDialog extends AuthEvent {
-  List<ProductModel> cartProductList;
+  List<ProductEntity> cartProductList;
   BuildContext context;
 
   AuthProceedBuyCartItemConfirmationDialog({required this.context, required this.cartProductList});

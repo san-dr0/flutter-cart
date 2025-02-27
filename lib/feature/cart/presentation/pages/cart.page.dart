@@ -1,3 +1,4 @@
+import 'package:clean_arch2/config/db/hive_model/product_model/product_model.dart';
 import 'package:clean_arch2/core/color.dart';
 import 'package:clean_arch2/core/string.dart';
 import 'package:clean_arch2/feature/auth/presentation/bloc/auth.bloc.dart';
@@ -31,21 +32,21 @@ class _CartPage extends State<CartPage> {
     cartBloc.add(CartOnAmountToPaidEvent());
   }
 
-  void onCheckout(List<ProductModel> cartProductList) {
+  void onCheckout(List<ProductEntity> cartProductList) {
     context.read<AuthBloc>().add(AuthOnCheckoutEvent(context: context, cartProductList: cartProductList));
   }
 
-  void onDeductQuantity (ProductModel productModel) {
+  void onDeductQuantity (ProductEntity productModel) {
     cartBloc.add(CartOnDeductQuanityEvent(productModel: productModel));
     cartBloc.add(CartOnAmountToPaidEvent());
   }
 
-  void onAddQuantity (ProductModel productModel) {
+  void onAddQuantity (ProductEntity productModel) {
     cartBloc.add(CartOnAddQuantityEvent(productModel: productModel));
     cartBloc.add(CartOnAmountToPaidEvent());
   }
 
-  void onRemoveProduct(ProductModel productModel) {
+  void onRemoveProduct(ProductEntity productModel) {
     cartBloc.add(CartOnRemoveProductEvent(productModel: productModel));
     cartBloc.add(CartOnAmountToPaidEvent());
   }

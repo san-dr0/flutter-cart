@@ -32,7 +32,7 @@ class _HomePage extends State<HomePage> {
     context.read<HomeProductBloc>().add(HomeOnLoadedEvent());
   }
 
-  void onBuyProduct(ProductModel productModel) {
+  void onBuyProduct(ProductEntity productModel) {
     context.read<CartBloc>().add(CartOnBuyProductEvent(productModel: productModel));
   }
 
@@ -40,7 +40,7 @@ class _HomePage extends State<HomePage> {
     context.read<CartBloc>().add(CartOnViewProductListEvent(context: context));
   }
 
-  void onViewProduct(ProductModel productModel) {
+  void onViewProduct(ProductEntity productModel) {
     context.read<HomeProductBloc>().add(HomeOnViewCertainProductEvent(
       context: context, 
       productModel: productModel

@@ -1,3 +1,4 @@
+import 'package:clean_arch2/config/db/hive_model/product_model/product_model.dart';
 import 'package:clean_arch2/feature/home/domain/product.domain.dart';
 import 'package:hive/hive.dart';
 part 'transaction_model.g.dart';
@@ -9,7 +10,7 @@ class TransactionEntity {
   @HiveField(1)
   DateTime dateTime;
   @HiveField(2)
-  List<ProductModel> cartProduct;
+  List<ProductEntity> cartProduct;
 
   TransactionEntity({
     required this.email,

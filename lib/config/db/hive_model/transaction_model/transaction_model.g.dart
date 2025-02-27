@@ -19,7 +19,7 @@ class TransactionEntityAdapter extends TypeAdapter<TransactionEntity> {
     return TransactionEntity(
       email: fields[0] as String,
       dateTime: fields[1] as DateTime,
-      cartProduct: (fields[2] as List).cast<ProductModel>(),
+      cartProduct: (fields[2] as List).cast<ProductEntity>(),
     );
   }
 

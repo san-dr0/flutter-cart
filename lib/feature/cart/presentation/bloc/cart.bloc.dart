@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:clean_arch2/config/db/app_db.dart';
+import 'package:clean_arch2/config/db/hive_model/product_model/product_model.dart';
 import 'package:clean_arch2/core/string.dart';
 import 'package:clean_arch2/feature/cart/presentation/bloc/cart.event.dart';
 import 'package:clean_arch2/feature/cart/presentation/bloc/cart.state.dart';
@@ -31,18 +32,18 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   }
 
   FutureOr<void> cartOnBuyProduct(CartOnBuyProductEvent event, Emitter<CartState> emit) {
-    ProductModel tempProductModel = event.productModel;
+    ProductEntity tempProductModel = event.productModel;
     
-    List<ProductModel> cartList = state is CartProductState? (state as CartProductState).productList : [] ;
+    List<ProductEntity> cartList = state is CartProductState? (state as CartProductState).productList : [] ;
     bool isFound = false;
-    ProductModel productModel = ProductModel(
+    ProductEntity productModel = ProductEntity(
       id: tempProductModel.id, 
       name: tempProductModel.name, 
       price: tempProductModel.price, 
       quantity: 1
     );
 
-    for(ProductModel pm in cartList) {
+    for(ProductEntity pm in cartList) {
       if (pm.id == tempProductModel.id) {
         pm.quantity = pm.quantity + 1;
         isFound = true;
@@ -83,7 +84,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   }
 
   FutureOr<void> cartOnAmountToPaidEvent(CartOnAmountToPaidEvent event, Emitter<CartState> emit) {
-    List<ProductModel> cartList = state is CartProductState? (state as CartProductState).productList : [];
+    List<ProductEntity> cartList = state is CartProductState? (state as CartProductState).productList : [];
     double toPay = 0.00;
 
     toPay = cartList.fold(toPay, (p, e) => p+(e.price * e.quantity));
@@ -93,8 +94,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   }
 
   FutureOr<void> cartOnRemoveProductEvent(CartOnRemoveProductEvent event, Emitter<CartState> emit) {
-    ProductModel productModel = event.productModel;
-    List<ProductModel> cartList = state is CartProductState? (state as CartProductState).productList : [];
+    ProductEntity productModel = event.productModel;
+    List<ProductEntity> cartList = state is CartProductState? (state as CartProductState).productList : [];
 
     cartList.remove(productModel);
 
@@ -104,9 +105,9 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   }
 
   FutureOr<void> cartOnDeductQuanityEvent(CartOnDeductQuanityEvent event, Emitter<CartState> emit) {
-    ProductModel productModel = event.productModel;
-    List<ProductModel> cartList = state is CartProductState? (state as CartProductState).productList : [];
-    for(ProductModel cl in cartList) {
+    ProductEntity productModel = event.productModel;
+    List<ProductEntity> cartList = state is CartProductState? (state as CartProductState).productList : [];
+    for(ProductEntity cl in cartList) {
       if (cl.id == productModel.id) {
         cl.quantity = cl.quantity - 1;
         if (cl.quantity == 0) {
@@ -120,9 +121,9 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   }
 
   FutureOr<void> cartOnAddQuantityEvent(CartOnAddQuantityEvent event, Emitter<CartState> emit) {
-    ProductModel productModel = event.productModel;
-    List<ProductModel> cartList = state is CartProductState? (state as CartProductState).productList : [];
-    for(ProductModel cl in cartList) {
+    ProductEntity productModel = event.productModel;
+    List<ProductEntity> cartList = state is CartProductState? (state as CartProductState).productList : [];
+    for(ProductEntity cl in cartList) {
       if (cl.id == productModel.id) {
         cl.quantity = cl.quantity + 1;
         break;

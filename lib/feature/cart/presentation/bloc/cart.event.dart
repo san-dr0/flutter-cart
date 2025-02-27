@@ -1,3 +1,4 @@
+import 'package:clean_arch2/config/db/hive_model/product_model/product_model.dart';
 import 'package:clean_arch2/feature/home/domain/product.domain.dart';
 import 'package:flutter/material.dart';
 
@@ -5,7 +6,7 @@ abstract class CartEvent {}
 
 // this event is buying for product
 class CartOnBuyProductEvent extends CartEvent {
-  ProductModel productModel;
+  ProductEntity productModel;
 
   CartOnBuyProductEvent({required this.productModel});
 }
@@ -22,20 +23,20 @@ class CartOnAmountToPaidEvent extends CartEvent {}
 
 // this event is removing certain product in cart list
 class CartOnRemoveProductEvent extends CartEvent {
-  ProductModel productModel;
+  ProductEntity productModel;
   CartOnRemoveProductEvent({required this.productModel});
 }
 
 // this event is for removing one quantity each time for certain product
 class CartOnDeductQuanityEvent extends CartEvent {
-  ProductModel productModel;
+  ProductEntity productModel;
 
   CartOnDeductQuanityEvent({required this.productModel});
 }
 
 // this event is for adding one quantity each time for certain product
 class CartOnAddQuantityEvent extends CartEvent {
-  ProductModel productModel;
+  ProductEntity productModel;
   CartOnAddQuantityEvent({required this.productModel});
 }
 

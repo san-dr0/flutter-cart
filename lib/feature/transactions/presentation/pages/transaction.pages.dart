@@ -20,7 +20,7 @@ class _TransactionPage extends State<TransactionPage> {
   void initState() {
     super.initState();
     transactionBloc = context.read<TransactionBloc>();
-    transactionBloc.add(TransactionOnLoadedEvent());
+    transactionBloc.add(TransactionOnLoadedEvent(email: "ada.ada@gmail.com"));
   }
 
   @override

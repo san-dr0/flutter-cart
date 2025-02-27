@@ -1,11 +1,10 @@
+import 'package:clean_arch2/config/db/hive_model/product_model/product_model.dart';
 import 'package:clean_arch2/core/color.dart';
 import 'package:clean_arch2/core/string.dart';
 import 'package:clean_arch2/core/text.style.dart';
 import 'package:clean_arch2/feature/cart/presentation/bloc/cart.bloc.dart';
-import 'package:clean_arch2/feature/home/domain/product.domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../cart/presentation/bloc/cart.event.dart';
 
@@ -13,7 +12,7 @@ import '../../cart/presentation/bloc/cart.event.dart';
 class ViewCertainProductPage extends StatefulWidget {
   ViewCertainProductPage({super.key, required this.productModel});
   
-  ProductModel productModel;
+  ProductEntity productModel;
 
   @override
   State<ViewCertainProductPage> createState () => _ViewCertainProductPage();
@@ -27,7 +26,7 @@ class _ViewCertainProductPage extends State<ViewCertainProductPage> {
     super.initState();
     cartBloc = context.read<CartBloc>();
   }
-  void onAddToCart(ProductModel productModel) {
+  void onAddToCart(ProductEntity productModel) {
     cartBloc.add(CartOnBuyProductEvent(productModel: productModel));
   }
 
