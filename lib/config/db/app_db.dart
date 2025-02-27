@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:clean_arch2/config/db/hive_model/product_model/product_model.dart';
@@ -112,7 +113,12 @@ class AppDatabase {
       final cartBox = await Hive.openBox("cart");
 
       // DateTime dateTime = DateTime.now();
+      Map<String, dynamic> record = {
+        "userKey": email,
+        "record": cartList.toString()
+      };
       
+      cartBox.add(record.toString());
       return 1;
     }
     catch(error) {
@@ -123,8 +129,14 @@ class AppDatabase {
   }
 
   FutureOr<void> getTransactionRecord(String email) async {
-    Box bx = await Hive.openBox('cart');
+    Box cartBox = await Hive.openBox('cart');
     log('Tests >>> ');
-    log(bx.values.toList().toString());
+    final txtRecords = cartBox.values.toList();
+    Map<String, dynamic> rec = {};
+
+    log(rec.runtimeType.toString());
+    for(var txtR in txtRecords) {
+      log(txtR);
+    }
   }
 }
