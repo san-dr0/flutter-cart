@@ -1,5 +1,6 @@
 import 'package:clean_arch2/config/db/app_db.dart';
 import 'package:clean_arch2/config/db/hive_model/product_model/product_model.dart';
+import 'package:clean_arch2/config/db/hive_model/transaction_model/transaction_model.dart';
 import 'package:clean_arch2/config/routes/routes.dart';
 import 'package:clean_arch2/feature/auth/presentation/bloc/auth.bloc.dart';
 import 'package:clean_arch2/feature/cart/presentation/bloc/cart.bloc.dart';
@@ -22,6 +23,8 @@ final Di = GetIt.instance;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Hive.registerAdapter(ProductEntityAdapter());
+  Hive.registerAdapter(TransactionEntityAdapter());
+  
   Di.registerLazySingleton(() => AppDatabase());
   Di.registerLazySingleton(() => CartBloc(appDatabase: Di()));
   Di.registerLazySingleton(() => AuthBloc(appDatabase: Di()));

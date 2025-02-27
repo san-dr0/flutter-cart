@@ -1,23 +1,19 @@
+import 'package:clean_arch2/feature/home/domain/product.domain.dart';
 import 'package:hive/hive.dart';
+part 'transaction_model.g.dart';
 
 @HiveType(typeId: 3)
-class TransactionModel {
+class TransactionEntity {
   @HiveField(0)
-  String txtId;
+  String email;
   @HiveField(1)
-  String productName;
+  DateTime dateTime;
   @HiveField(2)
-  double price;
-  @HiveField(3)
-  int quantity;
-  @HiveField(4)
-  DateTime date;
+  List<ProductModel> cartProduct;
 
-  TransactionModel({
-    required this.txtId, 
-    required this.productName,
-    required this.price, 
-    required this.quantity,
-    required this.date
+  TransactionEntity({
+    required this.email,
+    required this.dateTime,
+    required this.cartProduct
   });
 }

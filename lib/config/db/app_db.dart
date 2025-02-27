@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:clean_arch2/config/db/hive_model/product_model/product_model.dart';
+import 'package:clean_arch2/config/db/hive_model/transaction_model/transaction_model.dart';
 import 'package:clean_arch2/config/db/request/request.dart';
 import 'package:clean_arch2/feature/auth/domain/auth.domain.dart';
 import 'package:clean_arch2/feature/home/domain/product.domain.dart';
@@ -110,15 +111,12 @@ class AppDatabase {
 
   FutureOr<int> saveCartRecordPerUser(String email, List<ProductModel> cartList) async {
     try{
-      final cartBox = await Hive.openBox("cart");
+      final cartBox = await Hive.openBox("transactional");
 
-      // DateTime dateTime = DateTime.now();
-      Map<String, dynamic> record = {
-        "userKey": email,
-        "record": cartList.toString()
-      };
+      DateTime dateTime = DateTime.now();
+      final transactionRecord = TransactionEntity(email: email, dateTime: dateTime, cartProduct: cartList);
       
-      cartBox.add(record.toString());
+      cartBox.add(transactionRecord);
       return 1;
     }
     catch(error) {
@@ -129,7 +127,7 @@ class AppDatabase {
   }
 
   FutureOr<void> getTransactionRecord(String email) async {
-    Box cartBox = await Hive.openBox('cart');
+    Box cartBox = await Hive.openBox('transactional');
     log('Tests >>> ');
     final txtRecords = cartBox.values.toList();
     Map<String, dynamic> rec = {};

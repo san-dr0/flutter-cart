@@ -22,3 +22,18 @@ class ProductModel extends Equatable {
   @override
   List<Object?> get props => [name, quantity, price];
 }
+
+class SaveCartProductModel extends Equatable {
+  String email;
+  DateTime date;
+  List<ProductModel> cartProduct;
+
+  SaveCartProductModel({
+    required this.email, required this.date,
+    required this.cartProduct
+  });
+  
+  @override
+  // TODO: implement props
+  List<Object?> get props => [email, date, cartProduct];
+}
