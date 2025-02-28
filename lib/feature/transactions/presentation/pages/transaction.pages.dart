@@ -1,5 +1,6 @@
 import 'package:clean_arch2/core/color.dart';
 import 'package:clean_arch2/core/string.dart';
+import 'package:clean_arch2/core/text.style.dart';
 import 'package:clean_arch2/feature/auth/presentation/bloc/auth.bloc.dart';
 import 'package:clean_arch2/feature/auth/presentation/bloc/auth.state.dart';
 import 'package:clean_arch2/feature/transactions/presentation/bloc/transaction.bloc.dart';
@@ -58,6 +59,8 @@ class _TransactionPage extends State<TransactionPage> {
           else if (state is TransactionOnLoadedRecordsState) {
             return ListView.separated(
               itemBuilder: (context, index) {
+                double eachTotal = state.transactionRecords[index].cartProduct.fold(0.0, (p, a) => p+(a.price * a.quantity));
+                
                 return Column(
                   children: [
                     Text(state.transactionRecords[index].dateTime.toString()),
@@ -69,12 +72,27 @@ class _TransactionPage extends State<TransactionPage> {
                         shrinkWrap: false,
                         itemBuilder: (context, cartItemIndex) {
                           return Card(
-                            child: Column(
-                              children: [
-                                Text(
-                                  state.transactionRecords[index].cartProduct[cartItemIndex].name
-                                ),
-                              ],
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Name: ${state.transactionRecords[index].cartProduct[cartItemIndex].name}",
+                                    style: textStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 17.0
+                                    ),
+                                  ),
+                                  Text(
+                                    "Price: ${state.transactionRecords[index].cartProduct[cartItemIndex].price}"
+                                  ),
+                                  Text(
+                                    "Qty: ${state.transactionRecords[index].cartProduct[cartItemIndex].quantity}"
+                                  ),
+                                ],
+                              ),
                             ),
                           );
                         }, 
@@ -82,6 +100,13 @@ class _TransactionPage extends State<TransactionPage> {
                           return SizedBox(height: 5.0,);
                         }, 
                         itemCount: state.transactionRecords[index].cartProduct.length
+                      ),
+                    ),
+                    Text(
+                      "$totalTitle $eachTotal",
+                      style: textStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold
                       ),
                     )
                   ],
