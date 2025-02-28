@@ -18,3 +18,4 @@ const String dashBoardTitle = "Dashboard";
 const String emptyCartTitle = "Empty cart";
 const String authNotLoggedInTitle = "Please log in first";
 const String transactionTitle = "Transcations";
+const String pleaseWaitTitle = "Please wait.";

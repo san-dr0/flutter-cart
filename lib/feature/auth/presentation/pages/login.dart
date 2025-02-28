@@ -41,8 +41,8 @@ class _LoginPage extends State<LoginPage> {
 
     authBloc.add(
       AuthOnLoginEvent(
-        email: email,
-        password: password,
+        email: 'ada.ada@gmail.com',
+        password: '123',
         context: context
       )
     );

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:clean_arch2/config/db/app_db.dart';
 import 'package:clean_arch2/config/db/hive_model/transaction_model/transaction_model.dart';
@@ -9,7 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
   AppDatabase appDatabase;
-  TransactionBloc({required this.appDatabase}): super(TransactionStateOnLoadingState()) {
+  TransactionBloc({required this.appDatabase}): super(TransactionOnLoadingState()) {
     on<TransactionOnLoadedEvent>(transactionOnLoadedEvent);
   }
 
@@ -17,8 +16,6 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
     String email = event.email;
     List<TransactionEntity> historicalRecords =  await appDatabase.getTransactionRecordOfCertainUser(email: email);
 
-    for(TransactionEntity historical in historicalRecords) {
-      log("Em: ${historical.email}");
-    }
+    emit(TransactionOnLoadedRecordsState(transactionRecords: historicalRecords));
   }
 }

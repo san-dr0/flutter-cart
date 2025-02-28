@@ -131,7 +131,9 @@ class AppDatabase {
     List<TransactionEntity> historicalRecords = [];
 
     for(TransactionEntity txtR in txtRecords) {
-      historicalRecords.add(txtR);
+      if (txtR.email == email) {
+        historicalRecords.add(txtR);
+      }
     }
 
     return historicalRecords;
