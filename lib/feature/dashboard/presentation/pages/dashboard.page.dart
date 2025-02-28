@@ -96,7 +96,23 @@ class _DashBoardPage extends State<DashBoardPage> {
         ),
       ),
       body: Column(
-        children: [],
+        children: [
+          Card(
+            child: Column(
+              children: []
+            )
+          ), // This card is for 3 types of information EVENT, BLOC, STATE
+          Card(
+            child: Column(
+              children: []
+            )
+          ),
+          Card(
+            child: Column(
+              children: []
+            )
+          )
+        ],
       ),
     );
   }
