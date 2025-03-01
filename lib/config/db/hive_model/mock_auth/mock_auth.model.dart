@@ -1,5 +1,5 @@
 import 'package:hive/hive.dart';
-part 'mock_auth.g.dart';
+part 'mock_auth.model.g.dart';
 
 @HiveType(typeId: 4)
 class MockAuthModel {

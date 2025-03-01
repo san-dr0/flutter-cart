@@ -54,14 +54,14 @@ class AppDatabase {
       int isSuccess = 1;
       log(addUser.toString());
       
-      AuthModel authModel = AuthModel(email: addUser['email'], firstName: addUser['firstName'], 
-        middleName: addUser['middleName'], lastName: addUser['lastName'], password: addUser['password']
-      );
-      AuthEntity authEntity = AuthEntity(email: authModel.email, authModel: authModel);
+      // AuthModel authModel = AuthModel(email: addUser['email'], firstName: addUser['firstName'], 
+      //   middleName: addUser['middleName'], lastName: addUser['lastName'], password: addUser['password']
+      // );
+      // AuthEntity authEntity = AuthEntity(email: authModel.email, authModel: authModel);
       // insert if no records at first;
       log(box.values.length.toString());
       if (box.values.isEmpty) {
-        box.put(authModel.email, authEntity);
+        // box.put(authModel.email, authEntity);
         return isSuccess;
       }
       
