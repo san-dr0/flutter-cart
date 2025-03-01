@@ -95,20 +95,23 @@ class AppDatabase {
   FutureOr<Request<AuthCredentialsModel>?> validateUserCredentials({String email = "", String password = ""}) async {
     try{
       Box box = await Hive.openBox("account");
-      final result = box.values.where((creds) => creds['email'] == email && creds['password'] == password).toList();
-     
-      if (result.isEmpty) {
-        return Request(code: 401, message: "User not found", data: null);
+      for(AuthEntity b in box.values.toList()) {
+        log(b.authModel.password);
       }
+      // final result = box.values.where((creds) => creds['email'] == email && creds['password'] == password).toList();
+     
+      // if (result.isEmpty) {
+      //   return Request(code: 401, message: "User not found", data: null);
+      // }
       
-      AuthCredentialsModel authCredentialsModel = AuthCredentialsModel(
-        firstName: result[0]['firstName'], 
-        middleName: result[0]['middleName'], 
-        lastName: result[0]['lastName'], 
-        email: email,
-        password: password,
-      );
-      return Request(code: 200, message: "User found", data: authCredentialsModel);
+      // AuthCredentialsModel authCredentialsModel = AuthCredentialsModel(
+      //   firstName: result[0]['firstName'], 
+      //   middleName: result[0]['middleName'], 
+      //   lastName: result[0]['lastName'], 
+      //   email: email,
+      //   password: password,
+      // );
+      // return Request(code: 200, message: "User found", data: authCredentialsModel);
     }
     catch(error) {
       log('Err >> ');
