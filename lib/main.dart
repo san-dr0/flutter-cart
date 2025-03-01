@@ -1,4 +1,6 @@
 import 'package:clean_arch2/config/db/app_db.dart';
+import 'package:clean_arch2/config/db/hive_model/auth_model/auth_model.dart';
+import 'package:clean_arch2/config/db/hive_model/mock_auth/mock_auth.model.dart';
 import 'package:clean_arch2/config/db/hive_model/product_model/product_model.dart';
 import 'package:clean_arch2/config/db/hive_model/transaction_model/transaction_model.dart';
 import 'package:clean_arch2/config/routes/routes.dart';
@@ -24,6 +26,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Hive.registerAdapter(ProductEntityAdapter());
   Hive.registerAdapter(TransactionEntityAdapter());
+  Hive.registerAdapter(MockAuthModelAdapter());
+  Hive.registerAdapter(AuthEntityAdapter());
   
   
   Di.registerLazySingleton(() => AppDatabase());
