@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:clean_arch2/config/db/hive_model/auth_model/auth_model.dart';
 import 'package:clean_arch2/config/db/hive_model/product_model/product_model.dart';
 import 'package:clean_arch2/config/db/hive_model/transaction_model/transaction_model.dart';
 import 'package:clean_arch2/config/db/request/request.dart';
@@ -51,10 +52,16 @@ class AppDatabase {
     try{
       Box box = await Hive.openBox("account");
       int isSuccess = 1;
-
+      log(addUser.toString());
+      
+      AuthModel authModel = AuthModel(email: addUser['email'], firstName: addUser['firstName'], 
+        middleName: addUser['middleName'], lastName: addUser['lastName'], password: addUser['password']
+      );
+      AuthEntity authEntity = AuthEntity(email: authModel.email, authModel: authModel);
       // insert if no records at first;
+      log(box.values.length.toString());
       if (box.values.isEmpty) {
-        box.add(addUser);
+        box.put(authModel.email, authEntity);
         return isSuccess;
       }
       
@@ -74,7 +81,7 @@ class AppDatabase {
       // means no user found; and insert it to DB
       else {
         isSuccess = 1;
-        box.add(addUser);
+        // box.put(authModel.email, authEntity);
       }
 
       return isSuccess;
@@ -146,8 +153,10 @@ class AppDatabase {
   }) async {
     Box accBox = await Hive.openBox("account");
     
-    var creds = accBox.values.toList().where((acc) => acc['email'] == email).single;
+    var creds = accBox.values.toList().where((acc) => acc['email'] == email).indexed.single.$1;
     log('Creds ---- ');
     log(creds.toString());
+    final a = accBox.getAt(creds);
+    
   }
 }

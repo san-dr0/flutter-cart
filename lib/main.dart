@@ -25,6 +25,7 @@ void main() async {
   Hive.registerAdapter(ProductEntityAdapter());
   Hive.registerAdapter(TransactionEntityAdapter());
   
+  
   Di.registerLazySingleton(() => AppDatabase());
   Di.registerLazySingleton(() => CartBloc(appDatabase: Di()));
   Di.registerLazySingleton(() => AuthBloc(appDatabase: Di()));
