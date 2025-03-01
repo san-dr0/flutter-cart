@@ -97,7 +97,8 @@ class AppDatabase {
         firstName: result[0]['firstName'], 
         middleName: result[0]['middleName'], 
         lastName: result[0]['lastName'], 
-        email: email
+        email: email,
+        password: password,
       );
       return Request(code: 200, message: "User found", data: authCredentialsModel);
     }
@@ -137,5 +138,16 @@ class AppDatabase {
     }
 
     return historicalRecords;
+  }
+
+  FutureOr<void> updateCredential({
+    required String firstName, required String middleName, required String lastName,
+    required String email, required String password
+  }) async {
+    Box accBox = await Hive.openBox("account");
+    
+    var creds = accBox.values.toList().where((acc) => acc['email'] == email).single;
+    log('Creds ---- ');
+    log(creds.toString());
   }
 }

@@ -11,6 +11,7 @@ class DashBoardBloc extends Bloc<DashBoardEvent, DomainState> {
 
     on<DashBoardOnNavigateToShopEvent>(dashBoardOnNavigateToShopEvent);
     on<DashBoardOnNavigateToTransactionsEvent>(dashBoardOnNavigateToTransactionsEvent);
+    on<DashBoardOnNavigateToUpdateCredsEvent>(dashBoardOnNavigateToUpdateCredsEvent);
   }
 
   FutureOr<void> dashBoardOnNavigateToShopEvent(DashBoardOnNavigateToShopEvent event, Emitter<DomainState> emit) {
@@ -23,5 +24,11 @@ class DashBoardBloc extends Bloc<DashBoardEvent, DomainState> {
     BuildContext context = event.context;
 
     context.push("/transactions");
+  }
+
+  FutureOr<void> dashBoardOnNavigateToUpdateCredsEvent(DashBoardOnNavigateToUpdateCredsEvent event, Emitter<DomainState> emit) {
+    BuildContext context = event.context;
+
+    context.push("/update-creds");
   }
 }

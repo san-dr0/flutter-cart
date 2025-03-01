@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 const String homeTitle = "Home";
 const String signupTitle = "Signup";
 const String loginTitle = "Login";
@@ -20,3 +22,26 @@ const String authNotLoggedInTitle = "Please log in first";
 const String transactionTitle = "Transcations";
 const String pleaseWaitTitle = "Please wait.";
 const String totalTitle = "Total: ";
+const String updateCredTitle = "Update Credential";
+final List<Map<String, dynamic>> blocInformationList = [
+  {
+    "title": "Event",
+    "description": "Triggered by the user interface, events are the input for a BLoC. They can be things like user interactions or lifecycle events.",
+    "color": Colors.redAccent[400]
+  },
+  {
+    "title": "Bloc",
+    "description": "The business logic component that receives events and produces states. It's where the business logic of your application resides",
+    "color": Colors.amber
+  },
+  {
+    "title": "State",
+    "description": "The output of a BLoC. The state represents a part of your app's state at a particular moment.",
+    "color": Colors.lightBlue
+  },
+  {
+    "title": "Conclusion",
+    "description": "Through reading some blog, and documentation in bloc i found it confusing and challenging at the same time, but with patience and focus i understand on how to impelement and use it, Thanks.",
+    "color": Colors.blue
+  }
+];

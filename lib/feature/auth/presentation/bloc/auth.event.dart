@@ -62,3 +62,19 @@ class AuthProceedBuyCartItemConfirmationDialog extends AuthEvent {
 
   AuthProceedBuyCartItemConfirmationDialog({required this.context, required this.cartProductList});
 }
+
+class AuthOnUpdateCredentialEvent extends AuthEvent {
+  String firstName;
+  String middleName;
+  String lastName;
+  String email;
+  String password;
+
+  AuthOnUpdateCredentialEvent({
+    required this.firstName,
+    required this.middleName,
+    required this.lastName,
+    required this.email,
+    required this.password
+  });
+}

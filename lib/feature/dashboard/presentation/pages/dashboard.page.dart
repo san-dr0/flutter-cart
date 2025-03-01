@@ -1,5 +1,6 @@
 import 'package:clean_arch2/core/color.dart';
 import 'package:clean_arch2/core/string.dart';
+import 'package:clean_arch2/core/text.style.dart';
 import 'package:clean_arch2/feature/auth/presentation/bloc/auth.bloc.dart';
 import 'package:clean_arch2/feature/auth/presentation/bloc/auth.state.dart';
 import 'package:clean_arch2/feature/cart/presentation/bloc/cart.bloc.dart';
@@ -36,6 +37,10 @@ class _DashBoardPage extends State<DashBoardPage> {
     dashBoardBloc.add(DashBoardOnNavigateToTransactionsEvent(context: context));
   }
 
+  void onNavigateToUpdateCreds() {
+    dashBoardBloc.add(DashBoardOnNavigateToUpdateCredsEvent(context: context));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,19 +65,20 @@ class _DashBoardPage extends State<DashBoardPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   BlocBuilder(
-                    bloc: authBloc,
-                    builder: (context, state) {
-                    if (state is AuthOnValidCredentialsState) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Name: ${state.authCredentialsModel!.lastName}, ${state.authCredentialsModel!.firstName}"),
-                          Text("Email: ${state.authCredentialsModel!.email}"),
-                        ],
-                      );
-                    }
-                    return Text("No user");
-                  },)
+                      bloc: context.read<AuthBloc>(),
+                      builder: (context, state) {
+                        if (state is AuthOnValidCredentialsState) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Name: ${state.authCredentialsModel!.lastName}, ${state.authCredentialsModel!.firstName}"),
+                              Text("Email: ${state.authCredentialsModel!.email}"),
+                            ],
+                          );
+                        }
+                      return Text("No user");
+                    },
+                  )
                 ],
               ),
             ),
@@ -88,32 +94,54 @@ class _DashBoardPage extends State<DashBoardPage> {
               },
               title: Text("Transactions"),
             ),
-            ListTile(
-              onTap: () {},
-              title: Text("Settings"),
-            ),
+            ExpansionTile(title: Text("Settings"), children: [
+              ListTile(
+                onTap: () {
+                  onNavigateToUpdateCreds();
+                },
+                title: Text("Update"),
+              ),
+              ListTile(
+                onTap: () {},
+                title: Text("Logout"),
+              ),
+            ],)
           ],
         ),
       ),
-      body: Column(
-        children: [
-          Card(
-            child: Column(
-              children: []
-            )
-          ), // This card is for 3 types of information EVENT, BLOC, STATE
-          Card(
-            child: Column(
-              children: []
-            )
-          ),
-          Card(
-            child: Column(
-              children: []
-            )
-          )
-        ],
-      ),
+      body: ListView.separated(
+        itemBuilder: (context, index) {
+          return Card(
+            child: Container(
+              decoration: BoxDecoration(
+                color: blocInformationList[index]['color']
+              ),
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    blocInformationList[index]['title'],
+                    style: textStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black
+                    ),
+                  ),
+                  const SizedBox(height: 5.0,),
+                  RichText(text: TextSpan(
+                    text: blocInformationList[index]['description']
+                  ))
+                ],
+              ),
+            ),
+          );
+        }, 
+        separatorBuilder: (context, index) {
+          return SizedBox(height: 0.0);
+        }, 
+        itemCount: blocInformationList.length
+      )
     );
   }
 }

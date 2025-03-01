@@ -26,6 +26,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthOnCheckoutEvent>(authOnCheckoutEvent);
     on<AuthCancelCartConfirmationDialog>(authCancelCartConfirmationDialog);
     on<AuthProceedBuyCartItemConfirmationDialog>(authProceedBuyCartItemConfirmationDialog);
+    on<AuthOnUpdateCredentialEvent>(authOnUpdateCredentialEvent);
   }
 
   FutureOr<void> authOnLoginEvent(AuthOnLoginEvent event, Emitter<AuthState> emit) async {
@@ -210,5 +211,28 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(AuthOnResetCartProductListState());
     emit(AuthOnValidCredentialsState(authCredentialsModel: authModel));
     Navigator.pop(context);
+  }
+
+  FutureOr<void> authOnUpdateCredentialEvent(AuthOnUpdateCredentialEvent event, Emitter<AuthState> emit) {
+    String firstName = event.firstName;
+    String middleName = event.middleName;
+    String lastName = event.lastName;
+    String email = event.email;
+    String password = event.password;
+
+    AuthCredentialsModel authCredentialsModel = AuthCredentialsModel
+      (
+        firstName: firstName, middleName: middleName, lastName: lastName, email: email, password: password
+      );
+
+    appDatabase.updateCredential(
+      firstName: firstName, 
+      middleName: middleName, 
+      lastName: lastName,
+      email: email, password: password
+    );
+
+    emit(AuthOnLoadingState());
+    emit(AuthOnValidCredentialsState(authCredentialsModel: authCredentialsModel));
   }
 }

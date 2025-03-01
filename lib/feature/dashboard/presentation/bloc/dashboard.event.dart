@@ -15,3 +15,9 @@ class DashBoardOnNavigateToTransactionsEvent extends DashBoardEvent {
 }
 
 class DashBoardOnNavigateToSettingsEvent extends DashBoardEvent {}
+
+class DashBoardOnNavigateToUpdateCredsEvent extends DashBoardEvent {
+  BuildContext context;
+
+  DashBoardOnNavigateToUpdateCredsEvent({required this.context});
+}
