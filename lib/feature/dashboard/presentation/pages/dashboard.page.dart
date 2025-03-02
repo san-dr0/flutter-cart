@@ -112,9 +112,11 @@ class _DashBoardPage extends State<DashBoardPage> {
       body: ListView.separated(
         itemBuilder: (context, index) {
           return Card(
+            elevation: 3.0,
             child: Container(
               decoration: BoxDecoration(
-                color: blocInformationList[index]['color']
+                color: blocInformationList[index]['color'],
+                borderRadius: BorderRadius.circular(10.0),
               ),
               padding: const EdgeInsets.all(8.0),
               child: Column(

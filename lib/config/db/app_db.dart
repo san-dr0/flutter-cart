@@ -98,20 +98,23 @@ class AppDatabase {
       for(AuthEntity b in box.values.toList()) {
         log(b.authModel.password);
       }
-      // final result = box.values.where((creds) => creds['email'] == email && creds['password'] == password).toList();
-     
-      // if (result.isEmpty) {
-      //   return Request(code: 401, message: "User not found", data: null);
-      // }
-      
-      // AuthCredentialsModel authCredentialsModel = AuthCredentialsModel(
-      //   firstName: result[0]['firstName'], 
-      //   middleName: result[0]['middleName'], 
-      //   lastName: result[0]['lastName'], 
-      //   email: email,
-      //   password: password,
-      // );
-      // return Request(code: 200, message: "User found", data: authCredentialsModel);
+      final result = box.values.toList().where((creds) => creds.authModel.email == email && creds.authModel.password == password);
+
+      if (result.isEmpty) {
+        return Request(code: 401, message: "User not found", data: null);
+      }
+
+      AuthEntity authCreds = result.single as AuthEntity;
+
+      AuthCredentialsModel authCredentialsModel = AuthCredentialsModel(
+        firstName: authCreds.authModel.firstName,
+        middleName: authCreds.authModel.middleName, 
+        lastName: authCreds.authModel.lastName, 
+        email: email,
+        password: password,
+      );
+
+      return Request(code: 200, message: "User found", data: authCredentialsModel);
     }
     catch(error) {
       log('Err >> ');
@@ -157,10 +160,14 @@ class AppDatabase {
   }) async {
     Box accBox = await Hive.openBox("account");
     
-    var creds = accBox.values.toList().where((acc) => acc['email'] == email).indexed.single.$1;
-    log('Creds ---- ');
-    log(creds.toString());
-    final a = accBox.getAt(creds);
-    
+    AuthEntity credsInfo = accBox.get(email) as AuthEntity; // this return a AuthEntity;
+    log(credsInfo.authModel.firstName.toString());
+
+    MockAuthModel authModel = MockAuthModel(
+      email: credsInfo.email, firstName: firstName, middleName: middleName, lastName: lastName, password: password
+    );
+
+    AuthEntity authEntity = AuthEntity(email: credsInfo.email, authModel: authModel);
+    accBox.put(email, authEntity);
   }
 }
