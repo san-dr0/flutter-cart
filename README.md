@@ -12,7 +12,7 @@ An ecommerce flutter project
 
 # My Questions in my head during developing this application
 
-1) what i have is i got 2 different BLOC in flutter and they also have a different state
+1) what i have is i got 2 different BLOC in flutter and they also have a different state \n
   Solution: Create an event where you want to access your state; basically like if you want to access your authState then create an event inside your AuthBloc in this you can get your "authState".
 
 3) what if i have a BLOC 1 and i call the state of other BLOC 2 how to get the value ?
