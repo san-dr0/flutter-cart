@@ -52,7 +52,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   FutureOr<void> authOnLogoutEvent(AuthOnLogoutEvent event, Emitter<AuthState> emit) {
+    BuildContext context = event.context;
 
+    emit(AuthOnValidCredentialsState(authCredentialsModel: null));
+    context.push("/");
   }
 
   FutureOr<void> authOnNavigateToSignup(AuthOnNavigateToSignupEvent event, Emitter<AuthState> emit) {

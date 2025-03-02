@@ -11,7 +11,12 @@ class AuthOnLoginEvent extends AuthEvent {
   AuthOnLoginEvent({required this.email, required this.password, required this.context});
 }
 
-class AuthOnLogoutEvent extends AuthEvent {}
+class AuthOnLogoutEvent extends AuthEvent {
+  BuildContext context;
+
+  AuthOnLogoutEvent({required this.context});
+}
+
 class AuthOnNavigateToSignupEvent extends AuthEvent {
   BuildContext context;
 

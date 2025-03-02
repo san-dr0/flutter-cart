@@ -46,3 +46,4 @@ final List<Map<String, dynamic>> blocInformationList = [
   }
 ];
 const String updateCredentialsSuccessfullTitle = "Updating account was successfull.";
+const String myLearningThroughThisJourneyTitle = "What i have learned during studying flutter";
