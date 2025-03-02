@@ -6,12 +6,12 @@ An ecommerce flutter project
 <br/>
 <b>Bloc</b> 
 <br/>
-<b>#Clean Architecture </b>
+<b>Clean Architecture </b>
 <br/>
-<b>#Feature First </b>
+<b>Feature First </b>
 <br/>
 
-#Command to generate Adapter for hive
+#Command to generate Adapter for hive<br/>
 #flutter pub run build_runner build
 
 # My Questions in my head during developing this application
