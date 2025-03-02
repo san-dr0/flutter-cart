@@ -11,7 +11,7 @@ An ecommerce flutter project
 <b>Feature First </b>
 <br/>
 
-#Command to generate Adapter for hive<br/>
+** Command to generate Adapter for hive<br/>
 #flutter pub run build_runner build
 
 # My Questions in my head during developing this application
