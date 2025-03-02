@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:clean_arch2/core/color.dart';
 import 'package:clean_arch2/core/string.dart';
 import 'package:clean_arch2/core/text.style.dart';
@@ -8,6 +10,7 @@ import 'package:clean_arch2/feature/transactions/presentation/bloc/transaction.e
 import 'package:clean_arch2/feature/transactions/presentation/bloc/transaction.state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 class TransactionPage extends StatefulWidget {
   const TransactionPage({super.key});
@@ -59,11 +62,11 @@ class _TransactionPage extends State<TransactionPage> {
           else if (state is TransactionOnLoadedRecordsState) {
             return ListView.separated(
               itemBuilder: (context, index) {
-                double eachTotal = state.transactionRecords[index].cartProduct.fold(0.0, (p, a) => p+(a.price * a.quantity));
+                String eachTotal = state.transactionRecords[index].cartProduct.fold(0.0, (p, a) => p+(a.price * a.quantity)).toStringAsFixed(2);
                 
                 return Column(
                   children: [
-                    Text(state.transactionRecords[index].dateTime.toString()),
+                    Text(DateFormat('MMMM dd, yyyy').format(state.transactionRecords[index].dateTime)),
                     Container(
                       padding: const EdgeInsets.all(10.0),
                       height: 250.0,
@@ -71,26 +74,43 @@ class _TransactionPage extends State<TransactionPage> {
                         physics: AlwaysScrollableScrollPhysics(),
                         shrinkWrap: false,
                         itemBuilder: (context, cartItemIndex) {
+                          String itemAmountToPay = (
+                            state.transactionRecords[index].cartProduct[cartItemIndex].quantity * state.transactionRecords[index].cartProduct[cartItemIndex].price
+                          ).toStringAsFixed(2);
+
                           return Card(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Name: ${state.transactionRecords[index].cartProduct[cartItemIndex].name}",
+                                        style: textStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 17.0
+                                        ),
+                                      ),
+                                      Text(
+                                        "Price: ${state.transactionRecords[index].cartProduct[cartItemIndex].price}"
+                                      ),
+                                      Text(
+                                        "Qty: ${state.transactionRecords[index].cartProduct[cartItemIndex].quantity}"
+                                      ),
+                                    ],
+                                  ),
                                   Text(
-                                    "Name: ${state.transactionRecords[index].cartProduct[cartItemIndex].name}",
+                                    "Price: $itemAmountToPay",
                                     style: textStyle(
+                                      fontSize: 16.0,
                                       color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 17.0
+                                      fontWeight: FontWeight.bold
                                     ),
-                                  ),
-                                  Text(
-                                    "Price: ${state.transactionRecords[index].cartProduct[cartItemIndex].price}"
-                                  ),
-                                  Text(
-                                    "Qty: ${state.transactionRecords[index].cartProduct[cartItemIndex].quantity}"
-                                  ),
+                                  )
                                 ],
                               ),
                             ),
