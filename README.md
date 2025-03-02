@@ -3,13 +3,13 @@
 An ecommerce flutter project
 
 <b>Hive database </b>
-<br/ >
+<br/>
 <b>Bloc</b> 
-<br/ >
+<br/>
 <b>#Clean Architecture </b>
-<br/ >
+<br/>
 <b>#Feature First </b>
-<br/ >
+<br/>
 
 #Command to generate Adapter for hive
 #flutter pub run build_runner build
