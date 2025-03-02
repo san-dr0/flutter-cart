@@ -113,7 +113,11 @@ class _DashBoardPage extends State<DashBoardPage> {
                   title: Text("Update"),
                 ),
                 ListTile(
-                  onTap: () {},
+                  onTap: () {
+                    setState(() {
+                      isBiometricEnabled = !isBiometricEnabled;
+                    });
+                  },
                   title: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -121,9 +125,7 @@ class _DashBoardPage extends State<DashBoardPage> {
                       Switch(
                         value: isBiometricEnabled, 
                         onChanged: (bool? value) {
-                          setState(() {
-                            isBiometricEnabled = !isBiometricEnabled;
-                          });
+                          
                         })
                     ],
                   )
