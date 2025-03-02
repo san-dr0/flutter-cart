@@ -45,3 +45,4 @@ final List<Map<String, dynamic>> blocInformationList = [
     "color": Colors.blue
   }
 ];
+const String updateCredentialsSuccessfullTitle = "Updating account was successfull.";

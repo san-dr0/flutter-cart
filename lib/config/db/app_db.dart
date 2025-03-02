@@ -160,7 +160,7 @@ class AppDatabase {
   }) async {
     Box accBox = await Hive.openBox("account");
     
-    AuthEntity credsInfo = accBox.get(email) as AuthEntity; // this return a AuthEntity;
+    AuthEntity credsInfo = accBox.get(email) as AuthEntity; // this return a AuthEntity class;
     log(credsInfo.authModel.firstName.toString());
 
     MockAuthModel authModel = MockAuthModel(

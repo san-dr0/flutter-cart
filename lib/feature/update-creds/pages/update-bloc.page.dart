@@ -64,66 +64,80 @@ class _UpdateCredentialPage extends State<UpdateCredentialPage> {
         backgroundColor: tealColor,
         title: Text(updateCredTitle),
       ),
-      body: Form(
-        child: Container(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-            children: [
-              TextFormField(
-                controller: txtFirstname,
-                decoration: InputDecoration(
-                  label: Text("Firstname")
-                ),
-              ),
-              TextFormField(
-                controller: txtMiddlename,
-                decoration: InputDecoration(
-                  label: Text("Middlename")
-                ),
-              ),
-              TextFormField(
-                controller: txtLastname,
-                decoration: InputDecoration(
-                  label: Text("Lastname")
-                ),
-              ),
-              TextFormField(
-                controller: txtEmail,
-                decoration: InputDecoration(
-                  label: Text("Email")
-                ),
-              ),
-              TextFormField(
-                controller: txtPassword,
-                decoration: InputDecoration(
-                  label: Text("Pass****")
-                ),
-                obscureText: true,
-              ),
-              const SizedBox(height: 10.0,),
-              InkWell(
-                onTap: () {
-                  onSaveAndUpdateRecords();
-                },
-                borderRadius: BorderRadius.circular(10.0),
-                splashColor: Colors.teal,
-                child: Ink(
-                  decoration: BoxDecoration(
-                    color: Colors.teal[300],
-                    borderRadius: BorderRadius.all(Radius.circular(10.0))
-                  ),
-                  child: Container(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Text(
-                      "Update and save records",
-                      style: textStyle(),
+      body: Column(
+        children: [
+          Form(
+            child: Container(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                children: [
+                  TextFormField(
+                    controller: txtFirstname,
+                    decoration: InputDecoration(
+                      label: Text("Firstname")
                     ),
                   ),
-                ),
-              )
-            ],
+                  TextFormField(
+                    controller: txtMiddlename,
+                    decoration: InputDecoration(
+                      label: Text("Middlename")
+                    ),
+                  ),
+                  TextFormField(
+                    controller: txtLastname,
+                    decoration: InputDecoration(
+                      label: Text("Lastname")
+                    ),
+                  ),
+                  TextFormField(
+                    controller: txtEmail,
+                    decoration: InputDecoration(
+                      label: Text("Email")
+                    ),
+                  ),
+                  TextFormField(
+                    controller: txtPassword,
+                    decoration: InputDecoration(
+                      label: Text("Pass****")
+                    ),
+                    obscureText: true,
+                  ),
+                  const SizedBox(height: 10.0,),
+                  InkWell(
+                    onTap: () {
+                      onSaveAndUpdateRecords();
+                    },
+                    borderRadius: BorderRadius.circular(10.0),
+                    splashColor: Colors.teal,
+                    child: Ink(
+                      decoration: BoxDecoration(
+                        color: Colors.teal[300],
+                        borderRadius: BorderRadius.all(Radius.circular(10.0))
+                      ),
+                      child: Container(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Text(
+                          "Update and save records",
+                          style: textStyle(),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
           ),
-        ),
+          BlocListener(
+            bloc: authBloc,
+            listener: (context, state) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(updateCredentialsSuccessfullTitle))
+              );
+            },
+            listenWhen: (previous, current) => current is AuthOnValidCredentialsState,
+            child: const SizedBox(),
+          )
+        ],
       ),
     );
   }
