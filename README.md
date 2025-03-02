@@ -1,15 +1,14 @@
 # Flutter eCommerce
-<br/>
 
 An ecommerce flutter project
 
-#Hive database 
+<b>Hive database </b>
 <br/ >
-#Bloc 
+<b>Bloc</b> 
 <br/ >
-#Clean Architecture 
+<b>#Clean Architecture </b>
 <br/ >
-#Feature First 
+<b>#Feature First </b>
 <br/ >
 
 #Command to generate Adapter for hive
