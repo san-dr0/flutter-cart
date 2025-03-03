@@ -29,6 +29,7 @@ class AuthOnSignupUserEvent extends AuthEvent {
   String lastName;
   String email;
   String password;
+  String userType;
 
   BuildContext context;
 
@@ -38,7 +39,8 @@ class AuthOnSignupUserEvent extends AuthEvent {
     required this.lastName, 
     required this.email,
     required this.password,
-    required this.context
+    required this.userType,
+    required this.context,
   });
 }
 

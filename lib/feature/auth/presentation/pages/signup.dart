@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:clean_arch2/core/color.dart';
 import 'package:clean_arch2/core/string.dart';
 import 'package:clean_arch2/core/text.style.dart';
@@ -25,10 +23,10 @@ class _SignupPage extends State<SignupPage> {
   TextEditingController txtPassword = TextEditingController();
   late AuthBloc authBloc;
   final formKey = GlobalKey<FormState>();
+  String userType = '';
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     authBloc = context.read<AuthBloc>();
   }
@@ -50,6 +48,7 @@ class _SignupPage extends State<SignupPage> {
       email: email,
       password: password,
       context: context,
+      userType: userType,
     ));
   }
   
@@ -64,144 +63,172 @@ class _SignupPage extends State<SignupPage> {
         title: Text(signupTitle),
         backgroundColor: tealColor,
       ),
-      body: Form(
-        key: formKey,
-        child: Container(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-            children: [
-              TextFormField(
-                controller: txtFirstname,
-                decoration: _textDecoration(
-                  label: "Firstname"
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return "Firstname is required";
-                  }
-
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: txtMiddlename,
-                decoration: _textDecoration(
-                  label: "Middlename"
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return "Middlename is required";
-                  }
-
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: txtLastname,
-                decoration: _textDecoration(
-                  label: "Lastname"
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return "Lastname is required";
-                  }
-
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: txtEmail,
-                decoration: _textDecoration(
-                  label: "Email"
-                ),
-                keyboardType: TextInputType.emailAddress,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return "Email is required";
-                  }
-
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: txtPassword,
-                decoration: _textDecoration(
-                  label: "Pass***"
-                ),
-                obscureText: true,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return "Password is required";
-                  }
-
-                  return null;
-                },
-              ),
-              const SizedBox(height: 12.0,),
-              SizedBox(
-                width: 100.0,
-                child: InkWell(
-                  onTap: () {
-                    onLoginUser();
+      body: SingleChildScrollView(
+        child: Form(
+          key: formKey,
+          child: Container(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextFormField(
+                  controller: txtFirstname,
+                  decoration: _textDecoration(
+                    label: "Firstname"
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Firstname is required";
+                    }
+        
+                    return null;
                   },
-                  splashColor: Colors.teal[800],
-                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                  child: Ink(
-                    decoration: BoxDecoration(
-                      color: Colors.teal,
-                      borderRadius: BorderRadius.circular(10.0)
-                    ),
-                    child: Container(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Text(
-                        loginTitle,
-                        textAlign: TextAlign.center,
-                        style: textStyle(
-                          color: Colors.white,
-                          fontSize: 18.0
+                ),
+                TextFormField(
+                  controller: txtMiddlename,
+                  decoration: _textDecoration(
+                    label: "Middlename"
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Middlename is required";
+                    }
+        
+                    return null;
+                  },
+                ),
+                TextFormField(
+                  controller: txtLastname,
+                  decoration: _textDecoration(
+                    label: "Lastname"
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Lastname is required";
+                    }
+        
+                    return null;
+                  },
+                ),
+                TextFormField(
+                  controller: txtEmail,
+                  decoration: _textDecoration(
+                    label: "Email"
+                  ),
+                  keyboardType: TextInputType.emailAddress,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Email is required";
+                    }
+        
+                    return null;
+                  },
+                ),
+                TextFormField(
+                  controller: txtPassword,
+                  decoration: _textDecoration(
+                    label: "Pass***"
+                  ),
+                  obscureText: true,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Password is required";
+                    }
+        
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 12.0,),
+                Text(
+                  signupAsTitle,
+                  style: textStyle(
+                    fontSize: 18.0,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold
+                  ),
+                ),
+                const SizedBox(height: 5.0,),
+                DropdownMenu<String>(
+                  dropdownMenuEntries: [
+                    DropdownMenuEntry(value: 'Admin', label: "Admin"),
+                    DropdownMenuEntry(value: 'User', label: "User"),
+                  ],
+                  onSelected: (String? value) {
+                    setState(() {
+                      userType = value!;
+                    });
+                  },
+                ),
+                const SizedBox(height: 10.0,),
+                Center(
+                  child: SizedBox(
+                    width: 100.0,
+                    child: InkWell(
+                      onTap: () {
+                        onLoginUser();
+                      },
+                      splashColor: Colors.teal[800],
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      child: Ink(
+                        decoration: BoxDecoration(
+                          color: Colors.teal,
+                          borderRadius: BorderRadius.circular(10.0)
+                        ),
+                        child: Container(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Text(
+                            loginTitle,
+                            textAlign: TextAlign.center,
+                            style: textStyle(
+                              color: Colors.white,
+                              fontSize: 18.0
+                            ),
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              BlocListener(
-                bloc: context.read<AuthBloc>(),
-                listener: (context, state) {
-                  if (state is AuthOnIssueInSigningUpState) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(state.message),
-                      )
-                    );
-                  }
-                },
-                child: const SizedBox(
-                  height: 5.0,
-                ),
-              ),
-              
-              InkWell(
-                onTap: () {
-                  onAlreadyHaveAnAccount();
-                },
-                borderRadius: BorderRadius.circular(10.0),
-                splashColor: Colors.blueGrey,
-                child: Ink(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(10.0))
+                BlocListener(
+                  bloc: context.read<AuthBloc>(),
+                  listener: (context, state) {
+                    if (state is AuthOnIssueInSigningUpState) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(state.message),
+                        )
+                      );
+                    }
+                  },
+                  child: const SizedBox(
+                    height: 5.0,
                   ),
-                  child: Text(
-                    alreadyHaveAnAccount,
-                    style: textStyle(
-                      color: Colors.black,
-                      fontSize: 15.0
+                ),
+                
+                Center(
+                  child: InkWell(
+                    onTap: () {
+                      onAlreadyHaveAnAccount();
+                    },
+                    borderRadius: BorderRadius.circular(10.0),
+                    splashColor: Colors.blueGrey,
+                    child: Ink(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(10.0))
+                      ),
+                      child: Text(
+                        alreadyHaveAnAccount,
+                        style: textStyle(
+                          color: Colors.black,
+                          fontSize: 15.0
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              )
-
-            ],
+                )
+        
+              ],
+            ),
           ),
         ),
       ),

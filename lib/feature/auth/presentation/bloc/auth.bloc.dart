@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:clean_arch2/config/db/app_db.dart';
 import 'package:clean_arch2/config/db/hive_model/product_model/product_model.dart';
 import 'package:clean_arch2/config/db/request/request.dart';
+import 'package:clean_arch2/core/string.dart';
 import 'package:clean_arch2/core/text.style.dart';
 import 'package:clean_arch2/feature/auth/domain/auth.domain.dart';
 import 'package:clean_arch2/feature/auth/presentation/bloc/auth.state.dart';
@@ -77,16 +78,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       "lastName": lastName,
       "email": email,
       "password": password,
+      "userType": event.userType
     };
 
     int response = await appDatabase.addUser(userInfo);
     if (response == 1) {
-      emit(AuthOnIssueInSigningUpState(message: "User was created successfully"));
+      emit(AuthOnIssueInSigningUpState(message: userCreatedSuccessfullyTitle));
       context.push("/login");
     } // SUCCESS
     else if (response == 0) {
-      emit(AuthOnIssueInSigningUpState(message: "User already exists"));
-    } // FAIL
+      emit(AuthOnIssueInSigningUpState(message: userAlreadyExistsTitle));
+    } // FAIL; user already exists
+    else {
+      emit(AuthOnIssueInSigningUpState(message: somethingWentWrongTitle));
+    } // FAIL Something went wrong
   }
 
   FutureOr<void> authOnAlreadyHaveAnAccountEvent(AuthOnAlreadyHaveAnAccountEvent event, Emitter<AuthState> emit) {

@@ -18,7 +18,7 @@ class AuthEntityAdapter extends TypeAdapter<AuthEntity> {
     };
     return AuthEntity(
       email: fields[0] as String,
-      authModel: fields[1] as MockAuthModel,
+      userInfo: fields[1] as UserInfoModel,
     );
   }
 
@@ -29,7 +29,7 @@ class AuthEntityAdapter extends TypeAdapter<AuthEntity> {
       ..writeByte(0)
       ..write(obj.email)
       ..writeByte(1)
-      ..write(obj.authModel);
+      ..write(obj.userInfo);
   }
 
   @override

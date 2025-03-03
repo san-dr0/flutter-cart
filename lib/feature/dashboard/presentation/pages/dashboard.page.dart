@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:clean_arch2/core/color.dart';
 import 'package:clean_arch2/core/string.dart';
 import 'package:clean_arch2/core/text.style.dart';
@@ -113,7 +111,11 @@ class _DashBoardPage extends State<DashBoardPage> {
                   title: Text("Update"),
                 ),
                 ListTile(
-                  onTap: () {},
+                  onTap: () {
+                    setState(() {
+                      isBiometricEnabled = !isBiometricEnabled;
+                    });
+                  },
                   title: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -121,9 +123,7 @@ class _DashBoardPage extends State<DashBoardPage> {
                       Switch(
                         value: isBiometricEnabled, 
                         onChanged: (bool? value) {
-                          setState(() {
-                            isBiometricEnabled = !isBiometricEnabled;
-                          });
+                          
                         })
                     ],
                   )

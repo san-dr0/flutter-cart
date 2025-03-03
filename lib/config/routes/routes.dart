@@ -1,4 +1,6 @@
 import 'package:clean_arch2/config/db/hive_model/product_model/product_model.dart';
+import 'package:clean_arch2/feature/admin/feature/home/pages/admin.home.dart';
+import 'package:clean_arch2/feature/admin/feature/users/pages/admin.user.list.page.dart';
 import 'package:clean_arch2/feature/auth/presentation/pages/login.dart';
 import 'package:clean_arch2/feature/auth/presentation/pages/signup.dart';
 import 'package:clean_arch2/feature/cart/presentation/pages/cart.page.dart';
@@ -22,4 +24,13 @@ GoRouter appRoutes = GoRouter(routes: [
   GoRoute(path: '/dashboard', builder: (context, state) => DashBoardPage(),),
   GoRoute(path: '/transactions', builder: (context, state) => TransactionPage(),),
   GoRoute(path: '/update-creds', builder: (context, state) => UpdateCredentialPage(),),
+  GoRoute(
+    path: '/admin', builder: (context, state) => AdminHomePage(),
+    routes: adminRoutes
+  ),
 ]);
+
+// ADD pages here, it it belongs to admin
+List<GoRoute> adminRoutes = [
+  GoRoute(path: '/user-list', builder: (context, state) => AdminUserListPage(),)
+];

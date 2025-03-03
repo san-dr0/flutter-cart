@@ -2,7 +2,7 @@ import 'package:hive/hive.dart';
 part 'mock_auth.model.g.dart';
 
 @HiveType(typeId: 4)
-class MockAuthModel {
+class UserInfoModel {
   @HiveField(0)
   String email;
   @HiveField(1)
@@ -13,9 +13,11 @@ class MockAuthModel {
   String lastName;
   @HiveField(4)
   String password;
+  @HiveField(5)
+  String userType;
 
-  MockAuthModel({
+  UserInfoModel({
     required this.email, required this.firstName, required this.middleName, required this.lastName,
-    required this.password
+    required this.password, required this.userType
   });
 }

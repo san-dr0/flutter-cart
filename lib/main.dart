@@ -26,7 +26,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Hive.registerAdapter(ProductEntityAdapter());
   Hive.registerAdapter(TransactionEntityAdapter());
-  Hive.registerAdapter(MockAuthModelAdapter());
+  Hive.registerAdapter(UserInfoModelAdapter());
   Hive.registerAdapter(AuthEntityAdapter());
   
   
