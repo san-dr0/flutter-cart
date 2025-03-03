@@ -55,14 +55,15 @@ class AppDatabase {
       int isSuccess = 1;
       log(addUser.toString());
       
-      MockAuthModel authModel = MockAuthModel(email: addUser['email'], firstName: addUser['firstName'], 
-        middleName: addUser['middleName'], lastName: addUser['lastName'], password: addUser['password']
+      UserInfoModel userInfo = UserInfoModel(email: addUser['email'], firstName: addUser['firstName'], 
+        middleName: addUser['middleName'], lastName: addUser['lastName'], password: addUser['password'],
+        userType: addUser['userType']
       );
-      AuthEntity authEntity = AuthEntity(email: authModel.email, authModel: authModel);
+      AuthEntity authEntity = AuthEntity(email: userInfo.email, userInfo: userInfo);
       // insert if no records at first;
-      log(box.values.length.toString());
+      
       if (box.values.isEmpty) {
-        box.put(authModel.email, authEntity);
+        box.put(userInfo.email, authEntity);
         return isSuccess;
       }
       
@@ -82,13 +83,13 @@ class AppDatabase {
       // means no user found; and insert it to DB
       else {
         isSuccess = 1;
-        box.put(authModel.email, authEntity);
+        box.put(userInfo.email, authEntity);
       }
 
       return isSuccess;
     }
     catch(error) {
-      return 0;
+      return -1;
     }
   }
 
@@ -96,9 +97,9 @@ class AppDatabase {
     try{
       Box box = await Hive.openBox("account");
       for(AuthEntity b in box.values.toList()) {
-        log(b.authModel.password);
+        log(b.userInfo.password);
       }
-      final result = box.values.toList().where((creds) => creds.authModel.email == email && creds.authModel.password == password);
+      final result = box.values.toList().where((creds) => creds.userInfo.email == email && creds.userInfo.password == password);
 
       if (result.isEmpty) {
         return Request(code: 401, message: "User not found", data: null);
@@ -107,9 +108,9 @@ class AppDatabase {
       AuthEntity authCreds = result.single as AuthEntity;
 
       AuthCredentialsModel authCredentialsModel = AuthCredentialsModel(
-        firstName: authCreds.authModel.firstName,
-        middleName: authCreds.authModel.middleName, 
-        lastName: authCreds.authModel.lastName, 
+        firstName: authCreds.userInfo.firstName,
+        middleName: authCreds.userInfo.middleName, 
+        lastName: authCreds.userInfo.lastName, 
         email: email,
         password: password,
       );
@@ -161,13 +162,14 @@ class AppDatabase {
     Box accBox = await Hive.openBox("account");
     
     AuthEntity credsInfo = accBox.get(email) as AuthEntity; // this return a AuthEntity class;
-    log(credsInfo.authModel.firstName.toString());
+    log(credsInfo.userInfo.firstName.toString());
 
-    MockAuthModel authModel = MockAuthModel(
-      email: credsInfo.email, firstName: firstName, middleName: middleName, lastName: lastName, password: password
+    UserInfoModel userInfoModel = UserInfoModel(
+      email: credsInfo.email, firstName: firstName, middleName: middleName, lastName: lastName, password: password,
+      userType: credsInfo.userInfo.userType
     );
 
-    AuthEntity authEntity = AuthEntity(email: credsInfo.email, authModel: authModel);
+    AuthEntity authEntity = AuthEntity(email: credsInfo.email, userInfo: userInfoModel);
     accBox.put(email, authEntity);
   }
 }

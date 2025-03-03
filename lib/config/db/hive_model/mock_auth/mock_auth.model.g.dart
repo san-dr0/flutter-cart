@@ -6,29 +6,30 @@ part of 'mock_auth.model.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class MockAuthModelAdapter extends TypeAdapter<MockAuthModel> {
+class UserInfoModelAdapter extends TypeAdapter<UserInfoModel> {
   @override
   final int typeId = 4;
 
   @override
-  MockAuthModel read(BinaryReader reader) {
+  UserInfoModel read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return MockAuthModel(
+    return UserInfoModel(
       email: fields[0] as String,
       firstName: fields[1] as String,
       middleName: fields[2] as String,
       lastName: fields[3] as String,
       password: fields[4] as String,
+      userType: fields[5] as String,
     );
   }
 
   @override
-  void write(BinaryWriter writer, MockAuthModel obj) {
+  void write(BinaryWriter writer, UserInfoModel obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.email)
       ..writeByte(1)
@@ -38,7 +39,9 @@ class MockAuthModelAdapter extends TypeAdapter<MockAuthModel> {
       ..writeByte(3)
       ..write(obj.lastName)
       ..writeByte(4)
-      ..write(obj.password);
+      ..write(obj.password)
+      ..writeByte(5)
+      ..write(obj.userType);
   }
 
   @override
@@ -47,7 +50,7 @@ class MockAuthModelAdapter extends TypeAdapter<MockAuthModel> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is MockAuthModelAdapter &&
+      other is UserInfoModelAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
