@@ -51,6 +51,8 @@ class AppDatabase {
 
   FutureOr<int> addUser(Map<String, dynamic> addUser) async {
     try{
+      log('QWEWQEWQE ');
+      log(addUser.toString());
       Box box = await Hive.openBox("account");
       int isSuccess = 1;
       
@@ -67,8 +69,8 @@ class AppDatabase {
       }
       
       bool isFound = false;
-      for(final b in box.values.toList()) {
-        if (b['email'] == addUser['email']) {
+      for(AuthEntity authCreds in box.values.toList()) {
+        if (authCreds.userInfo.email == addUser['email']) {
           isFound = true;
           break;
         }
@@ -88,6 +90,8 @@ class AppDatabase {
       return isSuccess;
     }
     catch(error) {
+      log('Errr');
+      log(error.toString());
       return -1;
     }
   }

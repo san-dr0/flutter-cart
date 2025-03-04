@@ -82,7 +82,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     };
 
     int response = await appDatabase.addUser(userInfo);
-    if (response == 1) {
+    if (event.userType.isEmpty) {
+      emit(AuthOnIssueInSigningUpState(message: 'Please select signup as.'));
+    }
+    else if (response == 1) {
       emit(AuthOnIssueInSigningUpState(message: userCreatedSuccessfullyTitle));
       context.push("/login");
     } // SUCCESS
