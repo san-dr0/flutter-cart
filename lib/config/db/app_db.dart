@@ -53,7 +53,6 @@ class AppDatabase {
     try{
       Box box = await Hive.openBox("account");
       int isSuccess = 1;
-      log(addUser.toString());
       
       UserInfoModel userInfo = UserInfoModel(email: addUser['email'], firstName: addUser['firstName'], 
         middleName: addUser['middleName'], lastName: addUser['lastName'], password: addUser['password'],
@@ -96,9 +95,7 @@ class AppDatabase {
   FutureOr<Request<AuthCredentialsModel>?> validateUserCredentials({String email = "", String password = ""}) async {
     try{
       Box box = await Hive.openBox("account");
-      for(AuthEntity b in box.values.toList()) {
-        log(b.userInfo.password);
-      }
+      
       final result = box.values.toList().where((creds) => creds.userInfo.email == email && creds.userInfo.password == password);
 
       if (result.isEmpty) {
