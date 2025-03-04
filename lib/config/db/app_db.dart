@@ -113,6 +113,7 @@ class AppDatabase {
         lastName: authCreds.userInfo.lastName, 
         email: email,
         password: password,
+        userType: authCreds.userInfo.userType,
       );
 
       return Request(code: 200, message: "User found", data: authCredentialsModel);

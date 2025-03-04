@@ -230,7 +230,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     AuthCredentialsModel authCredentialsModel = AuthCredentialsModel
       (
-        firstName: firstName, middleName: middleName, lastName: lastName, email: email, password: password
+        firstName: firstName, middleName: middleName, lastName: lastName, email: email, password: password,
+        userType: event.userType
       );
 
     appDatabase.updateCredential(

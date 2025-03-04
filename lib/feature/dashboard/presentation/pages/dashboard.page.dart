@@ -64,30 +64,40 @@ class _DashBoardPage extends State<DashBoardPage> {
       drawer: Drawer(
         child: ListView(
           children: [
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: tealColor
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  BlocBuilder(
-                      bloc: authBloc,
-                      builder: (context, state) {
-                        if (state is AuthOnValidCredentialsState) {
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Name: ${state.authCredentialsModel?.lastName}, ${state.authCredentialsModel?.firstName}"),
-                              Text("Email: ${state.authCredentialsModel?.email}"),
-                            ],
-                          );
-                        }
-                      return Text("No user");
-                    },
-                  )
-                ],
-              ),
+            BlocBuilder(
+                bloc: authBloc,
+                builder: (context, state) {
+                  if (state is AuthOnValidCredentialsState) {
+                    Color? headerColor = state.authCredentialsModel?.userType == 'User'? goldColor : tealColor;
+                    return DrawerHeader(
+                      decoration: BoxDecoration(
+                        color: headerColor
+                      ),
+                      child: Stack(
+                        children: [
+                          Positioned(
+                            child: Text("Name: ${state.authCredentialsModel?.lastName}, ${state.authCredentialsModel?.firstName}"),
+                          ),
+                          Positioned(
+                            top: 20.0,
+                            child: Text("Email: ${state.authCredentialsModel?.email}"),
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            right: 0.0,
+                            child: Text(
+                              state.authCredentialsModel?.userType ?? '',
+                              style: textStyle(
+                                color: Colors.white
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    );
+                  }
+                return Text("No user");
+              },
             ),
             ListTile(
               onTap: () {

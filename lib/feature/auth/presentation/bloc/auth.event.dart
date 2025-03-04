@@ -76,12 +76,14 @@ class AuthOnUpdateCredentialEvent extends AuthEvent {
   String lastName;
   String email;
   String password;
+  String userType;
 
   AuthOnUpdateCredentialEvent({
     required this.firstName,
     required this.middleName,
     required this.lastName,
     required this.email,
-    required this.password
+    required this.password,
+    required this.userType
   });
 }

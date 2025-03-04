@@ -20,6 +20,7 @@ class _UpdateCredentialPage extends State<UpdateCredentialPage> {
   late TextEditingController txtLastname;
   late TextEditingController txtEmail;
   late TextEditingController txtPassword;
+  String userType = '';
 
   late AuthBloc authBloc;
 
@@ -43,6 +44,7 @@ class _UpdateCredentialPage extends State<UpdateCredentialPage> {
     txtPassword = TextEditingController(
       text: (authBloc.state is AuthOnValidCredentialsState) ? (authBloc.state as AuthOnValidCredentialsState).authCredentialsModel!.password : ''
     );
+    userType = (authBloc.state is AuthOnValidCredentialsState) ? (authBloc.state as AuthOnValidCredentialsState).authCredentialsModel!.userType : '';
   }
 
   void onSaveAndUpdateRecords() {
@@ -52,8 +54,11 @@ class _UpdateCredentialPage extends State<UpdateCredentialPage> {
     String email = txtEmail.text;
     String password = txtPassword.text;
 
-    authBloc.add(AuthOnUpdateCredentialEvent(
-      firstName: firstName, middleName: middleName, lastName: lastName, email: email, password: password)
+    authBloc.add(
+      AuthOnUpdateCredentialEvent(
+        firstName: firstName, middleName: middleName, lastName: lastName, email: email, password: password,
+        userType: userType
+      )
     );
   }
 
