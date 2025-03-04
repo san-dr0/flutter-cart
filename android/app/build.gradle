@@ -37,6 +37,21 @@ android {
             signingConfig = signingConfigs.debug
         }
     }
+
+    flavorDimensions += "default"
+
+    productFlavors {
+        dev {
+            dimension = "default"
+            manifestPlaceholders = [appName: "Dev lang"]
+            applicationIdSuffix = ".dev"
+        }
+        staging {
+            dimension = "default"
+            manifestPlaceholders = [appName: "Staging lang"]
+            applicationIdSuffix = ".staging"
+        }
+    }
 }
 
 flutter {
