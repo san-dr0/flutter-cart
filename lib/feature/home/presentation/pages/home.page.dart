@@ -4,11 +4,9 @@ import 'package:clean_arch2/feature/auth/presentation/bloc/auth.bloc.dart';
 import 'package:clean_arch2/feature/auth/presentation/bloc/auth.event.dart';
 import 'package:clean_arch2/feature/cart/presentation/bloc/cart.bloc.dart';
 import 'package:clean_arch2/feature/cart/presentation/bloc/cart.state.dart';
-import 'package:clean_arch2/feature/home/domain/product.domain.dart';
 import 'package:clean_arch2/feature/home/presentation/bloc/home.bloc.dart';
 import 'package:clean_arch2/feature/home/presentation/bloc/home.state.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/color.dart';

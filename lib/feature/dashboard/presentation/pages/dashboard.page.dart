@@ -1,6 +1,7 @@
 import 'package:clean_arch2/core/color.dart';
 import 'package:clean_arch2/core/string.dart';
 import 'package:clean_arch2/core/text.style.dart';
+import 'package:clean_arch2/feature/auth/domain/auth.domain.dart';
 import 'package:clean_arch2/feature/auth/presentation/bloc/auth.bloc.dart';
 import 'package:clean_arch2/feature/auth/presentation/bloc/auth.state.dart';
 import 'package:clean_arch2/feature/cart/presentation/bloc/cart.bloc.dart';
@@ -61,93 +62,113 @@ class _DashBoardPage extends State<DashBoardPage> {
           }, icon: Icon(Icons.menu));
         },),
       ),
-      drawer: Drawer(
-        child: ListView(
-          children: [
-            BlocBuilder(
-                bloc: authBloc,
-                builder: (context, state) {
-                  if (state is AuthOnValidCredentialsState) {
-                    Color? headerColor = state.authCredentialsModel?.userType == 'User'? goldColor : tealColor;
-                    return DrawerHeader(
-                      decoration: BoxDecoration(
-                        color: headerColor
-                      ),
-                      child: Stack(
-                        children: [
-                          Positioned(
-                            child: Text("Name: ${state.authCredentialsModel?.lastName}, ${state.authCredentialsModel?.firstName}"),
-                          ),
-                          Positioned(
-                            top: 20.0,
-                            child: Text("Email: ${state.authCredentialsModel?.email}"),
-                          ),
-                          Positioned(
-                            bottom: 0,
-                            right: 0.0,
-                            child: Text(
-                              state.authCredentialsModel?.userType ?? '',
-                              style: textStyle(
-                                color: Colors.white
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    );
-                  }
-                return Text("No user");
-              },
-            ),
-            ListTile(
-              onTap: () {
-                onNavigateToShop();
-              },
-              title: Text("Shop"),
-            ),
-            ListTile(
-              onTap: () {
-                onNavigateToTransaction();
-              },
-              title: Text("Transactions"),
-            ),
-            ExpansionTile(
-              title: Text("Settings"), 
+      drawer: BlocBuilder(
+        bloc: authBloc,
+        builder: (context, state) {
+          Color? headerColor = Colors.black;
+          AuthCredentialsModel? authCredentialsModel;
+
+          if (state is AuthOnValidCredentialsState) {
+            headerColor = state.authCredentialsModel?.userType == 'User'? goldColor : tealColor;
+            authCredentialsModel = state.authCredentialsModel;
+          }
+
+          return Drawer(
+            child: ListView(
               children: [
-                ListTile(
-                  onTap: () {
-                    onNavigateToUpdateCreds();
-                  },
-                  title: Text("Update"),
-                ),
-                ListTile(
-                  onTap: () {
-                    setState(() {
-                      isBiometricEnabled = !isBiometricEnabled;
-                    });
-                  },
-                  title: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                DrawerHeader(
+                  decoration: BoxDecoration(
+                    color: headerColor
+                  ),
+                  child: Stack(
                     children: [
-                      Text("Enable biometrics"),
-                      Switch(
-                        value: isBiometricEnabled, 
-                        onChanged: (bool? value) {
-                          
-                        })
+                      Positioned(
+                        child: Text("Name: ${authCredentialsModel?.lastName}, ${authCredentialsModel?.firstName}"),
+                      ),
+                      Positioned(
+                        top: 20.0,
+                        child: Text("Email: ${authCredentialsModel?.email}"),
+                      ),
+                      Positioned(
+                        bottom: 0,
+                        right: 0.0,
+                        child: Text(
+                          authCredentialsModel?.userType ?? '',
+                          style: textStyle(
+                            color: Colors.white
+                          ),
+                        ),
+                      )
                     ],
-                  )
+                  ),
                 ),
                 ListTile(
                   onTap: () {
-                    onLogOutUser();
+                    onNavigateToShop();
                   },
-                  title: Text("Logout"),
+                  title: Text("Shop"),
                 ),
+                if (authCredentialsModel?.userType == 'User')
+                  ListTile(
+                    onTap: () {
+                      onNavigateToTransaction();
+                    },
+                    title: Text("My Transactions"),
+                  ),
+                if (authCredentialsModel?.userType == 'Admin')
+                  ListTile(
+                    onTap: () {},
+                    title: Text("View Users"),
+                  ),
+                if (authCredentialsModel?.userType == 'Admin')
+                  ListTile(
+                    onTap: () {},
+                    title: Text("View Transactions"),
+                  ),
+                if (authCredentialsModel?.userType == 'Admin')
+                  ListTile(
+                    onTap: () {},
+                    title: Text("View Graphs"),
+                  ),
+                ExpansionTile(
+                  title: Text("Settings"), 
+                  children: [
+                    ListTile(
+                      onTap: () {
+                        onNavigateToUpdateCreds();
+                      },
+                      title: Text("Update"),
+                    ),
+                    ListTile(
+                      onTap: () {
+                        setState(() {
+                          isBiometricEnabled = !isBiometricEnabled;
+                        });
+                      },
+                      title: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Enable biometrics"),
+                          Switch(
+                            value: isBiometricEnabled, 
+                            onChanged: (bool? value) {
+                              
+                            })
+                        ],
+                      )
+                    ),
+                    ListTile(
+                      onTap: () {
+                        onLogOutUser();
+                      },
+                      title: Text("Logout"),
+                    ),
+                  ],
+                )
               ],
-            )
-          ],
-        ),
+            ),
+          );
+        },
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
