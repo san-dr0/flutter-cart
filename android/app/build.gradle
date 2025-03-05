@@ -43,13 +43,13 @@ android {
     productFlavors {
         dev {
             dimension = "default"
-            manifestPlaceholders = [appName: "Dev lang"]
             applicationIdSuffix = ".dev"
+            manifestPlaceholders = [app_name: "app_name"]
         }
         staging {
             dimension = "default"
-            manifestPlaceholders = [appName: "Staging lang"]
             applicationIdSuffix = ".staging"
+            manifestPlaceholders = [app_name: "Ohh"]
         }
     }
 }
