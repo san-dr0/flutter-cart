@@ -7,30 +7,55 @@ class TopUpComponent extends StatefulWidget {
 }
 
 class TopUpComponentRenderer extends State<TopUpComponent> {
-  List<String> amountList = [];
+  List<int> amountList = [2, 3, 4, 5];
+  List<Positioned> amountPositionList = [];
+  double pos = 0.0;
 
+  @override
+  void initState() {
+    super.initState();
+    amountList.map((amount) {
+      amountPositionList.add(
+        Positioned(
+          top: 0,
+          left: pos,
+          child: Draggable(
+            feedback: Container(
+              decoration: BoxDecoration(
+                border: Border.all(width: 1, style: BorderStyle.solid),
+                borderRadius: BorderRadius.all(Radius.circular(50)),
+                color: Colors.black
+              ),
+              width: 50,
+              height: 50,
+              child: Text(amount.toString(), style: textStyle(fontSize: 30), textAlign: TextAlign.center),
+            ),
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(width: 1, style: BorderStyle.solid),
+                borderRadius: BorderRadius.all(Radius.circular(50)),
+                color: Colors.black
+              ),
+              width: 50,
+              height: 50,
+              child: Text(amount.toString(), style: textStyle(fontSize: 30), textAlign: TextAlign.center),
+            ),
+          ),
+        )
+      );
+      pos += 50;
+    });
+    setState(() {
+      
+    });
+  }
   @override
   Widget build (BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(10.0),
       child: Stack(
         children: [
-          Positioned(
-            top: 0,
-            child: Draggable(
-              child: Container(
-                decoration: BoxDecoration(
-                  border: Border.all(width: 1, style: BorderStyle.solid),
-                  borderRadius: BorderRadius.all(Radius.circular(50)),
-                  color: Colors.black
-                ),
-                width: 50,
-                height: 50,
-                child: Text("2", style: textStyle(fontSize: 30), textAlign: TextAlign.center),
-              ),
-              feedback: Text("2"),
-            )
-          )
+          ...amountPositionList
         ],
       ),
     ); 
