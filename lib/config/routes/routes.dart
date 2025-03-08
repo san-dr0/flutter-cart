@@ -3,9 +3,11 @@ import 'package:clean_arch2/feature/admin/feature/home/pages/admin.home.dart';
 import 'package:clean_arch2/feature/admin/feature/users/pages/admin.user.list.page.dart';
 import 'package:clean_arch2/feature/auth/presentation/pages/login.dart';
 import 'package:clean_arch2/feature/auth/presentation/pages/signup.dart';
+import 'package:clean_arch2/feature/barcodepay/presentation/pages/barcode.page.dart';
 import 'package:clean_arch2/feature/cart/presentation/pages/cart.page.dart';
 import 'package:clean_arch2/feature/dashboard/presentation/pages/dashboard.page.dart';
 import 'package:clean_arch2/feature/home/presentation/pages/home.page.dart';
+import 'package:clean_arch2/feature/topup/presentation/pages/topup.page.dart';
 import 'package:clean_arch2/feature/transactions/presentation/pages/transaction.pages.dart';
 import 'package:clean_arch2/feature/update-creds/pages/update-bloc.page.dart';
 import 'package:clean_arch2/feature/view_certain_product/pages/view_certain_product.dart';
@@ -24,6 +26,8 @@ GoRouter appRoutes = GoRouter(routes: [
   GoRoute(path: '/dashboard', builder: (context, state) => DashBoardPage(),),
   GoRoute(path: '/transactions', builder: (context, state) => TransactionPage(),),
   GoRoute(path: '/update-creds', builder: (context, state) => UpdateCredentialPage(),),
+  GoRoute(path: '/top-up', builder: (context, state) => TopUpPage(),),
+  GoRoute(path: '/barcode-pay', builder: (context, state) => BarcodePayPage(),),
   GoRoute(
     path: '/admin', builder: (context, state) => AdminHomePage(),
     routes: adminRoutes

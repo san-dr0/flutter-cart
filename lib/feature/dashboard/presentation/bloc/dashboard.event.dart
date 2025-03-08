@@ -21,3 +21,15 @@ class DashBoardOnNavigateToUpdateCredsEvent extends DashBoardEvent {
 
   DashBoardOnNavigateToUpdateCredsEvent({required this.context});
 }
+
+class DashBoardOnNavigateToTopUpEvent extends DashBoardEvent {
+  BuildContext context;
+
+  DashBoardOnNavigateToTopUpEvent({required this.context});
+}
+
+class DashBoardOnNavigateToBarcodePayEvent extends DashBoardEvent {
+  BuildContext context;
+
+  DashBoardOnNavigateToBarcodePayEvent({required this.context});
+}

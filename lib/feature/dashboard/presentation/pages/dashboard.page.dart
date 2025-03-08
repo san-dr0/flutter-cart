@@ -4,6 +4,7 @@ import 'package:clean_arch2/core/text.style.dart';
 import 'package:clean_arch2/feature/auth/domain/auth.domain.dart';
 import 'package:clean_arch2/feature/auth/presentation/bloc/auth.bloc.dart';
 import 'package:clean_arch2/feature/auth/presentation/bloc/auth.state.dart';
+import 'package:clean_arch2/feature/balance/presentation/pages/balance.page.dart';
 import 'package:clean_arch2/feature/cart/presentation/bloc/cart.bloc.dart';
 import 'package:clean_arch2/feature/dashboard/presentation/bloc/dashboard.bloc.dart';
 import 'package:clean_arch2/feature/dashboard/presentation/bloc/dashboard.event.dart';
@@ -49,6 +50,14 @@ class _DashBoardPage extends State<DashBoardPage> {
     authBloc.add(AuthOnLogoutEvent(context: context));
   }
 
+  void onNavigateToTopUp() {
+    dashBoardBloc.add(DashBoardOnNavigateToTopUpEvent(context: context));
+  }
+
+  void onNavigateToBarcodePay () {
+    dashBoardBloc.add(DashBoardOnNavigateToBarcodePayEvent(context: context));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,6 +99,11 @@ class _DashBoardPage extends State<DashBoardPage> {
                         child: Text("Email: ${authCredentialsModel?.email}"),
                       ),
                       Positioned(
+                        left: 0,
+                        bottom: 0,
+                        child: BalanceComponent(),
+                      ),
+                      Positioned(
                         bottom: 0,
                         right: 0.0,
                         child: Text(
@@ -114,6 +128,20 @@ class _DashBoardPage extends State<DashBoardPage> {
                       onNavigateToTransaction();
                     },
                     title: Text("My Transactions"),
+                  ),
+                if (authCredentialsModel?.userType == 'User')
+                  ListTile(
+                    onTap: () {
+                      onNavigateToTopUp();
+                    },
+                    title: Text("Top Up"),
+                  ),
+                if (authCredentialsModel?.userType == 'User')
+                  ListTile(
+                    onTap: () {
+                      onNavigateToBarcodePay();
+                    },
+                    title: Text("Barcode Pay"),
                   ),
                 if (authCredentialsModel?.userType == 'Admin')
                   ListTile(
