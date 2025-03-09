@@ -9,6 +9,7 @@ class BalanceBloc extends Bloc<BalanceEvent, BalanceState> {
   
   BalanceBloc({required this.appDatabase}): super(BalanceOnLoadingState()) {
     on<BalanceOnGetCurrentBalanceEvent>(balanceOnGetCurrentBalanceEvent);
+    on<BalanceOnChangedCurrentBalanceEvent>(balanceOnChangedCurrentBalanceEvent);
   }
 
   FutureOr<void> balanceOnGetCurrentBalanceEvent(BalanceOnGetCurrentBalanceEvent event, Emitter<BalanceState> emit) async {
@@ -17,5 +18,13 @@ class BalanceBloc extends Bloc<BalanceEvent, BalanceState> {
     double currentBalance = await appDatabase.getActiveUserCurrentBalance(email);
 
     emit(BalanceLoadedState(currentBalance: currentBalance));
+  }
+
+  FutureOr<void> balanceOnChangedCurrentBalanceEvent(BalanceOnChangedCurrentBalanceEvent event, Emitter<BalanceState> emit) {
+    double newCurrentBalance = event.currentNewBalance;
+    if (state is BalanceLoadedState) {
+      newCurrentBalance += (state as BalanceLoadedState).currentBalance;
+    }
+    emit(BalanceLoadedState(currentBalance: newCurrentBalance));
   }
 }

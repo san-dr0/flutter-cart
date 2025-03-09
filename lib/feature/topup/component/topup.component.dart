@@ -2,8 +2,11 @@ import 'package:clean_arch2/core/color.dart';
 import 'package:clean_arch2/core/text.style.dart';
 import 'package:clean_arch2/feature/auth/presentation/bloc/auth.bloc.dart';
 import 'package:clean_arch2/feature/auth/presentation/bloc/auth.state.dart';
+import 'package:clean_arch2/feature/balance/presentation/bloc/balance.bloc.dart';
+import 'package:clean_arch2/feature/balance/presentation/bloc/balance.event.dart';
 import 'package:clean_arch2/feature/topup/presentation/bloc/topup.bloc.dart';
 import 'package:clean_arch2/feature/topup/presentation/bloc/topup.event.dart';
+import 'package:clean_arch2/feature/topup/presentation/bloc/topup.state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,6 +20,8 @@ class TopUpComponent extends StatefulWidget {
 class TopUpComponentRenderer extends State<TopUpComponent> {
   late TopUpBloc topUpBloc;
   late AuthBloc authBloc;
+  late BalanceBloc balanceBloc;
+
   List<double> amountList = [100.00, 200.0, 300.0, 400.0, 500.0, 600.0, 700.0, 800.0, 900.0, 1000.0];
   List<Draggable> amountPositionList = [];
   double pos = 0.0;
@@ -27,6 +32,7 @@ class TopUpComponentRenderer extends State<TopUpComponent> {
     super.initState();
     topUpBloc = context.read<TopUpBloc>();
     authBloc = context.read<AuthBloc>();
+    balanceBloc = context.read<BalanceBloc>();
 
     for(int i =0 ; i < amountList.length; i++) {
       amountPositionList.add(
@@ -51,8 +57,8 @@ class TopUpComponentRenderer extends State<TopUpComponent> {
               borderRadius: BorderRadius.all(Radius.circular(50)),
               color: Colors.black
             ),
-            width: 50,
-            height: 50,
+            width: 20,
+            height: 20,
             child: Align(
               alignment: Alignment.center,
               child: Text(amountList[i].toString(), style: textStyle(fontSize: 20), textAlign: TextAlign.center),
@@ -143,6 +149,14 @@ class TopUpComponentRenderer extends State<TopUpComponent> {
                 topUpValue += details.data;
               });
             },
+          ),
+          BlocListener(
+            bloc: topUpBloc,
+            listener: (context, state) {
+              balanceBloc.add(BalanceOnChangedCurrentBalanceEvent(currentNewBalance: topUpValue));
+            },
+            listenWhen: (previous, current) => current is TopUpCurrentBalanceChangedState,
+            child: SizedBox(),
           )
         ],
       ),

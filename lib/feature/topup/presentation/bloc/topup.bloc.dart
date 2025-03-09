@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:clean_arch2/config/db/app_db.dart';
 import 'package:clean_arch2/feature/topup/presentation/bloc/topup.event.dart';
@@ -8,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TopUpBloc extends Bloc<TopUpEvent, TopUpBaseState> {
   AppDatabase appDatabase;
-  TopUpBloc({required this.appDatabase}): super(TopState()) {
+  TopUpBloc({required this.appDatabase}): super(TopUpState()) {
     on<TopUpOnTopUpNewBalanceEvent>(topUpOnTopUpNewBalanceEvent);
   }
   
@@ -17,6 +16,7 @@ class TopUpBloc extends Bloc<TopUpEvent, TopUpBaseState> {
     String email = event.email;
     
     appDatabase.updateCurrentBalance(email, topUpValue);
+    emit(TopUpState());
+    emit(TopUpCurrentBalanceChangedState());
   }
-  
 }

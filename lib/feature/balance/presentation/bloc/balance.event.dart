@@ -5,3 +5,9 @@ class BalanceOnGetCurrentBalanceEvent extends BalanceEvent {
 
   BalanceOnGetCurrentBalanceEvent({required this.email});
 }
+
+class BalanceOnChangedCurrentBalanceEvent extends BalanceEvent {
+  double currentNewBalance = 0.00;
+
+  BalanceOnChangedCurrentBalanceEvent({required this.currentNewBalance});
+}

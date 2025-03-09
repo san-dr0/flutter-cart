@@ -195,6 +195,10 @@ class AppDatabase {
     double currentBalance = 0.00;
     Box balanceBox = await Hive.openBox("balance");
 
+    if (balanceBox.get(email) == null) {
+      return currentBalance;
+    }
+
     BalanceEntity balanceEntity = balanceBox.get(email);
     currentBalance = balanceEntity.currentBalance;
     
