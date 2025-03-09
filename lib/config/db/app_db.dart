@@ -4,11 +4,13 @@ import 'dart:developer';
 import 'package:clean_arch2/config/db/hive_model/auth_model/auth_model.dart';
 import 'package:clean_arch2/config/db/hive_model/mock_auth/mock_auth.model.dart';
 import 'package:clean_arch2/config/db/hive_model/product_model/product_model.dart';
+import 'package:clean_arch2/config/db/hive_model/topup_model/balance_model.dart';
 import 'package:clean_arch2/config/db/hive_model/transaction_model/transaction_model.dart';
 import 'package:clean_arch2/config/db/request/request.dart';
 import 'package:clean_arch2/feature/auth/domain/auth.domain.dart';
 import 'package:hive/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uuid/uuid.dart';
 
 class AppDatabase {
   void initBaseRecords() async {
@@ -51,8 +53,6 @@ class AppDatabase {
 
   FutureOr<int> addUser(Map<String, dynamic> addUser) async {
     try{
-      log('QWEWQEWQE ');
-      log(addUser.toString());
       Box box = await Hive.openBox("account");
       int isSuccess = 1;
       
@@ -173,5 +173,31 @@ class AppDatabase {
 
     AuthEntity authEntity = AuthEntity(email: credsInfo.email, userInfo: userInfoModel);
     accBox.put(email, authEntity);
+  }
+
+  FutureOr<void> updateCurrentBalance(String email, double topUpValue)async {
+    Box balanceBox = await Hive.openBox("balance");
+    var record = balanceBox.get(email);
+
+    log("The record");
+    log(record.toString());
+    BalanceEntity balanceEntity = BalanceEntity(id: Uuid().v4(), email: email, currentBalance: topUpValue);
+    if (record == null) {
+      balanceBox.put(email, balanceEntity);
+    }
+    else {
+      balanceEntity.currentBalance += (record as BalanceEntity).currentBalance;
+      balanceBox.put(email, balanceEntity);
+    }
+  }
+
+  FutureOr<double> getActiveUserCurrentBalance(String email) async {
+    double currentBalance = 0.00;
+    Box balanceBox = await Hive.openBox("balance");
+
+    BalanceEntity balanceEntity = balanceBox.get(email);
+    currentBalance = balanceEntity.currentBalance;
+    
+    return currentBalance;
   }
 }

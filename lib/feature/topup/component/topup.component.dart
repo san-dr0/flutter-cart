@@ -1,20 +1,22 @@
-import 'dart:developer';
-
 import 'package:clean_arch2/core/color.dart';
 import 'package:clean_arch2/core/text.style.dart';
+import 'package:clean_arch2/feature/auth/presentation/bloc/auth.bloc.dart';
+import 'package:clean_arch2/feature/auth/presentation/bloc/auth.state.dart';
 import 'package:clean_arch2/feature/topup/presentation/bloc/topup.bloc.dart';
 import 'package:clean_arch2/feature/topup/presentation/bloc/topup.event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class TopUpComponent extends StatefulWidget {
+  const TopUpComponent({super.key});
+
   @override
   State<TopUpComponent> createState () => TopUpComponentRenderer();
 }
 
 class TopUpComponentRenderer extends State<TopUpComponent> {
   late TopUpBloc topUpBloc;
+  late AuthBloc authBloc;
   List<double> amountList = [100.00, 200.0, 300.0, 400.0, 500.0, 600.0, 700.0, 800.0, 900.0, 1000.0];
   List<Draggable> amountPositionList = [];
   double pos = 0.0;
@@ -24,6 +26,7 @@ class TopUpComponentRenderer extends State<TopUpComponent> {
   void initState() {
     super.initState();
     topUpBloc = context.read<TopUpBloc>();
+    authBloc = context.read<AuthBloc>();
 
     for(int i =0 ; i < amountList.length; i++) {
       amountPositionList.add(
@@ -62,7 +65,15 @@ class TopUpComponentRenderer extends State<TopUpComponent> {
   }
 
   void onTopUpNewCredit() {
-    topUpBloc.add(TopUpOnTopUpNewBalanceEvent());
+    topUpBloc.add(TopUpOnTopUpNewBalanceEvent
+      (
+        topUpValue: topUpValue, 
+        email: authBloc.state is AuthOnValidCredentialsState ? 
+          (authBloc.state as AuthOnValidCredentialsState).authCredentialsModel!.email 
+            : 
+          ""
+      )
+    );
   }
 
   @override

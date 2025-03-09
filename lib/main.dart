@@ -2,9 +2,11 @@ import 'package:clean_arch2/config/db/app_db.dart';
 import 'package:clean_arch2/config/db/hive_model/auth_model/auth_model.dart';
 import 'package:clean_arch2/config/db/hive_model/mock_auth/mock_auth.model.dart';
 import 'package:clean_arch2/config/db/hive_model/product_model/product_model.dart';
+import 'package:clean_arch2/config/db/hive_model/topup_model/balance_model.dart';
 import 'package:clean_arch2/config/db/hive_model/transaction_model/transaction_model.dart';
 import 'package:clean_arch2/config/routes/routes.dart';
 import 'package:clean_arch2/feature/auth/presentation/bloc/auth.bloc.dart';
+import 'package:clean_arch2/feature/balance/presentation/bloc/balance.bloc.dart';
 import 'package:clean_arch2/feature/cart/presentation/bloc/cart.bloc.dart';
 import 'package:clean_arch2/feature/dashboard/presentation/bloc/dashboard.bloc.dart';
 import 'package:clean_arch2/feature/home/presentation/bloc/home.bloc.dart';
@@ -29,6 +31,7 @@ void main() async {
   Hive.registerAdapter(TransactionEntityAdapter());
   Hive.registerAdapter(UserInfoModelAdapter());
   Hive.registerAdapter(AuthEntityAdapter());
+  Hive.registerAdapter(BalanceEntityAdapter());
   
   
   Di.registerLazySingleton(() => AppDatabase());
@@ -50,6 +53,7 @@ void main() async {
         BlocProvider(create: (context) => DashBoardBloc()),
         BlocProvider(create: (context) => TransactionBloc(appDatabase: Di())),
         BlocProvider(create: (context) => TopUpBloc(appDatabase: Di())),
+        BlocProvider(create: (context) => BalanceBloc(appDatabase: Di())),
       ], 
       child: const MyApp()
     )

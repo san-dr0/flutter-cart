@@ -1,16 +1,16 @@
 import 'package:hive_flutter/hive_flutter.dart';
-part 'topup_model.g.dart';
+part 'balance_model.g.dart';
 
-@HiveType(typeId: 4)
-class TopupEnity {
+@HiveType(typeId: 5)
+class BalanceEntity {
   @HiveField(0)
-  int id;
+  String id;
   @HiveField(1)
   String email;
   @HiveField(2)
   double currentBalance;
 
-  TopupEnity({
+  BalanceEntity({
     required this.id, required this.email, required this.currentBalance
   });
 }

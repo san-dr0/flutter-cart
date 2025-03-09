@@ -1,30 +1,30 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'topup_model.dart';
+part of 'balance_model.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class TopupEnityAdapter extends TypeAdapter<TopupEnity> {
+class BalanceEntityAdapter extends TypeAdapter<BalanceEntity> {
   @override
-  final int typeId = 4;
+  final int typeId = 5;
 
   @override
-  TopupEnity read(BinaryReader reader) {
+  BalanceEntity read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return TopupEnity(
-      id: fields[0] as int,
+    return BalanceEntity(
+      id: fields[0] as String,
       email: fields[1] as String,
       currentBalance: fields[2] as double,
     );
   }
 
   @override
-  void write(BinaryWriter writer, TopupEnity obj) {
+  void write(BinaryWriter writer, BalanceEntity obj) {
     writer
       ..writeByte(3)
       ..writeByte(0)
@@ -41,7 +41,7 @@ class TopupEnityAdapter extends TypeAdapter<TopupEnity> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is TopupEnityAdapter &&
+      other is BalanceEntityAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
