@@ -8,6 +8,7 @@ import 'package:clean_arch2/feature/auth/presentation/bloc/auth.bloc.dart';
 import 'package:clean_arch2/feature/cart/presentation/bloc/cart.bloc.dart';
 import 'package:clean_arch2/feature/dashboard/presentation/bloc/dashboard.bloc.dart';
 import 'package:clean_arch2/feature/home/presentation/bloc/home.bloc.dart';
+import 'package:clean_arch2/feature/topup/presentation/bloc/topup.bloc.dart';
 import 'package:clean_arch2/feature/transactions/presentation/bloc/transaction.bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -48,6 +49,7 @@ void main() async {
         BlocProvider(create: (context) => AuthBloc(appDatabase: Di())),
         BlocProvider(create: (context) => DashBoardBloc()),
         BlocProvider(create: (context) => TransactionBloc(appDatabase: Di())),
+        BlocProvider(create: (context) => TopUpBloc(appDatabase: Di())),
       ], 
       child: const MyApp()
     )

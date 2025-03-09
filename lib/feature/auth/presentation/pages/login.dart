@@ -25,8 +25,8 @@ class _LoginPage extends State<LoginPage> {
   void initState() {
     super.initState();
 
-    textEmail = TextEditingController();
-    textPassword = TextEditingController();
+    textEmail = TextEditingController(text: "ada.ada@gmail.com");
+    textPassword = TextEditingController(text: "123");
 
     authBloc = context.read<AuthBloc>();
   }

@@ -1,5 +1,12 @@
+import 'dart:developer';
+
+import 'package:clean_arch2/core/color.dart';
 import 'package:clean_arch2/core/text.style.dart';
+import 'package:clean_arch2/feature/topup/presentation/bloc/topup.bloc.dart';
+import 'package:clean_arch2/feature/topup/presentation/bloc/topup.event.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class TopUpComponent extends StatefulWidget {
   @override
@@ -7,55 +14,125 @@ class TopUpComponent extends StatefulWidget {
 }
 
 class TopUpComponentRenderer extends State<TopUpComponent> {
-  List<int> amountList = [2, 3, 4, 5];
-  List<Positioned> amountPositionList = [];
+  late TopUpBloc topUpBloc;
+  List<double> amountList = [100.00, 200.0, 300.0, 400.0, 500.0, 600.0, 700.0, 800.0, 900.0, 1000.0];
+  List<Draggable> amountPositionList = [];
   double pos = 0.0;
+  double topUpValue = 0.0;
 
   @override
   void initState() {
     super.initState();
-    amountList.map((amount) {
+    topUpBloc = context.read<TopUpBloc>();
+
+    for(int i =0 ; i < amountList.length; i++) {
       amountPositionList.add(
-        Positioned(
-          top: 0,
-          left: pos,
-          child: Draggable(
-            feedback: Container(
-              decoration: BoxDecoration(
-                border: Border.all(width: 1, style: BorderStyle.solid),
-                borderRadius: BorderRadius.all(Radius.circular(50)),
-                color: Colors.black
-              ),
-              width: 50,
-              height: 50,
-              child: Text(amount.toString(), style: textStyle(fontSize: 30), textAlign: TextAlign.center),
+        Draggable(
+          data: amountList[i],
+          feedback: Container(
+            decoration: BoxDecoration(
+              border: Border.all(width: 1, style: BorderStyle.solid),
+              borderRadius: BorderRadius.all(Radius.circular(50)),
+              color: Colors.black
             ),
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(width: 1, style: BorderStyle.solid),
-                borderRadius: BorderRadius.all(Radius.circular(50)),
-                color: Colors.black
-              ),
-              width: 50,
-              height: 50,
-              child: Text(amount.toString(), style: textStyle(fontSize: 30), textAlign: TextAlign.center),
+            width: 100,
+            height: 100,
+            child: Align(
+              alignment: Alignment.center,
+              child: Text(amountList[i].toString(), style: textStyle(fontSize: 20), textAlign: TextAlign.center),
+            ),
+          ),
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(width: 1, style: BorderStyle.solid),
+              borderRadius: BorderRadius.all(Radius.circular(50)),
+              color: Colors.black
+            ),
+            width: 50,
+            height: 50,
+            child: Align(
+              alignment: Alignment.center,
+              child: Text(amountList[i].toString(), style: textStyle(fontSize: 20), textAlign: TextAlign.center),
             ),
           ),
         )
       );
-      pos += 50;
-    });
-    setState(() {
-      
-    });
+      pos = pos + 60;
+    }
   }
+
+  void onTopUpNewCredit() {
+    topUpBloc.add(TopUpOnTopUpNewBalanceEvent());
+  }
+
   @override
   Widget build (BuildContext context) {
+    
     return Container(
       padding: const EdgeInsets.all(10.0),
-      child: Stack(
+      child: Column(
         children: [
-          ...amountPositionList
+          Expanded(
+            child: GridView.builder(
+              itemCount: amountPositionList.length,
+              physics: NeverScrollableScrollPhysics(),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3, 
+                mainAxisSpacing: 3, 
+                crossAxisSpacing: 3),
+              itemBuilder: (context, index) {
+                return amountPositionList[index];
+              },
+            ),
+          ),
+
+          DragTarget<double>(
+            builder: (context, candidateData, rejectedData) {
+              return Container(
+                padding: const EdgeInsets.all(10.0),
+                width: MediaQuery.sizeOf(context).width,
+                height: 100,
+                decoration: BoxDecoration(
+                  color: tealColor,
+                  borderRadius: BorderRadius.all(Radius.circular(10.0))
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("Creditted Balance: $topUpValue", 
+                      style: textStyle(
+                        color: Colors.white
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        onTopUpNewCredit();
+                      },
+                      splashColor: Colors.amber,
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      child: Ink(
+                        decoration: BoxDecoration(
+                          color: Colors.amber[800],
+                          borderRadius: BorderRadius.all(Radius.circular(10.0))
+                        ),
+                        child: Text(
+                          "Top up",
+                          style: textStyle(
+                            color: Colors.white
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              );
+            },
+            onAcceptWithDetails: (DragTargetDetails<double> details) {
+              setState(() {
+                topUpValue += details.data;
+              });
+            },
+          )
         ],
       ),
     ); 
