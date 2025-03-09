@@ -92,7 +92,7 @@ class TopUpComponentRenderer extends State<TopUpComponent> {
           Expanded(
             child: GridView.builder(
               itemCount: amountPositionList.length,
-              physics: NeverScrollableScrollPhysics(),
+              physics: ScrollPhysics(),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3, 
                 mainAxisSpacing: 3, 

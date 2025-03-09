@@ -1,6 +1,7 @@
 import 'package:clean_arch2/core/color.dart';
 import 'package:clean_arch2/core/string.dart';
 import 'package:flutter/material.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 class BarcodePayPage extends StatefulWidget {
   const BarcodePayPage({super.key});
@@ -16,6 +17,10 @@ class _BarcodePayPage extends  State<BarcodePayPage> {
     super.initState();
   }
 
+  void onGenerateQR () {
+    
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -26,7 +31,12 @@ class _BarcodePayPage extends  State<BarcodePayPage> {
       ),
       body: Column(
         children: [
-          
+          QrImageView(
+            data: 'wew',
+            version: QrVersions.auto,
+            size: 100.0,
+          ),
+          ElevatedButton(onPressed: (){}, child: Text("Generate QR"))
         ],
       ),
     );

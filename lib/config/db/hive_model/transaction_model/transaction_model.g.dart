@@ -20,19 +20,22 @@ class TransactionEntityAdapter extends TypeAdapter<TransactionEntity> {
       email: fields[0] as String,
       dateTime: fields[1] as DateTime,
       cartProduct: (fields[2] as List).cast<ProductEntity>(),
+      isPaid: fields[3] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, TransactionEntity obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.email)
       ..writeByte(1)
       ..write(obj.dateTime)
       ..writeByte(2)
-      ..write(obj.cartProduct);
+      ..write(obj.cartProduct)
+      ..writeByte(3)
+      ..write(obj.isPaid);
   }
 
   @override

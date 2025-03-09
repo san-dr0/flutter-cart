@@ -11,10 +11,13 @@ class TransactionEntity {
   DateTime dateTime;
   @HiveField(2)
   List<ProductEntity> cartProduct;
+  @HiveField(3)
+  bool isPaid;
 
   TransactionEntity({
     required this.email,
     required this.dateTime,
-    required this.cartProduct
+    required this.cartProduct,
+    required this.isPaid
   });
 }

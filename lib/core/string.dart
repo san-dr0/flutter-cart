@@ -53,3 +53,4 @@ const String signupAsTitle = "Signup as";
 const String somethingWentWrongTitle = "Something went wrong";
 const String userAlreadyExistsTitle = "User already exists.";
 const String userCreatedSuccessfullyTitle = "User was created successfully";
+const String payWithQRTitle = "Pay with QR";

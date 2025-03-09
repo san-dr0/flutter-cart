@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:clean_arch2/config/db/app_db.dart';
 import 'package:clean_arch2/config/db/hive_model/transaction_model/transaction_model.dart';
@@ -10,6 +11,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
   AppDatabase appDatabase;
   TransactionBloc({required this.appDatabase}): super(TransactionOnLoadingState()) {
     on<TransactionOnLoadedEvent>(transactionOnLoadedEvent);
+    on<TransactionOnPayWithQREvent>(transactionOnPayWithQREvent);
   }
 
   FutureOr<void> transactionOnLoadedEvent(TransactionOnLoadedEvent event, Emitter<TransactionState> emit) async {
@@ -17,5 +19,11 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
     List<TransactionEntity> historicalRecords =  await appDatabase.getTransactionRecordOfCertainUser(email: email);
 
     emit(TransactionOnLoadedRecordsState(transactionRecords: historicalRecords));
+  }
+
+  FutureOr<void> transactionOnPayWithQREvent(TransactionOnPayWithQREvent event, Emitter<TransactionState> emit) {
+    String qrCodeInfo = event.qrCodeInfo;
+
+    log("QR code --- $qrCodeInfo");
   }
 }

@@ -131,7 +131,7 @@ class AppDatabase {
       final cartBox = await Hive.openBox("transactional");
 
       DateTime dateTime = DateTime.now();
-      final transactionRecord = TransactionEntity(email: email, dateTime: dateTime, cartProduct: cartList);
+      final transactionRecord = TransactionEntity(email: email, dateTime: dateTime, cartProduct: cartList, isPaid: false);
       
       cartBox.add(transactionRecord);
       return 1;

@@ -9,6 +9,7 @@ import 'package:clean_arch2/feature/transactions/presentation/bloc/transaction.s
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 class TransactionPage extends StatefulWidget {
   const TransactionPage({super.key});
@@ -32,6 +33,10 @@ class _TransactionPage extends State<TransactionPage> {
 
       transactionBloc.add(TransactionOnLoadedEvent(email: currentActiveUser!.email));
     }
+  }
+
+  void onPayWithQR({String qrCodeInfo = ""}) {
+    transactionBloc.add(TransactionOnPayWithQREvent(qrCodeInfo: qrCodeInfo));
   }
 
   @override
@@ -61,10 +66,22 @@ class _TransactionPage extends State<TransactionPage> {
             return ListView.separated(
               itemBuilder: (context, index) {
                 String eachTotal = state.transactionRecords[index].cartProduct.fold(0.0, (p, a) => p+(a.price * a.quantity)).toStringAsFixed(2);
-                
+                // cartId;txnDate;price;buyerEmail;dateTime
+                String dateTime = state.transactionRecords[index].dateTime.toString();
+                String buyerEmail = state.transactionRecords[index].email;
+                bool isPaid = state.transactionRecords[index].isPaid;
+
+                String qrCodeInfo = 'amountToPay:$eachTotal;email:$buyerEmail;dateTime:$dateTime;isPaid:$isPaid';
+
                 return Column(
                   children: [
-                    Text(DateFormat('MMMM dd, yyyy').format(state.transactionRecords[index].dateTime)),
+                    Text(
+                      DateFormat('MMMM dd, yyyy').format(state.transactionRecords[index].dateTime),
+                      style: textStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold
+                      ),
+                    ),
                     Container(
                       padding: const EdgeInsets.all(10.0),
                       height: 250.0,
@@ -120,20 +137,45 @@ class _TransactionPage extends State<TransactionPage> {
                         itemCount: state.transactionRecords[index].cartProduct.length
                       ),
                     ),
+                    QrImageView(
+                      data: qrCodeInfo,
+                      version: QrVersions.auto,
+                      size: 100.0,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        onPayWithQR(qrCodeInfo: qrCodeInfo);
+                      },
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      splashColor: Colors.teal,
+                      child: Ink(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                          color: Colors.teal[800]
+                        ),
+                        child: Container(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Text(
+                            payWithQRTitle,
+                            style: textStyle(),
+                          ),
+                        ),
+                      ),
+                    ),
                     Text(
                       "$totalTitle $eachTotal",
                       style: textStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.bold
                       ),
-                    )
+                    ),
                   ],
                 );
               }, 
               separatorBuilder: (context, index) {
                 return SizedBox(height: 5.0,);
               }, 
-              itemCount: state.transactionRecords.length
+              itemCount: state.transactionRecords.length-1
             );
           }
           return SizedBox();

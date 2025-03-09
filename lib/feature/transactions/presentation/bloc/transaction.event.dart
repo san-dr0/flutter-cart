@@ -7,3 +7,9 @@ class TransactionOnLoadedEvent extends TransactionEvent {
 
   TransactionOnLoadedEvent({required this.email});
 }
+
+class TransactionOnPayWithQREvent extends TransactionEvent {
+  String qrCodeInfo;
+
+  TransactionOnPayWithQREvent({required this.qrCodeInfo});
+}
