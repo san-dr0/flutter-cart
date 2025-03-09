@@ -1,7 +1,6 @@
 import 'package:clean_arch2/core/color.dart';
 import 'package:clean_arch2/core/string.dart';
 import 'package:flutter/material.dart';
-import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 
 class BarcodePayPage extends StatefulWidget {
   const BarcodePayPage({super.key});
