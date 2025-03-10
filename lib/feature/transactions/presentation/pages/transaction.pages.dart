@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:clean_arch2/core/color.dart';
 import 'package:clean_arch2/core/string.dart';
 import 'package:clean_arch2/core/text.style.dart';
@@ -65,13 +67,15 @@ class _TransactionPage extends State<TransactionPage> {
           else if (state is TransactionOnLoadedRecordsState) {
             return ListView.separated(
               itemBuilder: (context, index) {
-                String eachTotal = state.transactionRecords[index].cartProduct.fold(0.0, (p, a) => p+(a.price * a.quantity)).toStringAsFixed(2);
-                // cartId;txnDate;price;buyerEmail;dateTime
+                double eachTotal = state.transactionRecords[index].cartProduct.fold(0.0, (p, a) => p+(a.price * a.quantity));
                 String dateTime = state.transactionRecords[index].dateTime.toString();
                 String buyerEmail = state.transactionRecords[index].email;
                 bool isPaid = state.transactionRecords[index].isPaid;
 
-                String qrCodeInfo = 'amountToPay:$eachTotal;email:$buyerEmail;dateTime:$dateTime;isPaid:$isPaid';
+                String qrCodeInfo = 'amountToPay:${eachTotal.toStringAsFixed(2)};email:$buyerEmail;dateTime:$dateTime;isPaid:$isPaid';
+                if (eachTotal <= 0) {
+                  return SizedBox();
+                }
 
                 return Column(
                   children: [
@@ -137,38 +141,60 @@ class _TransactionPage extends State<TransactionPage> {
                         itemCount: state.transactionRecords[index].cartProduct.length
                       ),
                     ),
-                    QrImageView(
-                      data: qrCodeInfo,
-                      version: QrVersions.auto,
-                      size: 100.0,
-                    ),
-                    InkWell(
-                      onTap: () {
-                        onPayWithQR(qrCodeInfo: qrCodeInfo);
-                      },
-                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                      splashColor: Colors.teal,
-                      child: Ink(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          color: Colors.teal[800]
+                    Stack(
+                      children: [
+                        Column(
+                          children: [
+                            QrImageView(
+                              data: qrCodeInfo,
+                              version: QrVersions.auto,
+                              size: 100.0,
+                            ),
+                            if (!isPaid)
+                              InkWell(
+                                onTap: () {
+                                  onPayWithQR(qrCodeInfo: qrCodeInfo);
+                                },
+                                borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                splashColor: Colors.teal,
+                                child: Ink(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                    color: Colors.teal[800]
+                                  ),
+                                  child: Container(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Text(
+                                      payWithQRTitle,
+                                      style: textStyle(),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            Text(
+                              "$totalTitle ${eachTotal.toStringAsFixed(2)}",
+                              style: textStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold
+                              ),
+                            ),
+                          ],
                         ),
-                        child: Container(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Text(
-                            payWithQRTitle,
-                            style: textStyle(),
+                        Positioned(
+                          top: 50,
+                          child: RotationTransition(
+                            turns: AlwaysStoppedAnimation(15/360),
+                            child: Text(
+                              !isPaid ? unpaidTitle : paidTitle,
+                              style: textStyle(
+                                fontSize: 32,
+                                color: !isPaid ? Colors.red : tealColor
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
-                    Text(
-                      "$totalTitle $eachTotal",
-                      style: textStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold
-                      ),
-                    ),
+                        )
+                      ],
+                    )
                   ],
                 );
               }, 
