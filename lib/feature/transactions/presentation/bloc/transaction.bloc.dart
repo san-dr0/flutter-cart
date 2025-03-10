@@ -23,7 +23,11 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
 
   FutureOr<void> transactionOnPayWithQREvent(TransactionOnPayWithQREvent event, Emitter<TransactionState> emit) {
     String qrCodeInfo = event.qrCodeInfo;
+    List<String> qrCodeInfoSplittedValues = qrCodeInfo.split(";");
+    double amount = double.parse(qrCodeInfoSplittedValues[0].split(":")[1]);
+    String email = qrCodeInfoSplittedValues[1].split(":")[1];
+    String dateTime = qrCodeInfoSplittedValues[2].split(":")[1];
 
-    log("QR code --- $qrCodeInfo");
+    appDatabase.paidTransactionUsingQR(email: email, dateTtime: dateTime, amount: amount);
   }
 }

@@ -188,7 +188,7 @@ class _TransactionPage extends State<TransactionPage> {
                               !isPaid ? unpaidTitle : paidTitle,
                               style: textStyle(
                                 fontSize: 32,
-                                color: !isPaid ? Colors.red : tealColor
+                                color: !isPaid ? Colors.deepOrange[600]! : tealColor
                               ),
                             ),
                           ),

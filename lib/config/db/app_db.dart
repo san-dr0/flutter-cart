@@ -204,4 +204,29 @@ class AppDatabase {
     
     return currentBalance;
   }
+
+  FutureOr<void> paidTransactionUsingQR({required String email, required String dateTtime, required double amount}) async {
+    try{
+      Box transactionBox = await Hive.openBox("transactional");
+      // TransactionEntity txnEntity = transactionBox.get(email);
+      // txnEntity.isPaid = true;
+      TransactionEntity transactionEntity;
+      for(var i = 0; i < transactionBox.values.toList().length; i ++) {
+        transactionEntity = transactionBox.values.toList()[i] as TransactionEntity;
+        log(transactionEntity.email);
+        // transactionBox.get(email);
+      }
+
+      var rec = transactionBox.values.toList();
+      log('Rec >>> ${rec.toString()}');
+
+      // log(transactionBox.get(email).toString());
+
+      // transactionBox.put(email, txnEntity);
+    }
+    catch(error) {
+      log('errr');
+      log(error.toString());
+    }
+  }
 }
