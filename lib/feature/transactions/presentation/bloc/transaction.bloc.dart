@@ -6,6 +6,7 @@ import 'package:clean_arch2/config/db/hive_model/transaction_model/transaction_m
 import 'package:clean_arch2/feature/transactions/presentation/bloc/transaction.event.dart';
 import 'package:clean_arch2/feature/transactions/presentation/bloc/transaction.state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
   AppDatabase appDatabase;
@@ -24,9 +25,9 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
   FutureOr<void> transactionOnPayWithQREvent(TransactionOnPayWithQREvent event, Emitter<TransactionState> emit) {
     String qrCodeInfo = event.qrCodeInfo;
     List<String> qrCodeInfoSplittedValues = qrCodeInfo.split(";");
-    double amount = double.parse(qrCodeInfoSplittedValues[0].split(":")[1]);
-    String email = qrCodeInfoSplittedValues[1].split(":")[1];
-    String dateTime = qrCodeInfoSplittedValues[2].split(":")[1];
+    double amount = double.parse(qrCodeInfoSplittedValues[0].split("&")[1]);
+    String email = qrCodeInfoSplittedValues[1].split("&")[1];
+    String dateTime = qrCodeInfoSplittedValues[2].split("&")[1];
 
     appDatabase.paidTransactionUsingQR(email: email, dateTtime: dateTime, amount: amount);
   }

@@ -208,21 +208,23 @@ class AppDatabase {
   FutureOr<void> paidTransactionUsingQR({required String email, required String dateTtime, required double amount}) async {
     try{
       Box transactionBox = await Hive.openBox("transactional");
-      // TransactionEntity txnEntity = transactionBox.get(email);
-      // txnEntity.isPaid = true;
-      TransactionEntity transactionEntity;
-      for(var i = 0; i < transactionBox.values.toList().length; i ++) {
-        transactionEntity = transactionBox.values.toList()[i] as TransactionEntity;
-        log(transactionEntity.email);
-        // transactionBox.get(email);
+      TransactionEntity? transactionEntity;
+      bool isFound = false;
+
+      for (int index = 0; index < transactionBox.values.length; index++) {
+        TransactionEntity txnEntity = transactionBox.values.toList()[index];
+        if (txnEntity.email == email && txnEntity.dateTime.toString() == dateTtime) {
+          transactionEntity = txnEntity;
+          isFound = true;
+          break;
+        }
       }
 
-      var rec = transactionBox.values.toList();
-      log('Rec >>> ${rec.toString()}');
+      if (isFound) {
+        transactionEntity?.isPaid = true;
+      }
 
-      // log(transactionBox.get(email).toString());
-
-      // transactionBox.put(email, txnEntity);
+      transactionBox.put(email, transactionEntity);
     }
     catch(error) {
       log('errr');

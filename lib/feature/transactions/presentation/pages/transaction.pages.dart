@@ -71,8 +71,9 @@ class _TransactionPage extends State<TransactionPage> {
                 String dateTime = state.transactionRecords[index].dateTime.toString();
                 String buyerEmail = state.transactionRecords[index].email;
                 bool isPaid = state.transactionRecords[index].isPaid;
+                log("isPaid: ${state.transactionRecords[index].isPaid}");
 
-                String qrCodeInfo = 'amountToPay:${eachTotal.toStringAsFixed(2)};email:$buyerEmail;dateTime:$dateTime;isPaid:$isPaid';
+                String qrCodeInfo = 'amountToPay&${eachTotal.toStringAsFixed(2)};email&$buyerEmail;dateTime&$dateTime;isPaid&$isPaid';
                 if (eachTotal <= 0) {
                   return SizedBox();
                 }
@@ -181,7 +182,7 @@ class _TransactionPage extends State<TransactionPage> {
                           ],
                         ),
                         Positioned(
-                          top: 50,
+                          top: !isPaid? 50 : 30,
                           child: RotationTransition(
                             turns: AlwaysStoppedAnimation(15/360),
                             child: Text(
