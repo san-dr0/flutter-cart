@@ -1,4 +1,5 @@
 import 'package:clean_arch2/core/color.dart';
+import 'package:clean_arch2/core/string.dart';
 import 'package:clean_arch2/core/text.style.dart';
 import 'package:clean_arch2/feature/auth/presentation/bloc/auth.bloc.dart';
 import 'package:clean_arch2/feature/auth/presentation/bloc/auth.state.dart';
@@ -9,6 +10,7 @@ import 'package:clean_arch2/feature/topup/presentation/bloc/topup.event.dart';
 import 'package:clean_arch2/feature/topup/presentation/bloc/topup.state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class TopUpComponent extends StatefulWidget {
   const TopUpComponent({super.key});
@@ -71,15 +73,17 @@ class TopUpComponentRenderer extends State<TopUpComponent> {
   }
 
   void onTopUpNewCredit() {
-    topUpBloc.add(TopUpOnTopUpNewBalanceEvent
-      (
-        topUpValue: topUpValue, 
-        email: authBloc.state is AuthOnValidCredentialsState ? 
+    topUpBloc.add(TopUpOnTopUpNewBalanceEvent());
+  }
+
+  void onProceedTopup() {
+    topUpBloc.add(TopUpOnProceedTransactionEvent(
+      topUpValue: topUpValue,
+      email: authBloc.state is AuthOnValidCredentialsState ? 
           (authBloc.state as AuthOnValidCredentialsState).authCredentialsModel!.email 
             : 
           ""
-      )
-    );
+    ));
   }
 
   @override
@@ -153,9 +157,48 @@ class TopUpComponentRenderer extends State<TopUpComponent> {
           BlocListener(
             bloc: topUpBloc,
             listener: (context, state) {
-              balanceBloc.add(BalanceOnChangedCurrentBalanceEvent(currentNewBalance: topUpValue));
+              if (topUpValue > 0 && state is TopUpCurrentBalanceChangedState) {
+                showDialog(context: context, builder: (context) {
+                return AlertDialog(
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        "$areYouSureYouWantToTopupTitle $topUpValue",
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 10.0,),
+                      InkWell(
+                        onTap: () {
+                          onProceedTopup();
+                        },
+                        splashColor: Colors.teal[800],
+                        child: Ink(
+                          decoration: BoxDecoration(
+                            color: Colors.teal,
+                            borderRadius: BorderRadius.all(Radius.circular(10.0))
+                          ),
+                          child: Container(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Text(
+                              "Proceed",
+                              style: textStyle(),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              });
+              }
+              else if (state is TopUpProceedTransactionState) {
+                Navigator.pop(context);
+                balanceBloc.add(BalanceOnChangedCurrentBalanceEvent(currentNewBalance: topUpValue));
+                Fluttertoast.showToast(msg: topUpIsSuccessfull, toastLength: Toast.LENGTH_SHORT);
+              }
             },
-            listenWhen: (previous, current) => current is TopUpCurrentBalanceChangedState,
+            listenWhen: (previous, current) => previous != current,
             child: SizedBox(),
           )
         ],

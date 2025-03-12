@@ -10,6 +10,7 @@ import 'package:clean_arch2/feature/transactions/presentation/bloc/transaction.e
 import 'package:clean_arch2/feature/transactions/presentation/bloc/transaction.state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
@@ -37,8 +38,12 @@ class _TransactionPage extends State<TransactionPage> {
     }
   }
 
-  void onPayWithQR({String qrCodeInfo = ""}) {
-    transactionBloc.add(TransactionOnPayWithQREvent(qrCodeInfo: qrCodeInfo));
+  void onPayConfirmPayWithQR() {
+    transactionBloc.add(TransactionOnPayWithQREvent());
+  }
+
+  void onProceedPayWithQR() {
+
   }
 
   @override
@@ -48,7 +53,9 @@ class _TransactionPage extends State<TransactionPage> {
         backgroundColor: tealColor,
         title: Text(transactionTitle),
       ),
-      body: BlocBuilder(
+      body: Column(
+        children: [
+          BlocBuilder(
         bloc: transactionBloc,
         builder: (context, state) {
           if (state is TransactionOnLoadingState) {
@@ -71,7 +78,6 @@ class _TransactionPage extends State<TransactionPage> {
                 String dateTime = state.transactionRecords[index].dateTime.toString();
                 String buyerEmail = state.transactionRecords[index].email;
                 bool isPaid = state.transactionRecords[index].isPaid;
-                log("isPaid: ${state.transactionRecords[index].isPaid}");
 
                 String qrCodeInfo = 'amountToPay&${eachTotal.toStringAsFixed(2)};email&$buyerEmail;dateTime&$dateTime;isPaid&$isPaid';
                 if (eachTotal <= 0) {
@@ -154,7 +160,7 @@ class _TransactionPage extends State<TransactionPage> {
                             if (!isPaid)
                               InkWell(
                                 onTap: () {
-                                  onPayWithQR(qrCodeInfo: qrCodeInfo);
+                                  onPayConfirmPayWithQR();
                                 },
                                 borderRadius: BorderRadius.all(Radius.circular(10.0)),
                                 splashColor: Colors.teal,
@@ -202,11 +208,54 @@ class _TransactionPage extends State<TransactionPage> {
               separatorBuilder: (context, index) {
                 return SizedBox(height: 5.0,);
               }, 
-              itemCount: state.transactionRecords.length-1
+              itemCount: state.transactionRecords.isNotEmpty? state.transactionRecords.length - 1 : 0
             );
           }
           return SizedBox();
         },
+      ),
+      BlocListener(
+        bloc: transactionBloc,
+        listener: (context, state) {
+          if (state is TransactionConfirmPayWithQRState) {
+            showDialog(context: context, builder: (context) {
+            return AlertDialog(
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(areYouSureYouWantToPayThisTitle),
+                  const SizedBox(height: 10.0,),
+                  InkWell(
+                    onTap: () {
+                      onProceedPayWithQR();
+                    },
+                    splashColor: Colors.teal[800],
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                    child: Ink(
+                      decoration: BoxDecoration(
+                        color: Colors.teal,
+                        borderRadius: BorderRadius.all(Radius.circular(10.0))
+                      ),
+                      child: Container(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Text("Proceed"),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            );
+          },);
+          }
+          else if (state is TransactionProceedConfirmationPayWithQRState) {
+            Navigator.pop(context);
+            Fluttertoast.showToast(msg: paymentWithQRWasSuccessfulTitle, toastLength: Toast.LENGTH_SHORT);
+          }
+        },
+        child: const SizedBox(),
+        listenWhen: (previous, current) => current is TransactionConfirmPayWithQRState || current is TransactionProceedConfirmationPayWithQRState,
+      )
+        ],
       ),
     );
   }

@@ -56,3 +56,7 @@ const String userCreatedSuccessfullyTitle = "User was created successfully";
 const String payWithQRTitle = "Pay with QR";
 const String unpaidTitle = "UNPAID";
 const String paidTitle = "PAID";
+const String areYouSureYouWantToTopupTitle = "Are you sure you want to topup?";
+const String areYouSureYouWantToPayThisTitle = "Are you sure you want to pay this?";
+const String topUpIsSuccessfull = "Topup balance was added.";
+const String paymentWithQRWasSuccessfulTitle = "Payment using QR is sucessfull.";

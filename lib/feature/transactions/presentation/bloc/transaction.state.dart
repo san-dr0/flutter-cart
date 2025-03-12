@@ -19,5 +19,14 @@ class TransactionOnLoadedRecordsState extends TransactionState {
   List<Object?> get props => [
     transactionRecords
   ];
+}
 
+class TransactionConfirmPayWithQRState extends TransactionState {
+  @override
+  List<Object?> get props => [];
+}
+
+class TransactionProceedConfirmationPayWithQRState extends TransactionState {
+  @override
+  List<Object?> get props => [];
 }

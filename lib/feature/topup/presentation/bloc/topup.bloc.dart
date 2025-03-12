@@ -9,14 +9,19 @@ class TopUpBloc extends Bloc<TopUpEvent, TopUpBaseState> {
   AppDatabase appDatabase;
   TopUpBloc({required this.appDatabase}): super(TopUpState()) {
     on<TopUpOnTopUpNewBalanceEvent>(topUpOnTopUpNewBalanceEvent);
+    on<TopUpOnProceedTransactionEvent>(topUpOnProceedTransactionEvent);
   }
   
   FutureOr<void> topUpOnTopUpNewBalanceEvent(TopUpOnTopUpNewBalanceEvent event, Emitter<TopUpBaseState> emit) {
+    emit(TopUpState());
+    emit(TopUpCurrentBalanceChangedState());
+  }
+
+  FutureOr<void> topUpOnProceedTransactionEvent(TopUpOnProceedTransactionEvent event, Emitter<TopUpBaseState> emit) {
     double topUpValue = event.topUpValue;
     String email = event.email;
     
     appDatabase.updateCurrentBalance(email, topUpValue);
-    emit(TopUpState());
-    emit(TopUpCurrentBalanceChangedState());
+    emit(TopUpProceedTransactionState());
   }
 }

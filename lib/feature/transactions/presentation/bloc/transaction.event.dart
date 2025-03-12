@@ -9,7 +9,12 @@ class TransactionOnLoadedEvent extends TransactionEvent {
 }
 
 class TransactionOnPayWithQREvent extends TransactionEvent {
+
+  TransactionOnPayWithQREvent();
+}
+
+class TransactionProceedPayWithQREvent extends TransactionEvent {
   String qrCodeInfo;
 
-  TransactionOnPayWithQREvent({required this.qrCodeInfo});
+  TransactionProceedPayWithQREvent({required this.qrCodeInfo});
 }

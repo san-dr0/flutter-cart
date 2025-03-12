@@ -210,21 +210,23 @@ class AppDatabase {
       Box transactionBox = await Hive.openBox("transactional");
       TransactionEntity? transactionEntity;
       bool isFound = false;
+      int indexToUpdate = 0;
 
       for (int index = 0; index < transactionBox.values.length; index++) {
         TransactionEntity txnEntity = transactionBox.values.toList()[index];
         if (txnEntity.email == email && txnEntity.dateTime.toString() == dateTtime) {
           transactionEntity = txnEntity;
           isFound = true;
+          indexToUpdate = index;
           break;
         }
       }
 
       if (isFound) {
         transactionEntity?.isPaid = true;
+        transactionBox.putAt(indexToUpdate, transactionEntity);
       }
 
-      transactionBox.put(email, transactionEntity);
     }
     catch(error) {
       log('errr');
