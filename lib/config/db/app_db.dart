@@ -144,17 +144,24 @@ class AppDatabase {
   }
 
   FutureOr<List<TransactionEntity>> getTransactionRecordOfCertainUser({String email = ""}) async {
-    Box cartBox = await Hive.openBox('transactional');
-    final txtRecords = cartBox.values.toList();
-    List<TransactionEntity> historicalRecords = [];
+    try{
+      Box cartBox = await Hive.openBox('transactional');
+      final txtRecords = cartBox.values.toList();
+      List<TransactionEntity> historicalRecords = [];
 
-    for(TransactionEntity txtR in txtRecords) {
-      if (txtR.email == email) {
-        historicalRecords.add(txtR);
+      for(TransactionEntity txtR in txtRecords) {
+        if (txtR.email == email) {
+          historicalRecords.add(txtR);
+        }
       }
-    }
 
-    return historicalRecords;
+      return historicalRecords;
+    }
+    catch(error) {
+      log("Errorr >>> ");
+      log(error.toString());
+      return [];
+    }
   }
 
   FutureOr<void> updateCredential({
@@ -189,6 +196,15 @@ class AppDatabase {
       balanceEntity.currentBalance += (record as BalanceEntity).currentBalance;
       balanceBox.put(email, balanceEntity);
     }
+  }
+
+  FutureOr<double> getCurrentUserCurrentBalance(String email) async {
+    double currentBalance = 0.00;
+    Box balanceBox = await Hive.openBox("balance");
+
+    log("Current balance");
+    log(balanceBox.get(email).toString());
+    return currentBalance;
   }
 
   FutureOr<double> getActiveUserCurrentBalance(String email) async {

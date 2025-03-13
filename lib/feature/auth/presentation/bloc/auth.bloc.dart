@@ -9,6 +9,7 @@ import 'package:clean_arch2/core/text.style.dart';
 import 'package:clean_arch2/feature/auth/domain/auth.domain.dart';
 import 'package:clean_arch2/feature/auth/presentation/bloc/auth.state.dart';
 import 'package:clean_arch2/feature/cart/presentation/bloc/cart.bloc.dart';
+import 'package:clean_arch2/feature/topup/presentation/bloc/topup.state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -123,72 +124,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       if (state is AuthOnValidCredentialsState) {
         final authState = (state as AuthOnValidCredentialsState).authCredentialsModel;
         if (authState != null) {
-          showDialog(
-            context: context, 
-            builder: (context) {
-              return AlertDialog(
-                title: Text("Confirm"),
-                content: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text("Are you sure you want to buy this item ?")
-                  ],
-                ),
-                actions: [
-                  InkWell(
-                    onTap: () {
-                      add(AuthCancelCartConfirmationDialog(context: context));
-                    },
-                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                    splashColor: Colors.teal,
-                    child: Ink(
-                      decoration: BoxDecoration(
-                        color: Colors.teal[800],
-                        borderRadius: BorderRadius.all(Radius.circular(10.0))
-                      ),
-                      child: Container(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Text(
-                          "Cancel",
-                          style: textStyle(),
-                        ),
-                      ),
-                    )
-                  ),
-                  BlocListener(
-                    bloc: this,
-                    listener: (context, state) {
-                      context.read<CartBloc>().add(CartOnResetProductListEvent(email: authState.email));
-                    },
-                    listenWhen: (previous, current) => current is AuthOnResetCartProductListState 
-                      || current is AuthOnValidCredentialsState,
-                    child: Text(""),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      add(AuthProceedBuyCartItemConfirmationDialog(context: context, cartProductList: cartProductList));
-                    },
-                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                    splashColor: Colors.teal,
-                    child: Ink(
-                      decoration: BoxDecoration(
-                        color: Colors.teal[800],
-                        borderRadius: BorderRadius.all(Radius.circular(10.0))
-                      ),
-                      child: Container(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Text(
-                          "Yes of course",
-                          style: textStyle(),
-                        ),
-                      ),
-                    )
-                  )
-                ],
-              );
-            },
-            barrierDismissible: false
-          );
+          emit(AuthCheckCurrentActiveUserCurrentBalanceState());
         }
         else {
           emit(AuthOnLoadingState());

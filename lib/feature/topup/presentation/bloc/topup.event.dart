@@ -13,3 +13,5 @@ class TopUpOnProceedTransactionEvent extends TopUpEvent {
 
   TopUpOnProceedTransactionEvent({required this.topUpValue, required this.email});
 }
+
+class TopUpCheckCurrentActiveUserCurrentBalanceEvent extends TopUpEvent {}

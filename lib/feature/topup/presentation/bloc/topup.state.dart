@@ -16,3 +16,8 @@ class TopUpProceedTransactionState extends TopUpBaseState {
   @override
   List<Object?> get props => [];
 }
+
+class TopUpCheckCurrentActiveUserCurrentBalanceState extends TopUpBaseState {
+  @override
+  List<Object?> get props => [];
+}

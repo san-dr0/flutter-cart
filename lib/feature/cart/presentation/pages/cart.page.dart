@@ -5,13 +5,14 @@ import 'package:clean_arch2/feature/auth/presentation/bloc/auth.bloc.dart';
 import 'package:clean_arch2/feature/cart/presentation/bloc/cart.bloc.dart';
 import 'package:clean_arch2/feature/cart/presentation/bloc/cart.event.dart';
 import 'package:clean_arch2/feature/cart/presentation/bloc/cart.state.dart';
-import 'package:clean_arch2/feature/home/domain/product.domain.dart';
+import 'package:clean_arch2/feature/topup/presentation/bloc/topup.bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/text.style.dart';
 import '../../../auth/presentation/bloc/auth.event.dart';
 import '../../../auth/presentation/bloc/auth.state.dart';
+import '../../../topup/presentation/bloc/topup.state.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({super.key});
@@ -23,12 +24,15 @@ class CartPage extends StatefulWidget {
 class _CartPage extends State<CartPage> {
   late CartBloc cartBloc;
   late AuthBloc authBloc;
+  late TopUpBloc topUpBloc;
 
   @override
   void initState() {
     super.initState();
     cartBloc = context.read<CartBloc>();
     authBloc = context.read<AuthBloc>();
+    topUpBloc = context.read<TopUpBloc>();
+
     cartBloc.add(CartOnAmountToPaidEvent());
   }
 
@@ -265,13 +269,90 @@ class _CartPage extends State<CartPage> {
             BlocListener(
               bloc: authBloc,
               listener: (context, state) {
-                ScaffoldMessenger.of(context)
+                if (state is AuthNotLoggedInState) {
+                  ScaffoldMessenger.of(context)
                   .showSnackBar(
                     SnackBar(content: Text(authNotLoggedInTitle))
                   );
+                }
+                // else if (state is ) {
+                //   showDialog(
+                //     context: context, 
+                //     builder: (context) {
+                //       return AlertDialog(
+                //         title: Text("Confirm"),
+                //         content: Column(
+                //           mainAxisSize: MainAxisSize.min,
+                //           children: [
+                //             Text("Are you sure you want to buy this item ?")
+                //           ],
+                //         ),
+                //         actions: [
+                //           InkWell(
+                //             onTap: () {
+                //               add(AuthCancelCartConfirmationDialog(context: context));
+                //             },
+                //             borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                //             splashColor: Colors.teal,
+                //             child: Ink(
+                //               decoration: BoxDecoration(
+                //                 color: Colors.teal[800],
+                //                 borderRadius: BorderRadius.all(Radius.circular(10.0))
+                //               ),
+                //               child: Container(
+                //                 padding: const EdgeInsets.all(10.0),
+                //                 child: Text(
+                //                   "Cancel",
+                //                   style: textStyle(),
+                //                 ),
+                //               ),
+                //             )
+                //           ),
+                //           BlocListener(
+                //             bloc: this,
+                //             listener: (context, state) {
+                //               context.read<CartBloc>().add(CartOnResetProductListEvent(email: authState.email));
+                //             },
+                //             listenWhen: (previous, current) => current is AuthOnResetCartProductListState 
+                //               || current is AuthOnValidCredentialsState,
+                //             child: Text(""),
+                //           ),
+                //           InkWell(
+                //             onTap: () {
+                //               add(AuthProceedBuyCartItemConfirmationDialog(context: context, cartProductList: cartProductList));
+                //             },
+                //             borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                //             splashColor: Colors.teal,
+                //             child: Ink(
+                //               decoration: BoxDecoration(
+                //                 color: Colors.teal[800],
+                //                 borderRadius: BorderRadius.all(Radius.circular(10.0))
+                //               ),
+                //               child: Container(
+                //                 padding: const EdgeInsets.all(10.0),
+                //                 child: Text(
+                //                   "Yes of course",
+                //                   style: textStyle(),
+                //                 ),
+                //               ),
+                //             )
+                //           )
+                //         ],
+                //       );
+                //     },
+                //     barrierDismissible: false
+                //   );
+                // }
+                else if (state is AuthCheckCurrentActiveUserCurrentBalanceState) {
+                  ScaffoldMessenger.of(context)
+                  .showSnackBar(
+                    SnackBar(content: Text(topUpCurrentBalanceTitle))
+                  );
+                }
               },
               listenWhen: (previous, current) {
-                return current is AuthNotLoggedInState;
+                return current is AuthNotLoggedInState || 
+                  current is TopUpCheckCurrentActiveUserCurrentBalanceState;
               },
               child: Text(""),
             )

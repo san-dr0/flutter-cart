@@ -10,6 +10,7 @@ class TopUpBloc extends Bloc<TopUpEvent, TopUpBaseState> {
   TopUpBloc({required this.appDatabase}): super(TopUpState()) {
     on<TopUpOnTopUpNewBalanceEvent>(topUpOnTopUpNewBalanceEvent);
     on<TopUpOnProceedTransactionEvent>(topUpOnProceedTransactionEvent);
+    on<TopUpCheckCurrentActiveUserCurrentBalanceEvent>(topUpCheckCurrentActiveUserCurrentBalanceEvent);
   }
   
   FutureOr<void> topUpOnTopUpNewBalanceEvent(TopUpOnTopUpNewBalanceEvent event, Emitter<TopUpBaseState> emit) {
@@ -23,5 +24,10 @@ class TopUpBloc extends Bloc<TopUpEvent, TopUpBaseState> {
     
     appDatabase.updateCurrentBalance(email, topUpValue);
     emit(TopUpProceedTransactionState());
+  }
+  
+  FutureOr<void> topUpCheckCurrentActiveUserCurrentBalanceEvent(TopUpCheckCurrentActiveUserCurrentBalanceEvent event, Emitter<TopUpBaseState> emit) {
+    
+    emit(TopUpCheckCurrentActiveUserCurrentBalanceState());
   }
 }
