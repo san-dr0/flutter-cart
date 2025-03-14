@@ -122,9 +122,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try{
       // BuildContext context = event.context;
       if (state is AuthOnValidCredentialsState) {
+        log('Im in >>> ');
         final authState = (state as AuthOnValidCredentialsState).authCredentialsModel;
         if (authState != null) {
+          log('auth is SET');
           emit(AuthCheckCurrentActiveUserCurrentBalanceState());
+          emit(AuthOnValidCredentialsState(authCredentialsModel: authState));
         }
         else {
           emit(AuthOnLoadingState());

@@ -61,3 +61,4 @@ const String areYouSureYouWantToTopupTitle = "Are you sure you want to topup?";
 const String areYouSureYouWantToPayThisTitle = "Are you sure you want to pay this?";
 const String topUpIsSuccessfull = "Topup balance was added.";
 const String paymentWithQRWasSuccessfulTitle = "Payment using QR is sucessfull.";
+const String cantProceedPurchaseInsufficientBalance = "Insufficient balance, please top up your account";

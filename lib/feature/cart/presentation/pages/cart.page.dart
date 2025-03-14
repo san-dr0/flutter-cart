@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:clean_arch2/config/db/hive_model/product_model/product_model.dart';
 import 'package:clean_arch2/core/color.dart';
 import 'package:clean_arch2/core/string.dart';
@@ -12,6 +14,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/text.style.dart';
 import '../../../auth/presentation/bloc/auth.event.dart';
 import '../../../auth/presentation/bloc/auth.state.dart';
+import '../../../topup/presentation/bloc/topup.event.dart';
 import '../../../topup/presentation/bloc/topup.state.dart';
 
 class CartPage extends StatefulWidget {
@@ -269,6 +272,8 @@ class _CartPage extends State<CartPage> {
             BlocListener(
               bloc: authBloc,
               listener: (context, state) {
+                log("currentState >>>> ");
+                log(state.toString());
                 if (state is AuthNotLoggedInState) {
                   ScaffoldMessenger.of(context)
                   .showSnackBar(
@@ -344,15 +349,17 @@ class _CartPage extends State<CartPage> {
                 //   );
                 // }
                 else if (state is AuthCheckCurrentActiveUserCurrentBalanceState) {
-                  ScaffoldMessenger.of(context)
-                  .showSnackBar(
-                    SnackBar(content: Text(topUpCurrentBalanceTitle))
+                  topUpBloc.add(TopUpCheckCurrentActiveUserCurrentBalanceEvent());
+                }
+                else if (state is TopUpCurrentActiveUserBalanceIsInsufficientState) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(cantProceedPurchaseInsufficientBalance))
                   );
                 }
               },
               listenWhen: (previous, current) {
                 return current is AuthNotLoggedInState || 
-                  current is TopUpCheckCurrentActiveUserCurrentBalanceState;
+                  current is TopUpCurrentActiveUserBalanceIsInsufficientState || current is AuthCheckCurrentActiveUserCurrentBalanceState;
               },
               child: Text(""),
             )
