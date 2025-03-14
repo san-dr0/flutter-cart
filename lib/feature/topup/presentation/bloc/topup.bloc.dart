@@ -28,6 +28,7 @@ class TopUpBloc extends Bloc<TopUpEvent, TopUpBaseState> {
   }
   
   FutureOr<void> topUpCheckCurrentActiveUserCurrentBalanceEvent(TopUpCheckCurrentActiveUserCurrentBalanceEvent event, Emitter<TopUpBaseState> emit) {
+    emit(TopUpOnLoadingState());
     emit(TopUpCurrentActiveUserBalanceIsInsufficientState());
   }
 }

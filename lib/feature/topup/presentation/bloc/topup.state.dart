@@ -7,6 +7,10 @@ class TopUpState extends TopUpBaseState {
   List<Object?> get props => [];
 }
 
+class TopUpOnLoadingState extends TopUpBaseState {
+  @override
+  List<Object?> get props => [];
+}
 class TopUpCurrentBalanceChangedState extends TopUpBaseState {
   @override
   List<Object?> get props => [];

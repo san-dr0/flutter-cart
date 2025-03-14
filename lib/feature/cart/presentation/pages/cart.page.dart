@@ -348,19 +348,19 @@ class _CartPage extends State<CartPage> {
                 //     barrierDismissible: false
                 //   );
                 // }
-                else if (state is AuthCheckCurrentActiveUserCurrentBalanceState) {
+                else if (state is AuthOnValidCredentialsState) {
                   topUpBloc.add(TopUpCheckCurrentActiveUserCurrentBalanceEvent());
                 }
                 
               },
               listenWhen: (previous, current) {
                 return current is AuthNotLoggedInState || 
-                  current is TopUpCurrentActiveUserBalanceIsInsufficientState || current is AuthCheckCurrentActiveUserCurrentBalanceState;
+                  current is TopUpCurrentActiveUserBalanceIsInsufficientState || current is AuthCheckCurrentActiveUserCurrentBalanceState || current is AuthOnValidCredentialsState;
               },
               child: Text(""),
             ),
             BlocListener(
-              bloc: context.watch<TopUpBloc>(),
+              bloc: context.read<TopUpBloc>(),
               listener: (context, state) {
                 if (state is TopUpCurrentActiveUserBalanceIsInsufficientState) {
                   log('should be here >>> TopUpCurrentActiveUserBalanceIsInsufficientState');
@@ -369,6 +369,7 @@ class _CartPage extends State<CartPage> {
                   );
                 }
               },
+              listenWhen: (previous, current) => current is TopUpCurrentActiveUserBalanceIsInsufficientState,
               child: const SizedBox(),
             )
           ],
