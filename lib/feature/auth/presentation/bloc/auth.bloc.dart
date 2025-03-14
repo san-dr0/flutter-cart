@@ -117,16 +117,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   FutureOr<void> authOnCheckoutEvent(AuthOnCheckoutEvent event, Emitter<AuthState> emit) {
-    BuildContext context = event.context;
     List<ProductEntity> cartProductList = event.cartProductList;
     try{
-      // BuildContext context = event.context;
       if (state is AuthOnValidCredentialsState) {
-        log('Im in >>> ');
         final authState = (state as AuthOnValidCredentialsState).authCredentialsModel;
         if (authState != null) {
-          log('auth is SET');
-          emit(AuthCheckCurrentActiveUserCurrentBalanceState());
           emit(AuthOnValidCredentialsState(authCredentialsModel: authState));
         }
         else {

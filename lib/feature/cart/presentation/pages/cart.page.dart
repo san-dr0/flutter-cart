@@ -355,7 +355,7 @@ class _CartPage extends State<CartPage> {
               },
               listenWhen: (previous, current) {
                 return current is AuthNotLoggedInState || 
-                  current is TopUpCurrentActiveUserBalanceIsInsufficientState || current is AuthCheckCurrentActiveUserCurrentBalanceState || current is AuthOnValidCredentialsState;
+                  current is TopUpCurrentActiveUserBalanceIsInsufficientState || current is AuthOnValidCredentialsState;
               },
               child: Text(""),
             ),
