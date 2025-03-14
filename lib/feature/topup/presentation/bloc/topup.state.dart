@@ -22,6 +22,18 @@ class TopUpProceedTransactionState extends TopUpBaseState {
 }
 
 class TopUpCurrentActiveUserBalanceIsInsufficientState extends TopUpBaseState {
+
+  TopUpCurrentActiveUserBalanceIsInsufficientState();
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [
+  ];
+}
+
+class TopUpCurrentActiveUserRunningBalanceState extends TopUpBaseState {
+  double currentActiveUserRunningBalance = 0.00;
+
+  TopUpCurrentActiveUserRunningBalanceState({required this.currentActiveUserRunningBalance});
+  
+  @override
+  List<Object?> get props => [currentActiveUserRunningBalance];
 }

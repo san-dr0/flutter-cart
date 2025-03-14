@@ -122,7 +122,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       if (state is AuthOnValidCredentialsState) {
         final authState = (state as AuthOnValidCredentialsState).authCredentialsModel;
         if (authState != null) {
-          emit(AuthOnValidCredentialsState(authCredentialsModel: authState));
+          log('wewe...');
+          AuthCheckCurrentActiveUserCurrentBalanceState(authCredentialsModel: authState);
         }
         else {
           emit(AuthOnLoadingState());

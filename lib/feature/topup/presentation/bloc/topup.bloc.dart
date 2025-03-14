@@ -27,8 +27,17 @@ class TopUpBloc extends Bloc<TopUpEvent, TopUpBaseState> {
     emit(TopUpProceedTransactionState());
   }
   
-  FutureOr<void> topUpCheckCurrentActiveUserCurrentBalanceEvent(TopUpCheckCurrentActiveUserCurrentBalanceEvent event, Emitter<TopUpBaseState> emit) {
+  FutureOr<void> topUpCheckCurrentActiveUserCurrentBalanceEvent(TopUpCheckCurrentActiveUserCurrentBalanceEvent event, Emitter<TopUpBaseState> emit) async{
+    String email = event.email;
+    double runningBalance = await appDatabase.getActiveUserCurrentBalance(email);
+    log("The currentRunningB >>> $runningBalance");
+
     emit(TopUpOnLoadingState());
-    emit(TopUpCurrentActiveUserBalanceIsInsufficientState());
+    if (runningBalance > 0) {
+      emit(TopUpCurrentActiveUserRunningBalanceState(currentActiveUserRunningBalance: runningBalance));
+    }
+    else {
+      emit(TopUpCurrentActiveUserBalanceIsInsufficientState());
+    }
   }
 }

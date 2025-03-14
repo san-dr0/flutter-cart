@@ -26,4 +26,8 @@ class AuthErrorSavingCartTransctionState extends AuthState {}
 
 class AuthOnResetCartProductListState extends AuthState {}
 
-class AuthCheckCurrentActiveUserCurrentBalanceState extends AuthState {}
+class AuthCheckCurrentActiveUserCurrentBalanceState extends AuthState {
+  AuthCredentialsModel? authCredentialsModel;
+
+  AuthCheckCurrentActiveUserCurrentBalanceState({required this.authCredentialsModel});
+}

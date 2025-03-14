@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:clean_arch2/config/db/hive_model/product_model/product_model.dart';
 import 'package:clean_arch2/core/color.dart';
 import 'package:clean_arch2/core/string.dart';
+import 'package:clean_arch2/feature/auth/domain/auth.domain.dart';
 import 'package:clean_arch2/feature/auth/presentation/bloc/auth.bloc.dart';
 import 'package:clean_arch2/feature/cart/presentation/bloc/cart.bloc.dart';
 import 'package:clean_arch2/feature/cart/presentation/bloc/cart.event.dart';
@@ -10,6 +11,7 @@ import 'package:clean_arch2/feature/cart/presentation/bloc/cart.state.dart';
 import 'package:clean_arch2/feature/topup/presentation/bloc/topup.bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../../../core/text.style.dart';
 import '../../../auth/presentation/bloc/auth.event.dart';
@@ -270,9 +272,9 @@ class _CartPage extends State<CartPage> {
               ),
             ),
             BlocListener(
-              bloc: authBloc,
+              bloc: context.read<AuthBloc>(),
               listener: (context, state) {
-                log("currentState >>>> ");
+                log('Ohhhh >>> ');
                 log(state.toString());
                 if (state is AuthNotLoggedInState) {
                   ScaffoldMessenger.of(context)
@@ -280,96 +282,36 @@ class _CartPage extends State<CartPage> {
                     SnackBar(content: Text(authNotLoggedInTitle))
                   );
                 }
-                // else if (state is ) {
-                //   showDialog(
-                //     context: context, 
-                //     builder: (context) {
-                //       return AlertDialog(
-                //         title: Text("Confirm"),
-                //         content: Column(
-                //           mainAxisSize: MainAxisSize.min,
-                //           children: [
-                //             Text("Are you sure you want to buy this item ?")
-                //           ],
-                //         ),
-                //         actions: [
-                //           InkWell(
-                //             onTap: () {
-                //               add(AuthCancelCartConfirmationDialog(context: context));
-                //             },
-                //             borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                //             splashColor: Colors.teal,
-                //             child: Ink(
-                //               decoration: BoxDecoration(
-                //                 color: Colors.teal[800],
-                //                 borderRadius: BorderRadius.all(Radius.circular(10.0))
-                //               ),
-                //               child: Container(
-                //                 padding: const EdgeInsets.all(10.0),
-                //                 child: Text(
-                //                   "Cancel",
-                //                   style: textStyle(),
-                //                 ),
-                //               ),
-                //             )
-                //           ),
-                //           BlocListener(
-                //             bloc: this,
-                //             listener: (context, state) {
-                //               context.read<CartBloc>().add(CartOnResetProductListEvent(email: authState.email));
-                //             },
-                //             listenWhen: (previous, current) => current is AuthOnResetCartProductListState 
-                //               || current is AuthOnValidCredentialsState,
-                //             child: Text(""),
-                //           ),
-                //           InkWell(
-                //             onTap: () {
-                //               add(AuthProceedBuyCartItemConfirmationDialog(context: context, cartProductList: cartProductList));
-                //             },
-                //             borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                //             splashColor: Colors.teal,
-                //             child: Ink(
-                //               decoration: BoxDecoration(
-                //                 color: Colors.teal[800],
-                //                 borderRadius: BorderRadius.all(Radius.circular(10.0))
-                //               ),
-                //               child: Container(
-                //                 padding: const EdgeInsets.all(10.0),
-                //                 child: Text(
-                //                   "Yes of course",
-                //                   style: textStyle(),
-                //                 ),
-                //               ),
-                //             )
-                //           )
-                //         ],
-                //       );
-                //     },
-                //     barrierDismissible: false
-                //   );
-                // }
                 else if (state is AuthOnValidCredentialsState) {
-                  topUpBloc.add(TopUpCheckCurrentActiveUserCurrentBalanceEvent());
+                  Fluttertoast.showToast(msg: "Oks", toastLength: Toast.LENGTH_LONG);
                 }
-                
+                else if (state is AuthCheckCurrentActiveUserCurrentBalanceState) {
+                  log('Checking for balance');
+                  AuthCredentialsModel authCredentialsModel = (state as AuthOnValidCredentialsState).authCredentialsModel!;
+                  topUpBloc.add(TopUpCheckCurrentActiveUserCurrentBalanceEvent(email: authCredentialsModel.email));
+                }
               },
               listenWhen: (previous, current) {
                 return current is AuthNotLoggedInState || 
-                  current is TopUpCurrentActiveUserBalanceIsInsufficientState || current is AuthOnValidCredentialsState;
+                  current is TopUpCurrentActiveUserBalanceIsInsufficientState || current is AuthOnValidCredentialsState || current is AuthCheckCurrentActiveUserCurrentBalanceState;
               },
               child: Text(""),
             ),
             BlocListener(
               bloc: context.read<TopUpBloc>(),
               listener: (context, state) {
+                log('Blocc .... ');
+                log(state.toString());
                 if (state is TopUpCurrentActiveUserBalanceIsInsufficientState) {
-                  log('should be here >>> TopUpCurrentActiveUserBalanceIsInsufficientState');
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text(cantProceedPurchaseInsufficientBalance))
                   );
                 }
+                else if (state is TopUpCurrentActiveUserRunningBalanceState) {
+                  authBloc.add(AuthProceedBuyCartItemConfirmationDialog(context: context));
+                }
               },
-              listenWhen: (previous, current) => current is TopUpCurrentActiveUserBalanceIsInsufficientState,
+              listenWhen: (previous, current) => current is TopUpCurrentActiveUserBalanceIsInsufficientState || current is TopUpCurrentActiveUserRunningBalanceState,
               child: const SizedBox(),
             )
           ],
