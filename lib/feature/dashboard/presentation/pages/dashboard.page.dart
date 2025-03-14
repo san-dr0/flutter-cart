@@ -143,6 +143,12 @@ class _DashBoardPage extends State<DashBoardPage> {
                     },
                     title: Text("Barcode Pay"),
                   ),
+                  if (authCredentialsModel?.userType == 'User')
+                  ListTile(
+                    onTap: () {
+                    },
+                    title: Text("Inquiries"),
+                  ),
                 if (authCredentialsModel?.userType == 'Admin')
                   ListTile(
                     onTap: () {},

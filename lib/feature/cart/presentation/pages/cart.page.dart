@@ -351,17 +351,25 @@ class _CartPage extends State<CartPage> {
                 else if (state is AuthCheckCurrentActiveUserCurrentBalanceState) {
                   topUpBloc.add(TopUpCheckCurrentActiveUserCurrentBalanceEvent());
                 }
-                else if (state is TopUpCurrentActiveUserBalanceIsInsufficientState) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(cantProceedPurchaseInsufficientBalance))
-                  );
-                }
+                
               },
               listenWhen: (previous, current) {
                 return current is AuthNotLoggedInState || 
                   current is TopUpCurrentActiveUserBalanceIsInsufficientState || current is AuthCheckCurrentActiveUserCurrentBalanceState;
               },
               child: Text(""),
+            ),
+            BlocListener(
+              bloc: topUpBloc,
+              listener: (context, state) {
+                if (state is TopUpCurrentActiveUserBalanceIsInsufficientState) {
+                  log('should be here >>> TopUpCurrentActiveUserBalanceIsInsufficientState');
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(cantProceedPurchaseInsufficientBalance))
+                  );
+                }
+              },
+              child: const SizedBox(),
             )
           ],
         ),
