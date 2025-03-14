@@ -360,7 +360,7 @@ class _CartPage extends State<CartPage> {
               child: Text(""),
             ),
             BlocListener(
-              bloc: topUpBloc,
+              bloc: context.watch<TopUpBloc>(),
               listener: (context, state) {
                 if (state is TopUpCurrentActiveUserBalanceIsInsufficientState) {
                   log('should be here >>> TopUpCurrentActiveUserBalanceIsInsufficientState');
