@@ -31,3 +31,5 @@ class AuthCheckCurrentActiveUserCurrentBalanceState extends AuthState {
 
   AuthCheckCurrentActiveUserCurrentBalanceState({required this.authCredentialsModel});
 }
+
+class AuthOnProceedConfirmationState extends AuthState {}

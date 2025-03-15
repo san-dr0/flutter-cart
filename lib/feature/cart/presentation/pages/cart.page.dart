@@ -11,7 +11,6 @@ import 'package:clean_arch2/feature/cart/presentation/bloc/cart.state.dart';
 import 'package:clean_arch2/feature/topup/presentation/bloc/topup.bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../../../core/text.style.dart';
 import '../../../auth/presentation/bloc/auth.event.dart';
@@ -58,6 +57,11 @@ class _CartPage extends State<CartPage> {
   void onRemoveProduct(ProductEntity productModel) {
     cartBloc.add(CartOnRemoveProductEvent(productModel: productModel));
     cartBloc.add(CartOnAmountToPaidEvent());
+  }
+
+  void onProceedPayment(String email) {
+    cartBloc.add(CartOnResetProductListEvent(email: email));
+    Navigator.pop(context);
   }
 
   @override
@@ -272,10 +276,8 @@ class _CartPage extends State<CartPage> {
               ),
             ),
             BlocListener(
-              bloc: context.read<AuthBloc>(),
+              bloc: context.watch<AuthBloc>(),
               listener: (context, state) {
-                log('Ohhhh >>> ');
-                log(state.toString());
                 if (state is AuthNotLoggedInState) {
                   ScaffoldMessenger.of(context)
                   .showSnackBar(
@@ -283,11 +285,7 @@ class _CartPage extends State<CartPage> {
                   );
                 }
                 else if (state is AuthOnValidCredentialsState) {
-                  Fluttertoast.showToast(msg: "Oks", toastLength: Toast.LENGTH_LONG);
-                }
-                else if (state is AuthCheckCurrentActiveUserCurrentBalanceState) {
-                  log('Checking for balance');
-                  AuthCredentialsModel authCredentialsModel = (state as AuthOnValidCredentialsState).authCredentialsModel!;
+                  AuthCredentialsModel authCredentialsModel = state.authCredentialsModel!;
                   topUpBloc.add(TopUpCheckCurrentActiveUserCurrentBalanceEvent(email: authCredentialsModel.email));
                 }
               },
@@ -300,15 +298,37 @@ class _CartPage extends State<CartPage> {
             BlocListener(
               bloc: context.read<TopUpBloc>(),
               listener: (context, state) {
-                log('Blocc .... ');
-                log(state.toString());
                 if (state is TopUpCurrentActiveUserBalanceIsInsufficientState) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text(cantProceedPurchaseInsufficientBalance))
                   );
                 }
                 else if (state is TopUpCurrentActiveUserRunningBalanceState) {
-                  authBloc.add(AuthProceedBuyCartItemConfirmationDialog(context: context));
+                  showDialog(context: context, builder: (context) {
+                    return AlertDialog(
+                      content: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text("Are you sure you want to buy this?"),
+                          const SizedBox(height: 10.0,),
+
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              OutlinedButton(onPressed: () {
+                                Navigator.pop(context);
+                              }, child: Text("Cancel")),
+                              const SizedBox(width: 10.0,),
+                              OutlinedButton(onPressed: () {
+                                onProceedPayment(state.email);
+                              }, child: Text("Proceed")),
+                            ],
+                          )
+                        ],
+                      ),
+                    );
+                  },);
+                  // authBloc.add(AuthProceedBuyCartItemConfirmationDialog());
                 }
               },
               listenWhen: (previous, current) => current is TopUpCurrentActiveUserBalanceIsInsufficientState || current is TopUpCurrentActiveUserRunningBalanceState,

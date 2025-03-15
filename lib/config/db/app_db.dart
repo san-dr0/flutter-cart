@@ -186,8 +186,6 @@ class AppDatabase {
     Box balanceBox = await Hive.openBox("balance");
     var record = balanceBox.get(email);
 
-    log("The record");
-    log(record.toString());
     BalanceEntity balanceEntity = BalanceEntity(id: Uuid().v4(), email: email, currentBalance: topUpValue);
     if (record == null) {
       balanceBox.put(email, balanceEntity);

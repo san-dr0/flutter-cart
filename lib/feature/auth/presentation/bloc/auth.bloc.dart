@@ -5,15 +5,11 @@ import 'package:clean_arch2/config/db/app_db.dart';
 import 'package:clean_arch2/config/db/hive_model/product_model/product_model.dart';
 import 'package:clean_arch2/config/db/request/request.dart';
 import 'package:clean_arch2/core/string.dart';
-import 'package:clean_arch2/core/text.style.dart';
 import 'package:clean_arch2/feature/auth/domain/auth.domain.dart';
 import 'package:clean_arch2/feature/auth/presentation/bloc/auth.state.dart';
-import 'package:clean_arch2/feature/cart/presentation/bloc/cart.bloc.dart';
-import 'package:clean_arch2/feature/topup/presentation/bloc/topup.state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import '../../../cart/presentation/bloc/cart.event.dart';
 import 'auth.event.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
@@ -111,6 +107,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         context.push("/login");
       }
     }
+    else if (state is AuthCheckCurrentActiveUserCurrentBalanceState) {
+      final authCreds = state as AuthCheckCurrentActiveUserCurrentBalanceState;
+
+      if (authCreds.authCredentialsModel != null) {
+        emit(AuthOnValidCredentialsState(authCredentialsModel: authCreds.authCredentialsModel));
+        context.push('/dashboard');
+      }
+      else {
+        context.push("/login");
+      }
+    }
     else {
       context.push("/login");
     }
@@ -122,8 +129,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       if (state is AuthOnValidCredentialsState) {
         final authState = (state as AuthOnValidCredentialsState).authCredentialsModel;
         if (authState != null) {
-          log('wewe...');
-          AuthCheckCurrentActiveUserCurrentBalanceState(authCredentialsModel: authState);
+          emit(AuthCheckCurrentActiveUserCurrentBalanceState(authCredentialsModel: authState));
+          emit(AuthOnValidCredentialsState(authCredentialsModel: authState));
         }
         else {
           emit(AuthOnLoadingState());
@@ -147,16 +154,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   FutureOr<void> authProceedBuyCartItemConfirmationDialog(AuthProceedBuyCartItemConfirmationDialog event, Emitter<AuthState> emit) async {
-    BuildContext context = event.context;
     AuthCredentialsModel? authModel;
-    
     if (state is AuthOnValidCredentialsState) {
       final authState = state as AuthOnValidCredentialsState;
       authModel = authState.authCredentialsModel;
     }
     emit(AuthOnResetCartProductListState());
-    emit(AuthOnValidCredentialsState(authCredentialsModel: authModel));
-    Navigator.pop(context);
+    emit(AuthCheckCurrentActiveUserCurrentBalanceState(authCredentialsModel: authModel));
   }
 
   FutureOr<void> authOnUpdateCredentialEvent(AuthOnUpdateCredentialEvent event, Emitter<AuthState> emit) {

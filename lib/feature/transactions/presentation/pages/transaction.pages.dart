@@ -207,7 +207,7 @@ class _TransactionPage extends State<TransactionPage> {
                     separatorBuilder: (context, index) {
                       return SizedBox(height: 5.0,);
                     }, 
-                    itemCount: state.transactionRecords.isNotEmpty? state.transactionRecords.length - 1 : 0
+                    itemCount: state.transactionRecords.length
                   );
                 }
                 return SizedBox();

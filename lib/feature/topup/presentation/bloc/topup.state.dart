@@ -31,8 +31,9 @@ class TopUpCurrentActiveUserBalanceIsInsufficientState extends TopUpBaseState {
 
 class TopUpCurrentActiveUserRunningBalanceState extends TopUpBaseState {
   double currentActiveUserRunningBalance = 0.00;
+  String email;
 
-  TopUpCurrentActiveUserRunningBalanceState({required this.currentActiveUserRunningBalance});
+  TopUpCurrentActiveUserRunningBalanceState({required this.currentActiveUserRunningBalance, required this.email});
   
   @override
   List<Object?> get props => [currentActiveUserRunningBalance];
