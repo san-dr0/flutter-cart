@@ -22,7 +22,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 // flutter pub run build_runner build
 // flutter pub run build_runner watch
 // https://medium.com/gytworkz/hive-database-in-flutter-store-and-retrieve-data-locally-d53b333d74ee // BLOG ABOUT HIVE
-
+// https://platform.openai.com/docs/api-reference/authentication
 final Di = GetIt.instance;
 
 void main() async {

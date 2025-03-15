@@ -210,51 +210,52 @@ class _TransactionPage extends State<TransactionPage> {
                     itemCount: state.transactionRecords.length
                   );
                 }
-                return SizedBox();
-              },
-            ),
-          ),
-          BlocListener(
-            bloc: transactionBloc,
-            listener: (context, state) {
-              if (state is TransactionConfirmPayWithQRState) {
-                showDialog(context: context, builder: (context) {
-                return AlertDialog(
-                  content: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(areYouSureYouWantToPayThisTitle),
-                      const SizedBox(height: 10.0,),
-                      InkWell(
-                        onTap: () {
-                          onProceedPayWithQR();
-                        },
-                        splashColor: Colors.teal[800],
-                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                        child: Ink(
-                          decoration: BoxDecoration(
-                            color: Colors.teal,
-                            borderRadius: BorderRadius.all(Radius.circular(10.0))
-                          ),
-                          child: Container(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Text("Proceed"),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                );
-              },);
+                if (state is TransactionConfirmPayWithQRState) {
+                  showDialog(context: context, builder: (context) {
+                    return AlertDialog(
+                      content: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(areYouSureYouWantToPayThisTitle),
+                          const SizedBox(height: 10.0,),
+                          InkWell(
+                            onTap: () {
+                              onProceedPayWithQR();
+                            },
+                            splashColor: Colors.teal[800],
+                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                            child: Ink(
+                              decoration: BoxDecoration(
+                                color: Colors.teal,
+                                borderRadius: BorderRadius.all(Radius.circular(10.0))
+                              ),
+                              child: Container(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Text("Proceed"),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    );
+                  },);
               }
               else if (state is TransactionProceedConfirmationPayWithQRState) {
                 Navigator.pop(context);
                 Fluttertoast.showToast(msg: paymentWithQRWasSuccessfulTitle, toastLength: Toast.LENGTH_SHORT);
               }
-            },
-            child: const SizedBox(),
-            listenWhen: (previous, current) => current is TransactionConfirmPayWithQRState || current is TransactionProceedConfirmationPayWithQRState,
-          )
+                return SizedBox();
+              },
+            ),
+          ),
+          // BlocListener(
+          //   bloc: transactionBloc,
+          //   listener: (context, state) {
+              
+          //   },
+          //   child: const SizedBox(),
+          //   listenWhen: (previous, current) => current is TransactionConfirmPayWithQRState || current is TransactionProceedConfirmationPayWithQRState,
+          // )
         ],
       ),
     );
