@@ -7,6 +7,7 @@ import 'package:clean_arch2/feature/barcodepay/presentation/pages/barcode.page.d
 import 'package:clean_arch2/feature/cart/presentation/pages/cart.page.dart';
 import 'package:clean_arch2/feature/dashboard/presentation/pages/dashboard.page.dart';
 import 'package:clean_arch2/feature/home/presentation/pages/home.page.dart';
+import 'package:clean_arch2/feature/inquiries/presentation/page/inquiries.page.dart';
 import 'package:clean_arch2/feature/topup/presentation/pages/topup.page.dart';
 import 'package:clean_arch2/feature/transactions/presentation/pages/transaction.pages.dart';
 import 'package:clean_arch2/feature/update-creds/pages/update-bloc.page.dart';
@@ -32,6 +33,7 @@ GoRouter appRoutes = GoRouter(routes: [
     path: '/admin', builder: (context, state) => AdminHomePage(),
     routes: adminRoutes
   ),
+  GoRoute(path: '/inquiry', builder: (context, state) => InquiryPage(),)
 ]);
 
 // ADD pages here, it it belongs to admin
