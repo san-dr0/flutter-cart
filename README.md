@@ -10,6 +10,8 @@ An ecommerce flutter project
 <br/>
 <b>Feature First </b>
 <br/>
+<b>Vertex AI</b>
+<br/>
 
 ** <b>Command to generate Adapter for hive</b><br/>
 #flutter pub run build_runner build
