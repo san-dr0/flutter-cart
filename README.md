@@ -12,6 +12,8 @@ An ecommerce flutter project
 <br/>
 <b>Vertex AI</b>
 <br/>
+<b>Dash Chatt</b>
+<br/>
 
 ** <b>Command to generate Adapter for hive</b><br/>
 #flutter pub run build_runner build
