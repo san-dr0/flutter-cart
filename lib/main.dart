@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:clean_arch2/config/db/app_db.dart';
 import 'package:clean_arch2/config/db/hive_model/auth_model/auth_model.dart';
 import 'package:clean_arch2/config/db/hive_model/mock_auth/mock_auth.model.dart';
@@ -12,6 +14,9 @@ import 'package:clean_arch2/feature/dashboard/presentation/bloc/dashboard.bloc.d
 import 'package:clean_arch2/feature/home/presentation/bloc/home.bloc.dart';
 import 'package:clean_arch2/feature/topup/presentation/bloc/topup.bloc.dart';
 import 'package:clean_arch2/feature/transactions/presentation/bloc/transaction.bloc.dart';
+import 'package:clean_arch2/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_vertexai/firebase_vertexai.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -27,12 +32,18 @@ final Di = GetIt.instance;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform
+  );
   Hive.registerAdapter(ProductEntityAdapter());
   Hive.registerAdapter(TransactionEntityAdapter());
   Hive.registerAdapter(UserInfoModelAdapter());
   Hive.registerAdapter(AuthEntityAdapter());
   Hive.registerAdapter(BalanceEntityAdapter());
-  
+  final model = await FirebaseVertexAI.instance.generativeModel(model: 'gemini-2.0-flash');
+  final prompt = [Content.text("What is the result of 2x2 ?.")];
+  final response = await model.generateContent(prompt);
+  log(response.text.toString());
   
   Di.registerLazySingleton(() => AppDatabase());
   Di.registerLazySingleton(() => CartBloc(appDatabase: Di()));

@@ -48,6 +48,8 @@ dependencies:
   intl: ^0.19.0
   uuid: ^4.5.1
   qr_flutter: ^4.1.0
+  firebase_core: ^3.12.1
+  firebase_vertexai: ^1.4.0
   dash_chat_2: ^0.0.21
 
 dev_dependencies:
