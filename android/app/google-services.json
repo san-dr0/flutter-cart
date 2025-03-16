@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "632266441497",
+    "project_id": "flutter-cart-vai",
+    "storage_bucket": "flutter-cart-vai.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:632266441497:android:d9412e444ad4a360d7bb88",
+        "android_client_info": {
+          "package_name": "com.example.clean_arch2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvrzheu11PMPLe0m3y_5U70GOkT1MomBA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
