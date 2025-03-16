@@ -35,15 +35,12 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform
   );
+  
   Hive.registerAdapter(ProductEntityAdapter());
   Hive.registerAdapter(TransactionEntityAdapter());
   Hive.registerAdapter(UserInfoModelAdapter());
   Hive.registerAdapter(AuthEntityAdapter());
   Hive.registerAdapter(BalanceEntityAdapter());
-  final model = await FirebaseVertexAI.instance.generativeModel(model: 'gemini-2.0-flash');
-  final prompt = [Content.text("What is the result of 2x2 ?.")];
-  final response = await model.generateContent(prompt);
-  log(response.text.toString());
   
   Di.registerLazySingleton(() => AppDatabase());
   Di.registerLazySingleton(() => CartBloc(appDatabase: Di()));
