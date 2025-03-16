@@ -14,6 +14,7 @@ class DashBoardBloc extends Bloc<DashBoardEvent, DomainState> {
     on<DashBoardOnNavigateToUpdateCredsEvent>(dashBoardOnNavigateToUpdateCredsEvent);
     on<DashBoardOnNavigateToTopUpEvent>(dashBoardOnNavigateToTopUpEvent);
     on<DashBoardOnNavigateToBarcodePayEvent>(dashBoardOnNavigateToBarcodePayEvent);
+    on<DashBoardOnNavigateToInquiryEvent>(dashBoardOnNavigateToInquiryEvent);
   }
 
   FutureOr<void> dashBoardOnNavigateToShopEvent(DashBoardOnNavigateToShopEvent event, Emitter<DomainState> emit) {
@@ -43,5 +44,10 @@ class DashBoardBloc extends Bloc<DashBoardEvent, DomainState> {
     BuildContext context = event.context;
 
     context.push("/barcode-pay");
+  }
+  FutureOr<void> dashBoardOnNavigateToInquiryEvent(DashBoardOnNavigateToInquiryEvent event, Emitter<DomainState> emit) {
+    BuildContext context = event.context;
+
+    context.push('/inquiry');
   }
 }

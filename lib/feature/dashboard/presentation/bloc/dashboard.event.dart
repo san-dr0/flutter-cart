@@ -33,3 +33,9 @@ class DashBoardOnNavigateToBarcodePayEvent extends DashBoardEvent {
 
   DashBoardOnNavigateToBarcodePayEvent({required this.context});
 }
+
+class DashBoardOnNavigateToInquiryEvent extends DashBoardEvent {
+  BuildContext context;
+
+  DashBoardOnNavigateToInquiryEvent({required this.context});
+}

@@ -58,6 +58,10 @@ class _DashBoardPage extends State<DashBoardPage> {
     dashBoardBloc.add(DashBoardOnNavigateToBarcodePayEvent(context: context));
   }
 
+  void onInquiry() {
+    dashBoardBloc.add(DashBoardOnNavigateToInquiryEvent(context: context));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -146,6 +150,7 @@ class _DashBoardPage extends State<DashBoardPage> {
                   if (authCredentialsModel?.userType == 'User')
                   ListTile(
                     onTap: () {
+                      onInquiry();
                     },
                     title: Text("Inquiries"),
                   ),
