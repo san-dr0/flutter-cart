@@ -1,8 +1,11 @@
 import 'package:clean_arch2/core/color.dart';
 import 'package:clean_arch2/core/string.dart';
+import 'package:clean_arch2/feature/auth/presentation/bloc/auth.bloc.dart';
+import 'package:clean_arch2/feature/auth/presentation/bloc/auth.state.dart';
 import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:firebase_vertexai/firebase_vertexai.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
 
 class InquiryPage extends StatefulWidget {
@@ -13,10 +16,9 @@ class InquiryPage extends StatefulWidget {
 }
 
 class _InquiryPage extends State<InquiryPage> {
+  late AuthBloc authBloc;
   ChatUser user1 = ChatUser(
     id: 'id-123',
-    firstName: 'Fname',
-    lastName: 'Lname'
   );
 
   ChatUser vertexAI = ChatUser(
@@ -30,6 +32,10 @@ class _InquiryPage extends State<InquiryPage> {
   @override
   void initState() {
     super.initState();
+    authBloc = context.read<AuthBloc>();
+
+    user1.firstName = (authBloc.state is AuthOnValidCredentialsState) ? (authBloc.state as AuthOnValidCredentialsState).authCredentialsModel?.firstName : "";
+    user1.lastName = (authBloc.state is AuthOnValidCredentialsState) ? (authBloc.state as AuthOnValidCredentialsState).authCredentialsModel?.lastName : "";
   }
 
   void callVertexAI (String userPrompt) async {
