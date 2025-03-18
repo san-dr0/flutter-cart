@@ -31,6 +31,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 // VERTEX Dodcs
 // https://firebase.google.com/docs/vertex-ai/get-started?platform=flutter
 // https://docs.flutter.dev/ai-toolkit
+// https://www.datacamp.com/tutorial/vertex-ai-tutorial?utm_source=google&utm_medium=paid_search&utm_campaignid=19589720824&utm_adgroupid=157098106775&utm_device=c&utm_keyword=&utm_matchtype=&utm_network=g&utm_adpostion=&utm_creative=733936254857&utm_targetid=dsa-2264919291989&utm_loc_interest_ms=&utm_loc_physical_ms=1011159&utm_content=&accountid=9624585688&utm_campaign=230119_1-sea~dsa~tofu_2-b2c_3-apac_4-prc_5-na_6-na_7-le_8-pdsh-go_9-nb-e_10-na_11-na&gad_source=1&gclid=Cj0KCQjws-S-BhD2ARIsALssG0a8YZUWDcm764t8t3_YWCeJESpHjw6L1J5aubr_ENgZpb4CdEhGWGYaAtySEALw_wcB
 final Di = GetIt.instance;
 
 void main() async {
