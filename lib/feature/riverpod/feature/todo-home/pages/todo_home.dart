@@ -21,12 +21,12 @@ class TodoHomePage extends ConsumerWidget {
   
   void onAddTodo (WidgetRef ref) {
     String title = todoTitleController.text;
-    ref.watch(counterProvider.notifier).increment('Ojjj');
+    ref.watch(todoPodProvider.notifier).increment('Ojjj');
   }
   
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    List<TodoModel> counter = ref.watch(counterProvider);
+    List<TodoModel> counter = ref.watch(todoPodProvider);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: tealColor,
@@ -36,7 +36,7 @@ class TodoHomePage extends ConsumerWidget {
         padding: const EdgeInsets.all(10.0),
         child: Column(
           children: [
-            Text("L: ${counter.length} $todoTitle"),
+            Text("L: ${counter[0]?.title} $todoTitle"),
             TextFormField(
               controller: todoTitleController,
             ),

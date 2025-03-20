@@ -6,20 +6,20 @@ part of 'todo_home_riverpod.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$counterHash() => r'36e9ffcf7eae6a7e3c4a23e1cbd08f4c893c519f';
+String _$todoPodHash() => r'c28c5e735f2b49ae77bb2ffde53a73911670c7ad';
 
-/// See also [Counter].
-@ProviderFor(Counter)
-final counterProvider =
-    AutoDisposeNotifierProvider<Counter, List<TodoModel>>.internal(
-  Counter.new,
-  name: r'counterProvider',
+/// See also [TodoPod].
+@ProviderFor(TodoPod)
+final todoPodProvider =
+    AutoDisposeNotifierProvider<TodoPod, List<TodoModel>>.internal(
+  TodoPod.new,
+  name: r'todoPodProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$counterHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$todoPodHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$Counter = AutoDisposeNotifier<List<TodoModel>>;
+typedef _$TodoPod = AutoDisposeNotifier<List<TodoModel>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
