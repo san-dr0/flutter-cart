@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:clean_arch2/core/color.dart';
 import 'package:clean_arch2/core/string.dart';
 import 'package:clean_arch2/feature/riverpod/feature/todo-home/model/todoModel.dart';
@@ -5,7 +7,15 @@ import 'package:clean_arch2/feature/riverpod/feature/todo-home/todo-home-riverpo
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+@riverpod
+List<TodoModel> filteredTodos (Ref ref) {
+  log("Ohhh >>> changed");
+  List<TodoModel> todo = ref.watch(todoPodProvider);
+
+  return todo.where((todo) => todo.isActive).toList();
+}
 class TodoHomePage extends ConsumerStatefulWidget {
   const TodoHomePage({super.key});
 
@@ -33,10 +43,10 @@ class _TodoHomePage extends ConsumerState<TodoHomePage> {
     ref.read(todoPodProvider.notifier).increment(title);
     todoTitleController.clear();
   }
-  
+
   @override
   Widget build(BuildContext context) {
-    List<TodoModel> todoList = ref.watch(todoPodProvider);
+    // List<TodoModel> todoList = ref.watch();
 
     return Scaffold(
       appBar: AppBar(
