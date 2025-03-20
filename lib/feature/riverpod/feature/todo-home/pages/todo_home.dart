@@ -1,32 +1,43 @@
-import 'dart:developer';
-
 import 'package:clean_arch2/core/color.dart';
 import 'package:clean_arch2/core/string.dart';
 import 'package:clean_arch2/feature/riverpod/feature/todo-home/model/todoModel.dart';
 import 'package:clean_arch2/feature/riverpod/feature/todo-home/todo-home-riverpod/todo_home_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-// class TodoHome extends StatefulWidget {
-//   const TodoHome({super.key});
+class TodoHomePage extends ConsumerStatefulWidget {
+  const TodoHomePage({super.key});
 
-//   @override
-//   State<TodoHome> createState () => _TodoHome();
-// }
+  @override
+  ConsumerState<TodoHomePage> createState () => _TodoHomePage();
+}
 
-class TodoHomePage extends ConsumerWidget {
-  TodoHomePage({super.key});
+class _TodoHomePage extends ConsumerState<TodoHomePage> {
+  late TextEditingController todoTitleController;
+  final _formKey = GlobalKey<FormState>();
+  bool isChecked = false;
 
-  TextEditingController todoTitleController = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    todoTitleController = TextEditingController();
+  }
   
-  void onAddTodo (WidgetRef ref) {
+  void onAddTodo () {
+    if (!_formKey.currentState!.validate()) {
+      Fluttertoast.showToast(msg: "Empty fields");
+      return;
+    }
     String title = todoTitleController.text;
-    ref.watch(todoPodProvider.notifier).increment('Ojjj');
+    ref.read(todoPodProvider.notifier).increment(title);
+    todoTitleController.clear();
   }
   
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    List<TodoModel> counter = ref.watch(todoPodProvider);
+  Widget build(BuildContext context) {
+    List<TodoModel> todoList = ref.watch(todoPodProvider);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: tealColor,
@@ -36,35 +47,49 @@ class TodoHomePage extends ConsumerWidget {
         padding: const EdgeInsets.all(10.0),
         child: Column(
           children: [
-            Text("L: ${counter[0]?.title} $todoTitle"),
-            TextFormField(
-              controller: todoTitleController,
-            ),
-            const SizedBox(height: 10.0,),
-            InkWell(
-              onTap: () {
-                onAddTodo(ref);
-              },
-              splashColor: Colors.teal[800],
-              borderRadius: BorderRadius.all(Radius.circular(10.0)),
-              child: Ink(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                  color: Colors.teal
-                ),
-                child: Container(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Text("Add to list"),
-                ),
+            Form(
+              key: _formKey,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      controller: todoTitleController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Please provide a todo title";
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      onAddTodo();
+                    },
+                    borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                    child: Ink(
+                      decoration: BoxDecoration(
+                        color: Colors.teal,
+                        borderRadius: BorderRadius.all(Radius.circular(6.0))
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text("Add"),
+                      ),
+                    ),
+                  )
+                ],
               ),
             ),
-            const SizedBox(height: 8.0,),
+            const SizedBox(height: 6.0,),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("0 Items left"),
+                Text("Left"),
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    
+                  },
                   child: Ink(
                     child: Text("All"),
                   ),
@@ -75,14 +100,29 @@ class TodoHomePage extends ConsumerWidget {
                     child: Text("Active"),
                   ),
                 ),
-               InkWell(
+                InkWell(
                   onTap: () {},
                   child: Ink(
-                    child: Text("Completed"),
+                    child: Text("Complete"),
                   ),
                 ),
-
               ],
+            ),
+            Expanded(
+              child: ListView.separated(itemBuilder: (context, index) {
+                return Row(
+                  children: [
+                    Checkbox(value: !todoList[index].isActive, onChanged: (value) {
+                      setState(() {
+                        todoList[index].isActive = !value!;
+                      });
+                    }),
+                    Text(todoList[index].title)
+                  ],
+                );
+              }, separatorBuilder: (context, index) {
+                return SizedBox(height: 8.0,);
+              }, itemCount: todoList.length),
             )
           ],
         ),
