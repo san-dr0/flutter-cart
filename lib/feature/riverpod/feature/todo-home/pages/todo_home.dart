@@ -7,15 +7,30 @@ import 'package:clean_arch2/feature/riverpod/feature/todo-home/todo-home-riverpo
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-@riverpod
-List<TodoModel> filteredTodos (Ref ref) {
-  log("Ohhh >>> changed");
-  List<TodoModel> todo = ref.watch(todoPodProvider);
-
-  return todo.where((todo) => todo.isActive).toList();
+enum TodoFilterEnum {
+  active,
+  all,
+  completed
 }
+
+final todoFilter = StateProvider((_) => TodoFilterEnum.all);
+
+final filteredTodos = Provider<List<TodoModel>>((ref) {
+    final filter = ref.watch(todoFilter);
+    final todos = ref.watch(todoPodProvider);
+    log('FILTERED >>> ');
+    log(filter.toString());
+
+    switch(filter) {
+      case TodoFilterEnum.all:
+        return todos;
+      case TodoFilterEnum.active:
+        return todos.where((todo) => todo.isActive).toList();
+      case TodoFilterEnum.completed:
+        return todos.where((todo) => !todo.isActive).toList();
+    }
+  });
 class TodoHomePage extends ConsumerStatefulWidget {
   const TodoHomePage({super.key});
 
@@ -46,7 +61,7 @@ class _TodoHomePage extends ConsumerState<TodoHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // List<TodoModel> todoList = ref.watch();
+    List<TodoModel> todoList = ref.watch(filteredTodos);
 
     return Scaffold(
       appBar: AppBar(
@@ -98,20 +113,24 @@ class _TodoHomePage extends ConsumerState<TodoHomePage> {
                 Text("Left"),
                 InkWell(
                   onTap: () {
-                    
+                    ref.read(todoFilter.notifier).state = TodoFilterEnum.all;
                   },
                   child: Ink(
                     child: Text("All"),
                   ),
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    ref.read(todoFilter.notifier).state = TodoFilterEnum.active;
+                  },
                   child: Ink(
                     child: Text("Active"),
                   ),
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    ref.read(todoFilter.notifier).state = TodoFilterEnum.completed;
+                  },
                   child: Ink(
                     child: Text("Complete"),
                   ),
