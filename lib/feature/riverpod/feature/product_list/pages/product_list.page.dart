@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:clean_arch2/config/db/hiver_riverpod/hiver_riverpod_model/hive_riverpod_model.dart';
 import 'package:clean_arch2/core/color.dart';
 import 'package:clean_arch2/core/string.dart';
 import 'package:clean_arch2/feature/riverpod/feature/riverpod/product/product_riverpod.dart';
@@ -12,26 +15,16 @@ class ProductListPage extends ConsumerStatefulWidget {
 }
 
 class _ProductListPage extends ConsumerState<ProductListPage> {
-
+  String t = "test";
   @override
   Widget build(BuildContext context) {
     
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(productListTitle),
-        backgroundColor: tealColor,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: ListView.separated(
-          itemBuilder: (context, index) {
-            return Text("Ohh");
-          }, 
-          separatorBuilder: (context, index) {
-            return const SizedBox(height: 8.0,);
-          }, 
-          itemCount: 5),
-      ),
-    );
+    final productList = ref.watch(productPodProvider.notifier).getAllProduct();
+    
+    return switch(productList) {
+      AsyncData() => Text("Tests"),
+      AsyncError() => Text("Errr"),
+      _ => Text("Ohhh")
+    };
   }
 }

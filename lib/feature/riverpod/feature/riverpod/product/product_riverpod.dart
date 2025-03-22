@@ -9,7 +9,7 @@ part "product_riverpod.g.dart";
 class ProductPod extends _$ProductPod{  
   @override
   List<ProductEntryRiverPodModel> build() {
-    return [];
+    return state;
   }
 
   void insertProduct(ProductEntryRiverPodModel productEntryRiverPod) {
@@ -23,8 +23,8 @@ class ProductPod extends _$ProductPod{
   }
 
   FutureOr<List<ProductEntryRiverPodModel>> getAllProduct() async {
-    List<ProductEntryRiverPodModel> productList = await ref.watch(riverpodDbProvider.notifier).allProductItem(); 
-
-    return productList;
+    List<ProductEntryRiverPodModel> productList = await ref.read(riverpodDbProvider.notifier).allProductItem(); 
+    state = productList;
+    return state;
   }
 }

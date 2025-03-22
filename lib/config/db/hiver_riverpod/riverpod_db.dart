@@ -30,6 +30,7 @@ class RiverpodDb extends _$RiverpodDb{
     List<ProductEntryRiverPodModel> productList = [];
     for(var rp in riverpodProduct.values.toList()) {
       ProductEntryRiverPodModel productModel = rp as ProductEntryRiverPodModel;
+      log("Name ::: ${productModel.name}");
       
       productList.add(productModel);
     }
