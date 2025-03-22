@@ -25,3 +25,5 @@ An ecommerce flutter project
 
 3) <b>what if i have a BLOC 1 and i call the state of other BLOC 2 how to get the value ?</b> <br/>
   Solution: No you can not call directly bloc1 into bloc2, but the problem is the DOCS said, that it is not a best / good practice to call or inject Bloc1 to Bloc2, your each individaul Bloc should not know that "Other Bloc exists".
+<br/>
+<b>Migartion to Riverpod</b>
