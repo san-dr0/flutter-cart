@@ -9,6 +9,7 @@ import 'package:clean_arch2/feature/dashboard/presentation/pages/dashboard.page.
 import 'package:clean_arch2/feature/home/presentation/pages/home.page.dart';
 import 'package:clean_arch2/feature/inquiries/presentation/page/inquiries.page.dart';
 import 'package:clean_arch2/feature/riverpod/feature/admin/pages/admin.page.dart';
+import 'package:clean_arch2/feature/riverpod/feature/product_list/pages/product_list.page.dart';
 import 'package:clean_arch2/feature/riverpod/feature/todo-home/pages/todo_home.page.dart';
 import 'package:clean_arch2/feature/topup/presentation/pages/topup.page.dart';
 import 'package:clean_arch2/feature/transactions/presentation/pages/transaction.pages.dart';
@@ -41,6 +42,7 @@ GoRouter appRoutes = GoRouter(routes: [
   GoRoute(path: '/', builder: (context, state) => TodoHomePage(),),
   GoRoute(path: '/admin-dashboard-v2', builder: (context, state) => AdminPageV2(),),
   GoRoute(path: '/admin-page-entry-v2', builder: (context, state) => ProductEntryPage(),),
+  GoRoute(path: '/admin-page-list-v2', builder: (context, state) => ProductListPage(),),
 ]);
 
 // ADD pages here, it it belongs to admin

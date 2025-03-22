@@ -16,6 +16,10 @@ class _AdminPageV2 extends State<AdminPageV2> {
     context.push("/admin-page-entry-v2");
   }
 
+  void onGoToPage() {
+    context.push('/admin-page-list-v2');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +27,9 @@ class _AdminPageV2 extends State<AdminPageV2> {
         title: Text(adminV2Title),
         backgroundColor: tealColor,
         actions: [
-          IconButton(onPressed: () {}, icon: Icon(Icons.view_list_outlined, color: whiteColor,)),
+          IconButton(onPressed: () {
+            onGoToPage();
+          }, icon: Icon(Icons.view_list_outlined, color: whiteColor,)),
           IconButton(onPressed: () {
             addPageEntry();
           }, icon: Icon(Icons.add_box_rounded, color: whiteColor,)),
