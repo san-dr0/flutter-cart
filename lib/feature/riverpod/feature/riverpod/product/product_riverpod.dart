@@ -6,12 +6,10 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part "product_riverpod.g.dart";
 
 @riverpod
-class ProductPod extends _$ProductPod{
-  List<ProductEntryRiverPodModel> productList = [];
-  
+class ProductPod extends _$ProductPod{  
   @override
   List<ProductEntryRiverPodModel> build() {
-    return productList;
+    return [];
   }
 
   void insertProduct(ProductEntryRiverPodModel productEntryRiverPod) {
@@ -24,7 +22,9 @@ class ProductPod extends _$ProductPod{
     }
   }
 
-  List<ProductEntryRiverPodModel> getAllProduct() {
-    return state;
+  FutureOr<List<ProductEntryRiverPodModel>> getAllProduct() async {
+    List<ProductEntryRiverPodModel> productList = await ref.watch(riverpodDbProvider.notifier).allProductItem(); 
+
+    return productList;
   }
 }

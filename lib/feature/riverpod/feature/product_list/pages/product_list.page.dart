@@ -1,18 +1,21 @@
 import 'package:clean_arch2/core/color.dart';
 import 'package:clean_arch2/core/string.dart';
+import 'package:clean_arch2/feature/riverpod/feature/riverpod/product/product_riverpod.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ProductListPage extends StatefulWidget {
+class ProductListPage extends ConsumerStatefulWidget {
   const ProductListPage({super.key});
   
   @override
-  State<ProductListPage> createState () => _ProductListPage();
+  ConsumerState<ProductListPage> createState () => _ProductListPage();
 }
 
-class _ProductListPage extends State<ProductListPage> {
+class _ProductListPage extends ConsumerState<ProductListPage> {
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       appBar: AppBar(
         title: Text(productListTitle),
@@ -20,7 +23,14 @@ class _ProductListPage extends State<ProductListPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
-        child: Text("Tests"),
+        child: ListView.separated(
+          itemBuilder: (context, index) {
+            return Text("Ohh");
+          }, 
+          separatorBuilder: (context, index) {
+            return const SizedBox(height: 8.0,);
+          }, 
+          itemCount: 5),
       ),
     );
   }

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:clean_arch2/config/db/hiver_riverpod/hiver_riverpod_model/hive_riverpod_model.dart';
 import 'package:hive/hive.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -22,8 +24,15 @@ class RiverpodDb extends _$RiverpodDb{
       return 0;
     }
   }
-  FutureOr<List<ProductEntryRiverPodModel>> allProductItem() {
+  FutureOr<List<ProductEntryRiverPodModel>> allProductItem() async{
+    final riverpodProduct = await Hive.openBox("riverpod-product");
+
     List<ProductEntryRiverPodModel> productList = [];
+    for(var rp in riverpodProduct.values.toList()) {
+      ProductEntryRiverPodModel productModel = rp as ProductEntryRiverPodModel;
+      
+      productList.add(productModel);
+    }
     
     return productList;
   }
