@@ -8,12 +8,15 @@ import 'package:clean_arch2/feature/cart/presentation/pages/cart.page.dart';
 import 'package:clean_arch2/feature/dashboard/presentation/pages/dashboard.page.dart';
 import 'package:clean_arch2/feature/home/presentation/pages/home.page.dart';
 import 'package:clean_arch2/feature/inquiries/presentation/page/inquiries.page.dart';
-import 'package:clean_arch2/feature/riverpod/feature/todo-home/pages/todo_home.dart';
+import 'package:clean_arch2/feature/riverpod/feature/admin/pages/admin.page.dart';
+import 'package:clean_arch2/feature/riverpod/feature/todo-home/pages/todo_home.page.dart';
 import 'package:clean_arch2/feature/topup/presentation/pages/topup.page.dart';
 import 'package:clean_arch2/feature/transactions/presentation/pages/transaction.pages.dart';
 import 'package:clean_arch2/feature/update-creds/pages/update-bloc.page.dart';
 import 'package:clean_arch2/feature/view_certain_product/pages/view_certain_product.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../feature/riverpod/feature/product_entry/pages/product_entry.page.dart';
 
 GoRouter appRoutes = GoRouter(routes: [
   // GoRoute(path: '/', builder: (context, state) => HomePage(),),
@@ -35,7 +38,9 @@ GoRouter appRoutes = GoRouter(routes: [
     routes: adminRoutes
   ),
   GoRoute(path: '/inquiry', builder: (context, state) => InquiryPage(),),
-  GoRoute(path: '/', builder: (context, state) => TodoHomePage(),)
+  GoRoute(path: '/', builder: (context, state) => TodoHomePage(),),
+  GoRoute(path: '/admin-dashboard-v2', builder: (context, state) => AdminPageV2(),),
+  GoRoute(path: '/admin-page-entry-v2', builder: (context, state) => ProductEntryPage(),),
 ]);
 
 // ADD pages here, it it belongs to admin

@@ -1,14 +1,10 @@
-// ignore_for_file: file_names
+class ProductItem {
+  final String id;
+  final String title;
+  final double price;
+  final int quantity;
 
-enum TodoEnum {
-  all,
-  active,
-  completed
-}
-class TodoModel {
-  String todoId;
-  String title;
-  bool isActive = true;
-
-  TodoModel({required this.todoId, required this.title});
+  ProductItem({
+    required this.id, required this.title, required this.price, required this.quantity
+  });
 }
