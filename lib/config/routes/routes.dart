@@ -16,7 +16,7 @@ import 'package:clean_arch2/feature/update-creds/pages/update-bloc.page.dart';
 import 'package:clean_arch2/feature/view_certain_product/pages/view_certain_product.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../feature/riverpod/feature/product_entry/pages/product_entry.page.dart';
+import '../../feature/riverpod/feature/product_entry/pages/presentation/product_entry.page.dart';
 
 GoRouter appRoutes = GoRouter(routes: [
   // GoRoute(path: '/', builder: (context, state) => HomePage(),),

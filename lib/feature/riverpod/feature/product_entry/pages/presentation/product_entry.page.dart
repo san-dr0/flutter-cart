@@ -1,16 +1,20 @@
+import 'package:clean_arch2/config/db/hiver_riverpod/hiver_riverpod_model/hive_riverpod_model.dart';
 import 'package:clean_arch2/core/color.dart';
 import 'package:clean_arch2/core/string.dart';
 import 'package:clean_arch2/core/text.style.dart';
+import 'package:clean_arch2/feature/riverpod/feature/riverpod/product/product_riverpod.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:uuid/uuid.dart';
 
-class ProductEntryPage extends StatefulWidget {
+class ProductEntryPage extends ConsumerStatefulWidget {
   const ProductEntryPage({super.key});
 
   @override
-  State<ProductEntryPage> createState () => _ProductEntryPage();
+  ConsumerState<ProductEntryPage> createState () => _ProductEntryPage();
 }
 
-class _ProductEntryPage extends State<ProductEntryPage> {
+class _ProductEntryPage extends ConsumerState<ProductEntryPage> {
   final _formKey = GlobalKey<FormState>();
   late TextEditingController txtProductTitle;
   late TextEditingController txtProductPrice;
@@ -25,10 +29,18 @@ class _ProductEntryPage extends State<ProductEntryPage> {
   }
 
   void addProductRecord () {
-    String name = txtProductTitle.text;
-    String price = txtProductPrice.text;
-    String quantity = txtProductQty.text;
-    
+    if (_formKey.currentState!.validate()) {
+      String name = txtProductTitle.text;
+      double price = double.parse( txtProductPrice.text);
+      int quantity = int.parse(txtProductQty.text);
+      
+      final productEntryRiverPod = ProductEntryRiverPodModel(id: Uuid().v1(), name: name, price: price, quantity: quantity);
+      ref.read(productPodProvider.notifier).insertProduct(productEntryRiverPod);
+
+      txtProductTitle.clear();
+      txtProductPrice.clear();
+      txtProductQty.clear();
+    }
   }
 
   @override
@@ -44,25 +56,43 @@ class _ProductEntryPage extends State<ProductEntryPage> {
           key: _formKey,
           child: Column(
             children: [
-              TextField(
+              TextFormField(
                 controller: txtProductTitle,
                 decoration: InputDecoration(
                   label: Text("Name"),
                 ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Empty name";
+                  }
+                  return null;
+                },
               ),
-              TextField(
+              TextFormField(
                 controller: txtProductPrice,
                 decoration: InputDecoration(
                   label: Text("Price")
                 ),
                 keyboardType: TextInputType.number,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Empty price";
+                  }
+                  return null;
+                },
               ),
-              TextField(
+              TextFormField(
                 controller: txtProductQty,
                 decoration: InputDecoration(
                   label: Text("Quantity")
                 ),
                 keyboardType: TextInputType.number,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Empty quantity";
+                  }
+                  return null;
+                },
               ),
               const SizedBox(height: 10.0,),
               InkWell(

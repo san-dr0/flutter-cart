@@ -1,9 +1,30 @@
-import 'dart:async';
+import 'package:clean_arch2/config/db/hiver_riverpod/hiver_riverpod_model/hive_riverpod_model.dart';
+import 'package:hive/hive.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+part "riverpod_db.g.dart";
 
-import 'package:clean_arch2/feature/riverpod/feature/todo-home/model/todoModel.dart';
-
-class RiverpodDb {
-  FutureOr<void> addProductItem(ProductItem ProductItem) {
+@riverpod
+class RiverpodDb extends _$RiverpodDb{
+  
+  @override
+  void build() {
     
+  }
+
+  FutureOr<int> addProductItem(ProductEntryRiverPodModel productItem) async {
+    try{
+      final product = await Hive.openBox("riverpod-product");
+      product.add(productItem);
+
+      return 1;
+    }
+    catch(error) {
+      return 0;
+    }
+  }
+  FutureOr<List<ProductEntryRiverPodModel>> allProductItem() {
+    List<ProductEntryRiverPodModel> productList = [];
+    
+    return productList;
   }
 }
