@@ -24,17 +24,37 @@ class RiverpodDb extends _$RiverpodDb{
       return 0;
     }
   }
-  FutureOr<List<ProductEntryRiverPodModel>> allProductItem() async{
+  
+  FutureOr<List<ProductEntryRiverPodModel>> allProductItem() async {
     final riverpodProduct = await Hive.openBox("riverpod-product");
 
     List<ProductEntryRiverPodModel> productList = [];
     for(var rp in riverpodProduct.values.toList()) {
       ProductEntryRiverPodModel productModel = rp as ProductEntryRiverPodModel;
-      log("Name ::: ${productModel.name}");
       
       productList.add(productModel);
     }
     
     return productList;
+  }
+
+  FutureOr<int> updateSpecificProduct(ProductEntryRiverPodModel product) async {
+    try{
+      final riverpodProduct = await Hive.openBox("riverpod-product");
+      int index = 0;
+      for (ProductEntryRiverPodModel perpm in riverpodProduct.values.toList()) {
+        if (perpm.id == product.id) {
+          break;
+        }
+        index ++;
+      }
+      riverpodProduct.putAt(index, product);
+      return 1;
+    }
+    catch(error) {
+      log("Errr >>> ");
+      log(error.toString());
+      return -1;
+    }
   }
 }

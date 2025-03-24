@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:clean_arch2/config/db/hiver_riverpod/hiver_riverpod_model/hive_riverpod_model.dart';
 import 'package:clean_arch2/config/db/hiver_riverpod/riverpod_db.dart';
 import 'package:clean_arch2/core/string.dart';
@@ -9,7 +11,7 @@ part "product_riverpod.g.dart";
 class ProductPod extends _$ProductPod{  
   @override
   List<ProductEntryRiverPodModel> build() {
-    return state;
+    return [];
   }
 
   void insertProduct(ProductEntryRiverPodModel productEntryRiverPod) {
@@ -24,7 +26,20 @@ class ProductPod extends _$ProductPod{
 
   FutureOr<List<ProductEntryRiverPodModel>> getAllProduct() async {
     List<ProductEntryRiverPodModel> productList = await ref.read(riverpodDbProvider.notifier).allProductItem(); 
-    state = productList;
-    return state;
+    state = [...state, ...productList];
+    
+    return state;  
+  }
+  
+  FutureOr<void> updateSpecificProduct(ProductEntryRiverPodModel product) async {
+    int response = await ref.read(riverpodDbProvider.notifier).updateSpecificProduct(product);
+
+    if (response > 0) {
+      Fluttertoast.showToast(msg: updateProductTitle, toastLength: Toast.LENGTH_LONG);
+      getAllProduct();
+    }
+    else {
+      Fluttertoast.showToast(msg: somethingWentWrongTitle, toastLength: Toast.LENGTH_LONG);
+    }
   }
 }

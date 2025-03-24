@@ -24,6 +24,7 @@ const String transactionTitle = "Transcations";
 const String pleaseWaitTitle = "Please wait.";
 const String totalTitle = "Total: ";
 const String updateCredTitle = "Update Credential";
+const String updateProductTitle = "Update product";
 const String barcodePayTitle = "Barcode Pay";
 const String topUpTitle = "Top Up";
 final List<Map<String, dynamic>> blocInformationList = [
