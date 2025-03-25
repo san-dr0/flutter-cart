@@ -3,12 +3,14 @@ import 'dart:developer';
 import 'package:clean_arch2/config/db/hiver_riverpod/hiver_riverpod_model/hive_riverpod_model.dart';
 import 'package:clean_arch2/config/db/hiver_riverpod/riverpod_db.dart';
 import 'package:clean_arch2/core/string.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 part "product_riverpod.g.dart";
 
 @riverpod
-class ProductPod extends _$ProductPod{  
+class ProductPod extends _$ProductPod{
+  
   @override
   List<ProductEntryRiverPodModel> build() {
     return [];
@@ -16,7 +18,7 @@ class ProductPod extends _$ProductPod{
 
   void insertProduct(ProductEntryRiverPodModel productEntryRiverPod) {
     try{
-      ref.read(riverpodDbProvider.notifier).addProductItem(productEntryRiverPod);
+       ref.read(riverpodDbProvider.notifier).addProductItem(productEntryRiverPod);
       Fluttertoast.showToast(msg: productAddedTitle, toastLength: Toast.LENGTH_SHORT);
     }
     catch(error) {
@@ -26,9 +28,9 @@ class ProductPod extends _$ProductPod{
 
   FutureOr<List<ProductEntryRiverPodModel>> getAllProduct() async {
     List<ProductEntryRiverPodModel> productList = await ref.read(riverpodDbProvider.notifier).allProductItem(); 
-    state = [...state, ...productList];
-    
-    return state;  
+    state = productList;
+
+    return state;
   }
   
   FutureOr<void> updateSpecificProduct(ProductEntryRiverPodModel product) async {
@@ -36,7 +38,6 @@ class ProductPod extends _$ProductPod{
 
     if (response > 0) {
       Fluttertoast.showToast(msg: updateProductTitle, toastLength: Toast.LENGTH_LONG);
-      getAllProduct();
     }
     else {
       Fluttertoast.showToast(msg: somethingWentWrongTitle, toastLength: Toast.LENGTH_LONG);

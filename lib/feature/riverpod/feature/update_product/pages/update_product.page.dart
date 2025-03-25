@@ -40,12 +40,12 @@ class _UpdateProductPage extends ConsumerState<UpdateProductPage> {
 
     ProductEntryRiverPodModel productEntryRiverPodModel = ProductEntryRiverPodModel(
       id: widget.product.id, 
-      name: productName, 
+      name: productName,  
       price: double.parse(productPrice), 
       quantity: int.parse(productQty)
     );
 
-    ref.read(productPodProvider.notifier).updateSpecificProduct(productEntryRiverPodModel);
+    // ref.read(productPodProvider.notifier).updateSpecificProduct(productEntryRiverPodModel);
   }
 
   @override

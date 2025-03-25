@@ -33,9 +33,9 @@ class _ProductListPage extends ConsumerState<ProductListPage> {
   @override
   Widget build(BuildContext context) {
     
-    final rec = ref.watch(productList);
+    final productRecord = ref.watch(productList);
     
-    return switch (rec) {
+    return switch (productRecord) {
       AsyncError(:final error) => Text('Error: $error'),
       AsyncData(:final value) => Scaffold(
         appBar: AppBar(

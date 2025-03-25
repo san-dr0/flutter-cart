@@ -36,7 +36,7 @@ class _ProductEntryPage extends ConsumerState<ProductEntryPage> {
       
       final productEntryRiverPod = ProductEntryRiverPodModel(id: Uuid().v1(), name: name, price: price, quantity: quantity);
       ref.read(productPodProvider.notifier).insertProduct(productEntryRiverPod);
-      ref.read(productPodProvider.notifier).getAllProduct();
+      // ref.read(productPodProvider.notifier).getAllProduct();
 
       txtProductTitle.clear();
       txtProductPrice.clear();
