@@ -25,7 +25,7 @@ class RiverpodDb extends _$RiverpodDb{
     }
   }
   
-  FutureOr<List<ProductEntryRiverPodModel>> allProductItem() async {
+  Future<List<ProductEntryRiverPodModel>> allProductItem() async {
     final riverpodProduct = await Hive.openBox("riverpod-product");
 
     List<ProductEntryRiverPodModel> productList = [];

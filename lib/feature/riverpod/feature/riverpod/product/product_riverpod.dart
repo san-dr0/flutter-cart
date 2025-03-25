@@ -12,13 +12,16 @@ part "product_riverpod.g.dart";
 class ProductPod extends _$ProductPod{
   
   @override
-  List<ProductEntryRiverPodModel> build() {
-    return [];
+  Future<List<ProductEntryRiverPodModel>> build() async{
+    var product = await getAllProduct();
+
+    return product;
   }
 
   void insertProduct(ProductEntryRiverPodModel productEntryRiverPod) {
     try{
        ref.read(riverpodDbProvider.notifier).addProductItem(productEntryRiverPod);
+       ref.invalidateSelf();
       Fluttertoast.showToast(msg: productAddedTitle, toastLength: Toast.LENGTH_SHORT);
     }
     catch(error) {
@@ -26,11 +29,13 @@ class ProductPod extends _$ProductPod{
     }
   }
 
-  FutureOr<List<ProductEntryRiverPodModel>> getAllProduct() async {
+  Future<List<ProductEntryRiverPodModel>> getAllProduct() async {
     List<ProductEntryRiverPodModel> productList = await ref.read(riverpodDbProvider.notifier).allProductItem(); 
-    state = productList;
+    state = AsyncValue.data(productList);
+    log("Eexecuted");
+    // ref.invalidateSelf();
 
-    return state;
+    return productList;
   }
   
   FutureOr<void> updateSpecificProduct(ProductEntryRiverPodModel product) async {

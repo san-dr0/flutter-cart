@@ -6,7 +6,7 @@ part of 'riverpod_db.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$riverpodDbHash() => r'a1b30759624e1d004af7b80b20b148ac119f2bdd';
+String _$riverpodDbHash() => r'163526f864969151e56d854fff20fe08dff43995';
 
 /// See also [RiverpodDb].
 @ProviderFor(RiverpodDb)
