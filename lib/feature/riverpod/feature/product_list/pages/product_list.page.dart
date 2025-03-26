@@ -5,12 +5,13 @@ import 'package:clean_arch2/core/color.dart';
 import 'package:clean_arch2/core/string.dart';
 import 'package:clean_arch2/feature/riverpod/component/button/ink.dart';
 import 'package:clean_arch2/feature/riverpod/feature/riverpod/product/product_riverpod.dart';
+import 'package:clean_arch2/feature/riverpod/feature/todo-home/todo_home_riverpod/product_item_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-final productList = FutureProvider<List<ProductEntryRiverPodModel>>((ref) async {
-    return await ref.watch(productPodProvider.notifier).getAllProduct();
+final productListProvider = NotifierProvider<ProductPod, List<ProductEntryRiverPodModel>>(() {
+  return ProductPod();
 });
     
 class ProductListPage extends ConsumerStatefulWidget {
@@ -33,8 +34,8 @@ class _ProductListPage extends ConsumerState<ProductListPage> {
   @override
   Widget build(BuildContext context) {
     
-    final productRecord = ref.watch(productList);
-    
+    final productRecord = ref.watch(productListPodProvider);
+  
     return switch (productRecord) {
       AsyncError(:final error) => Text('Error: $error'),
       AsyncData(:final value) => Scaffold(
@@ -77,7 +78,7 @@ class _ProductListPage extends ConsumerState<ProductListPage> {
             separatorBuilder: (context, index) {
               return const SizedBox(height: 6.0,);
             }, 
-            itemCount: value.length),
+            itemCount: productRecord.length),
         ),
       ),
       _ => SafeArea(
