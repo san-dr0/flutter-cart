@@ -10,7 +10,7 @@ import 'package:go_router/go_router.dart';
 final productProvider = AsyncNotifierProvider<ProductPod, List<ProductEntryRiverPodModel>>(() {
     return ProductPod();
 });
-    
+
 class ProductListPage extends ConsumerStatefulWidget {
   const ProductListPage({super.key});
   
@@ -25,12 +25,11 @@ class _ProductListPage extends ConsumerState<ProductListPage> {
   }
 
   void onViewProduct(ProductEntryRiverPodModel product) {
-
+    
   }
   
   @override
   Widget build(BuildContext context) {
-    
     final productRecord = ref.watch(productProvider);
     
     return Scaffold(

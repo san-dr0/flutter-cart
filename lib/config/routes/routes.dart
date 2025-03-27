@@ -9,6 +9,7 @@ import 'package:clean_arch2/feature/cart/presentation/pages/cart.page.dart';
 import 'package:clean_arch2/feature/dashboard/presentation/pages/dashboard.page.dart';
 import 'package:clean_arch2/feature/inquiries/presentation/page/inquiries.page.dart';
 import 'package:clean_arch2/feature/riverpod/feature/admin/pages/admin.page.dart';
+import 'package:clean_arch2/feature/riverpod/feature/cart_list/pages/cart_list_page.dart';
 import 'package:clean_arch2/feature/riverpod/feature/product_list/pages/product_list.page.dart';
 import 'package:clean_arch2/feature/riverpod/feature/todo-home/pages/todo_home.page.dart';
 import 'package:clean_arch2/feature/riverpod/feature/update_product/pages/update_product.page.dart';
@@ -19,6 +20,7 @@ import 'package:clean_arch2/feature/view_certain_product/pages/view_certain_prod
 import 'package:go_router/go_router.dart';
 
 import '../../feature/riverpod/feature/product_entry/pages/presentation/product_entry.page.dart';
+import '../../feature/riverpod/feature/view_certain_product/presentation/view_certain_product.dart';
 
 GoRouter appRoutes = GoRouter(routes: [
   // GoRoute(path: '/', builder: (context, state) => HomePage(),),
@@ -45,6 +47,12 @@ GoRouter appRoutes = GoRouter(routes: [
   GoRoute(path: '/admin-dashboard-v2', builder: (context, state) => AdminPageV2(),),
   GoRoute(path: '/admin-page-entry-v2', builder: (context, state) => ProductEntryPage(),),
   GoRoute(path: '/admin-page-list-v2', builder: (context, state) => ProductListPage(),),
+  GoRoute(path: '/riverpod-on-view-cart-list', builder: (context, state) => CartListPodPage(),),
+  GoRoute(path: '/riverpod-on-view-certain-product', builder: (context, state) {
+    ProductEntryRiverPodModel product = state.extra as ProductEntryRiverPodModel;
+
+    return ViewCertainProductPodPage(productEntryRiverPodModel: product);
+  }),
   GoRoute(path: '/admin-update-product-v2', builder: (context, state) {
     ProductEntryRiverPodModel product = state.extra as ProductEntryRiverPodModel;
 
