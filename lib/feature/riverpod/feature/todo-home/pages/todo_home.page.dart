@@ -17,7 +17,7 @@ class _TodoHomePage extends State<TodoHomePage> {
   }
 
   void loginAdminDashBoard () {
-    context.push("/admin-dashboard-v2");
+    context.go("/admin-dashboard-v2");
   }
 
   @override
