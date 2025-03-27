@@ -2,6 +2,7 @@ import 'package:clean_arch2/config/db/hiver_riverpod/hiver_riverpod_model/hive_r
 import 'package:clean_arch2/core/color.dart';
 import 'package:clean_arch2/core/string.dart';
 import 'package:clean_arch2/core/text.style.dart';
+import 'package:clean_arch2/feature/riverpod/feature/product_list/pages/product_list.page.dart';
 import 'package:clean_arch2/feature/riverpod/feature/riverpod/product/product_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -35,8 +36,8 @@ class _ProductEntryPage extends ConsumerState<ProductEntryPage> {
       int quantity = int.parse(txtProductQty.text);
       
       final productEntryRiverPod = ProductEntryRiverPodModel(id: Uuid().v1(), name: name, price: price, quantity: quantity);
-      ref.read(productPodProvider.notifier).insertProduct(productEntryRiverPod);
-      ref.read(productPodProvider.notifier).getAllProduct();
+      ref.read(productProvider.notifier).insertProduct(productEntryRiverPod);
+      ref.read(productProvider.notifier).getAllProduct();
 
       txtProductTitle.clear();
       txtProductPrice.clear();
