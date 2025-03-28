@@ -2,17 +2,19 @@ import 'package:clean_arch2/core/color.dart';
 import 'package:clean_arch2/core/string.dart';
 import 'package:clean_arch2/core/text.style.dart';
 import 'package:clean_arch2/feature/riverpod/component/button/ink.dart';
+import 'package:clean_arch2/feature/riverpod/feature/riverpod/cart/cart.riverpod.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class AuthRiverPodLoginPage extends StatefulWidget {
+class AuthRiverPodLoginPage extends ConsumerStatefulWidget {
   const AuthRiverPodLoginPage({super.key});
 
   @override
-  State<AuthRiverPodLoginPage> createState () => _AuthRiverPodLoginPage();
+  ConsumerState<AuthRiverPodLoginPage> createState () => _AuthRiverPodLoginPage();
 }
 
-class _AuthRiverPodLoginPage extends State<AuthRiverPodLoginPage> {
+class _AuthRiverPodLoginPage extends ConsumerState<AuthRiverPodLoginPage> {
   final _formKey = GlobalKey<FormState>();
   late TextEditingController _txtEmail;
   late TextEditingController _txtPassword;
@@ -28,6 +30,10 @@ class _AuthRiverPodLoginPage extends State<AuthRiverPodLoginPage> {
     if (!_formKey.currentState!.validate()) {
       return;
     }
+    String email = _txtEmail.text;
+    String password = _txtPassword.text;
+
+    ref.read(authProvider.notifier).onLoginUser(context: context, email: email, password: password);
   }
 
   void onNavigateToSignup() {

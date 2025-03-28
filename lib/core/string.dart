@@ -68,3 +68,5 @@ const String todoTitle = "Todo List";
 const String adminV2Title = "Admin";
 const String adminPageProductEntryTitle = "Product Entry";
 const String productAddedToCartTitle = "Product added to cart";
+const String closeTitle = "Close";
+const String okayTitle = "Okay";

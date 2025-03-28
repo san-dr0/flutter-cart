@@ -57,7 +57,7 @@ class _AuthRiverPodSignupPage extends ConsumerState<AuthRiverPodSignupPage> {
           child: Column(
             children: [
               Text(
-                loginTitle,
+                signupAsTitle,
                 style: textStyle(
                   color: Colors.black,
                   fontSize: 20
