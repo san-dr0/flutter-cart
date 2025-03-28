@@ -27,4 +27,5 @@ An ecommerce flutter project
   Solution: No you can not call directly bloc1 into bloc2, but the problem is the DOCS said, that it is not a best / good practice to call or inject Bloc1 to Bloc2, your each individaul Bloc should not know that "Other Bloc exists".
 <br/>
 <b>Migartion to Riverpod</b>
+<br/>
 1) Currentyl using the Notifer and AsyncNotifier
