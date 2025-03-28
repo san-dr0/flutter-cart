@@ -2,16 +2,19 @@ import 'package:clean_arch2/core/color.dart';
 import 'package:clean_arch2/core/string.dart';
 import 'package:clean_arch2/core/text.style.dart';
 import 'package:clean_arch2/feature/riverpod/component/button/ink.dart';
+import 'package:clean_arch2/feature/riverpod/feature/auth/model/auth.model.dart';
+import 'package:clean_arch2/feature/riverpod/feature/riverpod/cart/cart.riverpod.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class AuthRiverPodSignupPage extends StatefulWidget {
+class AuthRiverPodSignupPage extends ConsumerStatefulWidget {
   const AuthRiverPodSignupPage({super.key});
 
   @override
-  State<AuthRiverPodSignupPage> createState () => _AuthRiverPodSignupPage();
+  ConsumerState<AuthRiverPodSignupPage> createState () => _AuthRiverPodSignupPage();
 }
 
-class _AuthRiverPodSignupPage extends State<AuthRiverPodSignupPage> {
+class _AuthRiverPodSignupPage extends ConsumerState<AuthRiverPodSignupPage> {
   final _formKey = GlobalKey<FormState>();
   late TextEditingController _txtFirstname;
   late TextEditingController _txtLastname;
@@ -31,6 +34,13 @@ class _AuthRiverPodSignupPage extends State<AuthRiverPodSignupPage> {
     if (!_formKey.currentState!.validate()) {
       return;
     }
+    AuthSignupRiverpodModel signupRiverpodModel = AuthSignupRiverpodModel(
+      firstname: _txtFirstname.text, 
+      lastname: _txtLastname.text, 
+      email: _txtEmail.text, 
+      password: _txtPassword.text
+    );
+    ref.read(authProvider.notifier).onSingupUser(signupRiverpodModel);
   }
 
   @override

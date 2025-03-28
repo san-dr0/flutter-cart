@@ -35,6 +35,9 @@ class _AdminPageV2 extends State<AdminPageV2> {
           }, icon: Icon(Icons.add_box_rounded, color: whiteColor,)),
         ],
       ),
+      body: Drawer(
+        child: DrawerHeader(child: Text("Drawer")),
+      ),
     );
   }
 }
