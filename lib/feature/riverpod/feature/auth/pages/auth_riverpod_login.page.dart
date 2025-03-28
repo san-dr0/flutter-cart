@@ -3,15 +3,16 @@ import 'package:clean_arch2/core/string.dart';
 import 'package:clean_arch2/core/text.style.dart';
 import 'package:clean_arch2/feature/riverpod/component/button/ink.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-class AuthRiverPodPage extends StatefulWidget {
-  const AuthRiverPodPage({super.key});
+class AuthRiverPodLoginPage extends StatefulWidget {
+  const AuthRiverPodLoginPage({super.key});
 
   @override
-  State<AuthRiverPodPage> createState () => _AuthRiverPodPage();
+  State<AuthRiverPodLoginPage> createState () => _AuthRiverPodLoginPage();
 }
 
-class _AuthRiverPodPage extends State<AuthRiverPodPage> {
+class _AuthRiverPodLoginPage extends State<AuthRiverPodLoginPage> {
   final _formKey = GlobalKey<FormState>();
   late TextEditingController _txtEmail;
   late TextEditingController _txtPassword;
@@ -27,6 +28,10 @@ class _AuthRiverPodPage extends State<AuthRiverPodPage> {
     if (!_formKey.currentState!.validate()) {
       return;
     }
+  }
+
+  void onNavigateToSignup() {
+    context.push("/riverpod-auth-signup");
   }
 
   @override
@@ -77,6 +82,9 @@ class _AuthRiverPodPage extends State<AuthRiverPodPage> {
                   onLoginUser();
                 }, subTitle: loginTitle),
               ),
+              TextButton(onPressed: () {
+                onNavigateToSignup();
+              }, child: Text(alreadyHaveAnAccount))
             ],
           ),
         ),

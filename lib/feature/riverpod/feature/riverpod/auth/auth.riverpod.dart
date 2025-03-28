@@ -13,4 +13,13 @@ class AuthRiverPod extends AsyncNotifier<AuthRiverPodModel?> {
   AsyncValue<AuthRiverPodModel?> getActiveUser() {
     return state;
   }
+  
+  FutureOr<void> onSingupUser() {
+
+  }
+  
+  FutureOr<void> onLoginUser() {
+
+  }
+  
 }

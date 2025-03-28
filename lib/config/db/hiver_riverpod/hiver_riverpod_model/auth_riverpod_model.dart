@@ -9,8 +9,10 @@ class AuthRiverpodModel {
   final String firstName;
   @HiveField(2)
   final String lastName;
+  @HiveField(3)
+  final String password;
 
   AuthRiverpodModel({
-    required this.email, required this.firstName, required this.lastName
+    required this.email, required this.firstName, required this.lastName, required this.password
   });
 }
