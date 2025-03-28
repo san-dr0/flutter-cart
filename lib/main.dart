@@ -37,6 +37,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 /* River pod things
   1) dart run build_runner watch
+  1.1) this generate a Notifier
 */
 final Di = GetIt.instance;
 
