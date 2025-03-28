@@ -7,6 +7,7 @@ import 'package:clean_arch2/feature/riverpod/feature/product_list/pages/product_
 import 'package:clean_arch2/feature/riverpod/feature/riverpod/cart/cart.riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 
 class TodoHomePage extends ConsumerStatefulWidget {
@@ -35,6 +36,11 @@ class _TodoHomePage extends ConsumerState<TodoHomePage> {
   }
 
   void onViewCartList() {
+    if (ref.read(cartRiverPodProvider).isEmpty) {
+      Fluttertoast.showToast(msg: emptyCartTitle, toastLength: Toast.LENGTH_SHORT);
+      
+      return;
+    }
     context.push("/riverpod-on-view-cart-list");
   }
 

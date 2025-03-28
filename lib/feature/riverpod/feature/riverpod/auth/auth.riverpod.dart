@@ -10,4 +10,7 @@ class AuthRiverPod extends AsyncNotifier<AuthRiverPodModel?> {
     return null;
   }
   
+  AsyncValue<AuthRiverPodModel?> getActiveUser() {
+    return state;
+  }
 }

@@ -23,7 +23,7 @@ class _CartListPodPage extends ConsumerState<CartListPodPage> {
   }
 
   void onPayCartItem () {
-    ref.read(cartRiverPodProvider.notifier);
+    ref.read(cartRiverPodProvider.notifier).cartOnBuyProduct(context);
   }
 
   @override

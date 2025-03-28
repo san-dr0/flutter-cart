@@ -18,7 +18,9 @@ InkWell inkButton({String subTitle = "", Color splashColor = Colors.teal, Color 
         padding: const EdgeInsets.all(8.0),
         child: Text(
           subTitle,
-          style: textStyle(),
+          style: textStyle(
+          ),
+          textAlign: TextAlign.center,
         ),
       ),
     ),
