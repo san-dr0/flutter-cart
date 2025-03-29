@@ -3,8 +3,6 @@ import 'dart:developer';
 
 import 'package:clean_arch2/config/db/hiver_riverpod/riverpod_db.dart';
 import 'package:clean_arch2/core/string.dart';
-import 'package:clean_arch2/feature/riverpod-feature/component/button/alertDialog.dart';
-import 'package:clean_arch2/feature/riverpod-feature/model/auth/auth.riverpod.model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -12,14 +10,14 @@ import 'package:go_router/go_router.dart';
 
 import '../../auth/model/auth.signup.riverpod.model.dart';
 
-class AuthRiverPod extends AsyncNotifier<AuthRiverPodModel?> {
+class AuthRiverPod extends AsyncNotifier<AuthSignupRiverpodModel?> {
   
   @override
-  FutureOr<AuthRiverPodModel?> build() {
+  FutureOr<AuthSignupRiverpodModel?> build() {
     return null;
   }
   
-  AsyncValue<AuthRiverPodModel?> getActiveUser() {
+  AsyncValue<AuthSignupRiverpodModel?> getActiveUser() {
     return state;
   }
   
@@ -37,13 +35,23 @@ class AuthRiverPod extends AsyncNotifier<AuthRiverPodModel?> {
   }
   
   FutureOr<void> onLoginUser({required BuildContext context, required String email, required String password}) async {
-    Object? response = await ref.read(riverpodDbProvider.notifier).loginUser(email: email, password: password);
+    AuthSignupRiverpodModel? response = await ref.read(riverpodDbProvider.notifier).loginUser(email: email, password: password) as AuthSignupRiverpodModel;
     log('weqwe >>> ');
     log(response.toString());
     if (response == null) {
       Fluttertoast.showToast(msg: invalidCredsTitle, toastLength: Toast.LENGTH_SHORT);
       return;
     }
-    // context.go("/")
+
+    AuthSignupRiverpodModel authSignupRiverpodModel = AuthSignupRiverpodModel(
+      id: response.id, 
+      firstname: response.firstname, 
+      lastname: response.lastname, 
+      email: email, 
+      password: password
+    );
+    state = AsyncValue.data(authSignupRiverpodModel);
+    
+    context.go("/riverpod-dashboard");
   }
 }

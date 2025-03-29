@@ -18,6 +18,7 @@ class AuthSignupRiverpodModelAdapter
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return AuthSignupRiverpodModel(
+      id: Uuid().v1(),
       firstname: fields[0] as String,
       lastname: fields[1] as String,
       email: fields[2] as String,

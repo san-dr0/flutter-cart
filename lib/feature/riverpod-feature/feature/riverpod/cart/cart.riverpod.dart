@@ -7,11 +7,11 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../model/auth/auth.riverpod.model.dart';
+import '../../auth/model/auth.signup.riverpod.model.dart';
 
 part "cart.riverpod.g.dart";
 
-var authProvider = AsyncNotifierProvider<AuthRiverPod, AuthRiverPodModel?>(() {
+var authProvider = AsyncNotifierProvider<AuthRiverPod, AuthSignupRiverpodModel?>(() {
   return AuthRiverPod();
 });
 

@@ -7,6 +7,7 @@ import 'package:clean_arch2/feature/riverpod-feature/feature/riverpod/cart/cart.
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:uuid/uuid.dart';
 
 class AuthRiverPodSignupPage extends ConsumerStatefulWidget {
   const AuthRiverPodSignupPage({super.key});
@@ -36,6 +37,7 @@ class _AuthRiverPodSignupPage extends ConsumerState<AuthRiverPodSignupPage> {
       return;
     }
     AuthSignupRiverpodModel signupRiverpodModel = AuthSignupRiverpodModel(
+      id: Uuid().v1(),
       firstname: _txtFirstname.text, 
       lastname: _txtLastname.text, 
       email: _txtEmail.text, 
