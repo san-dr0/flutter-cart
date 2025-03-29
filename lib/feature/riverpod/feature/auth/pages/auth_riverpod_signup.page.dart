@@ -40,7 +40,7 @@ class _AuthRiverPodSignupPage extends ConsumerState<AuthRiverPodSignupPage> {
       email: _txtEmail.text, 
       password: _txtPassword.text
     );
-    ref.read(authProvider.notifier).onSingupUser(signupRiverpodModel);
+    ref.read(authProvider.notifier).onSingupUser(context, signupRiverpodModel);
   }
 
   @override

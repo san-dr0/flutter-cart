@@ -23,13 +23,17 @@ class AuthRiverPod extends AsyncNotifier<AuthRiverPodModel?> {
     return state;
   }
   
-  FutureOr<void> onSingupUser(AuthSignupRiverpodModel signUp) async {
+  FutureOr<void> onSingupUser(BuildContext context, AuthSignupRiverpodModel signUp) async {
     int singUpResponse = await ref.read(riverpodDbProvider.notifier).signupUser(signUp);
     log("singUpResponse >>> ");
     log(singUpResponse.toString());
     
     if (singUpResponse == 1) {
-      Fluttertoast.showToast(msg: alreadyHaveAnAccount, toastLength: Toast.LENGTH_LONG);
+      Fluttertoast.showToast(msg: userAlreadyExistsTitle, toastLength: Toast.LENGTH_LONG);
+    }
+    else if (singUpResponse == 0) {
+      Fluttertoast.showToast(msg: userCreatedSuccessfullyTitle, toastLength: Toast.LENGTH_SHORT);
+      context.push("/riverpod-auth-login");
     }
 
   }
