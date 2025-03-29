@@ -3,7 +3,7 @@ import 'package:clean_arch2/core/text.style.dart';
 import 'package:clean_arch2/feature/riverpod/component/button/ink.dart';
 import 'package:flutter/material.dart';
 
-void alertDialog({required BuildContext context, required String title}) {
+void alertDialog({required BuildContext context, required String title, required Function() okayFunc, required Function() closeFunc}) {
   showDialog(context: context, builder: (context) {
     return AlertDialog(
       content: Text(
@@ -14,10 +14,10 @@ void alertDialog({required BuildContext context, required String title}) {
       ),
       actions: [
         inkButton(tapped: (param) {
-
+          okayFunc();
         }, subTitle: okayTitle),
         inkButton(tapped: (param) {
-
+          closeFunc();
         }, subTitle: closeTitle),
       ],
     );

@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:clean_arch2/config/db/hiver_riverpod/hiver_riverpod_model/hive_riverpod_model.dart';
-import 'package:clean_arch2/feature/riverpod/feature/auth/model/auth.model.dart';
+import 'package:clean_arch2/feature/riverpod/feature/auth/model/auth.signup.riverpod.model.dart';
 import 'package:hive/hive.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 part "riverpod_db.g.dart";
@@ -67,10 +67,25 @@ class RiverpodDb extends _$RiverpodDb{
   FutureOr<int> signupUser(AuthSignupRiverpodModel signUp) async {
     try{
       var accountBox = await Hive.openBox("riverpod-account");
+      var credList = accountBox.values.toList();
+      bool isCredExist = false;
+      for(var asr in credList) {
+        if (asr.email == signUp.email) {
+          isCredExist = true;
+          break;
+        }
+      }
+
+      if (isCredExist) {
+        return 1;
+      }
+
       accountBox.put(signUp.email, signUp);
       return 0;
     }
     catch(error) {
+      log("Errr >>> ");
+      log(error.toString());
       return -1;
     }
   }

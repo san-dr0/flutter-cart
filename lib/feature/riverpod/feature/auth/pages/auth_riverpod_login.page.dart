@@ -90,7 +90,7 @@ class _AuthRiverPodLoginPage extends ConsumerState<AuthRiverPodLoginPage> {
               ),
               TextButton(onPressed: () {
                 onNavigateToSignup();
-              }, child: Text(alreadyHaveAnAccount))
+              }, child: Text(notRegisteredYet))
             ],
           ),
         ),

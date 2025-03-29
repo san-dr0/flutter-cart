@@ -6,6 +6,7 @@ import 'package:clean_arch2/config/db/hive_model/mock_auth/mock_auth.model.dart'
 import 'package:clean_arch2/config/db/hive_model/product_model/product_model.dart';
 import 'package:clean_arch2/config/db/hive_model/topup_model/balance_model.dart';
 import 'package:clean_arch2/config/db/hive_model/transaction_model/transaction_model.dart';
+import 'package:clean_arch2/config/db/hiver_riverpod/hiver_riverpod_model/auth_riverpod_model.dart';
 import 'package:clean_arch2/config/db/hiver_riverpod/hiver_riverpod_model/hive_riverpod_model.dart';
 import 'package:clean_arch2/config/routes/routes.dart';
 import 'package:clean_arch2/feature/auth/presentation/bloc/auth.bloc.dart';
@@ -13,6 +14,7 @@ import 'package:clean_arch2/feature/balance/presentation/bloc/balance.bloc.dart'
 import 'package:clean_arch2/feature/cart/presentation/bloc/cart.bloc.dart';
 import 'package:clean_arch2/feature/dashboard/presentation/bloc/dashboard.bloc.dart';
 import 'package:clean_arch2/feature/home/presentation/bloc/home.bloc.dart';
+import 'package:clean_arch2/feature/riverpod/feature/auth/model/auth.signup.riverpod.model.dart';
 import 'package:clean_arch2/feature/topup/presentation/bloc/topup.bloc.dart';
 import 'package:clean_arch2/feature/transactions/presentation/bloc/transaction.bloc.dart';
 import 'package:clean_arch2/firebase_options.dart';
@@ -55,6 +57,8 @@ void main() async {
 
   // Riverpod adapter
   Hive.registerAdapter(ProductEntryRiverPodModelAdapter());
+  Hive.registerAdapter(AuthRiverpodModelAdapter());
+  Hive.registerAdapter(AuthSignupRiverpodModelAdapter());
   
   Di.registerLazySingleton(() => AppDatabase());
   Di.registerLazySingleton(() => CartBloc(appDatabase: Di()));
