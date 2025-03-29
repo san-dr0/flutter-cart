@@ -8,21 +8,21 @@ import 'package:clean_arch2/feature/barcodepay/presentation/pages/barcode.page.d
 import 'package:clean_arch2/feature/cart/presentation/pages/cart.page.dart';
 import 'package:clean_arch2/feature/dashboard/presentation/pages/dashboard.page.dart';
 import 'package:clean_arch2/feature/inquiries/presentation/page/inquiries.page.dart';
-import 'package:clean_arch2/feature/riverpod/feature/admin/pages/admin.page.dart';
-import 'package:clean_arch2/feature/riverpod/feature/auth/pages/auth_riverpod_login.page.dart';
-import 'package:clean_arch2/feature/riverpod/feature/auth/pages/auth_riverpod_signup.page.dart';
-import 'package:clean_arch2/feature/riverpod/feature/cart_list/pages/cart_list_page.dart';
-import 'package:clean_arch2/feature/riverpod/feature/product_list/pages/product_list.page.dart';
-import 'package:clean_arch2/feature/riverpod/feature/todo-home/pages/todo_home.page.dart';
-import 'package:clean_arch2/feature/riverpod/feature/update_product/pages/update_product.page.dart';
+import 'package:clean_arch2/feature/riverpod-feature/feature/admin/pages/admin.page.dart';
+import 'package:clean_arch2/feature/riverpod-feature/feature/auth/pages/auth_riverpod_login.page.dart';
+import 'package:clean_arch2/feature/riverpod-feature/feature/auth/pages/auth_riverpod_signup.page.dart';
+import 'package:clean_arch2/feature/riverpod-feature/feature/cart_list/pages/cart_list_page.dart';
+import 'package:clean_arch2/feature/riverpod-feature/feature/product_list/pages/product_list.page.dart';
+import 'package:clean_arch2/feature/riverpod-feature/feature/todo-home/pages/todo_home.page.dart';
+import 'package:clean_arch2/feature/riverpod-feature/feature/update_product/pages/update_product.page.dart';
 import 'package:clean_arch2/feature/topup/presentation/pages/topup.page.dart';
 import 'package:clean_arch2/feature/transactions/presentation/pages/transaction.pages.dart';
 import 'package:clean_arch2/feature/update-creds/pages/update-bloc.page.dart';
 import 'package:clean_arch2/feature/view_certain_product/pages/view_certain_product.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../feature/riverpod/feature/product_entry/pages/presentation/product_entry.page.dart';
-import '../../feature/riverpod/feature/view_certain_product/presentation/view_certain_product.dart';
+import '../../feature/riverpod-feature/feature/product_entry/pages/presentation/product_entry.page.dart';
+import '../../feature/riverpod-feature/feature/view_certain_product/presentation/view_certain_product.dart';
 
 GoRouter appRoutes = GoRouter(routes: [
   // GoRoute(path: '/', builder: (context, state) => HomePage(),),

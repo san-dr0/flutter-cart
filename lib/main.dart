@@ -14,7 +14,7 @@ import 'package:clean_arch2/feature/balance/presentation/bloc/balance.bloc.dart'
 import 'package:clean_arch2/feature/cart/presentation/bloc/cart.bloc.dart';
 import 'package:clean_arch2/feature/dashboard/presentation/bloc/dashboard.bloc.dart';
 import 'package:clean_arch2/feature/home/presentation/bloc/home.bloc.dart';
-import 'package:clean_arch2/feature/riverpod/feature/auth/model/auth.signup.riverpod.model.dart';
+import 'package:clean_arch2/feature/riverpod-feature/feature/auth/model/auth.signup.riverpod.model.dart';
 import 'package:clean_arch2/feature/topup/presentation/bloc/topup.bloc.dart';
 import 'package:clean_arch2/feature/transactions/presentation/bloc/transaction.bloc.dart';
 import 'package:clean_arch2/firebase_options.dart';
