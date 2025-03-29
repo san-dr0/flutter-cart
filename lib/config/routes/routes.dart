@@ -1,4 +1,5 @@
 import 'package:clean_arch2/config/db/hive_model/product_model/product_model.dart';
+import 'package:clean_arch2/config/db/hiver_riverpod/hiver_riverpod_model/hive_riverpod_model.dart';
 import 'package:clean_arch2/feature/admin/feature/home/pages/admin.home.dart';
 import 'package:clean_arch2/feature/admin/feature/users/pages/admin.user.list.page.dart';
 import 'package:clean_arch2/feature/auth/presentation/pages/login.dart';
@@ -6,16 +7,25 @@ import 'package:clean_arch2/feature/auth/presentation/pages/signup.dart';
 import 'package:clean_arch2/feature/barcodepay/presentation/pages/barcode.page.dart';
 import 'package:clean_arch2/feature/cart/presentation/pages/cart.page.dart';
 import 'package:clean_arch2/feature/dashboard/presentation/pages/dashboard.page.dart';
-import 'package:clean_arch2/feature/home/presentation/pages/home.page.dart';
 import 'package:clean_arch2/feature/inquiries/presentation/page/inquiries.page.dart';
+import 'package:clean_arch2/feature/riverpod-feature/feature/admin/pages/admin.page.dart';
+import 'package:clean_arch2/feature/riverpod-feature/feature/auth/pages/auth_riverpod_login.page.dart';
+import 'package:clean_arch2/feature/riverpod-feature/feature/auth/pages/auth_riverpod_signup.page.dart';
+import 'package:clean_arch2/feature/riverpod-feature/feature/cart_list/pages/cart_list_page.dart';
+import 'package:clean_arch2/feature/riverpod-feature/feature/product_list/pages/product_list.page.dart';
+import 'package:clean_arch2/feature/riverpod-feature/feature/todo-home/pages/todo_home.page.dart';
+import 'package:clean_arch2/feature/riverpod-feature/feature/update_product/pages/update_product.page.dart';
 import 'package:clean_arch2/feature/topup/presentation/pages/topup.page.dart';
 import 'package:clean_arch2/feature/transactions/presentation/pages/transaction.pages.dart';
 import 'package:clean_arch2/feature/update-creds/pages/update-bloc.page.dart';
 import 'package:clean_arch2/feature/view_certain_product/pages/view_certain_product.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../feature/riverpod-feature/feature/product_entry/pages/presentation/product_entry.page.dart';
+import '../../feature/riverpod-feature/feature/view_certain_product/presentation/view_certain_product.dart';
+
 GoRouter appRoutes = GoRouter(routes: [
-  GoRoute(path: '/', builder: (context, state) => HomePage(),),
+  // GoRoute(path: '/', builder: (context, state) => HomePage(),),
   GoRoute(path: '/signup', builder: (context, state) => SignupPage(),),
   GoRoute(path: '/cart', builder: (context, state) => CartPage(),),
   GoRoute(path: '/view-certain-product', builder: (context, state) {
@@ -33,7 +43,26 @@ GoRouter appRoutes = GoRouter(routes: [
     path: '/admin', builder: (context, state) => AdminHomePage(),
     routes: adminRoutes
   ),
-  GoRoute(path: '/inquiry', builder: (context, state) => InquiryPage(),)
+  GoRoute(path: '/inquiry', builder: (context, state) => InquiryPage(),),
+  // RIVERPOD
+  GoRoute(path: '/', builder: (context, state) => TodoHomePage(),),
+  GoRoute(path: '/admin-dashboard-v2', builder: (context, state) => AdminPageV2(),),
+  GoRoute(path: '/admin-page-entry-v2', builder: (context, state) => ProductEntryPage(),),
+  GoRoute(path: '/admin-page-list-v2', builder: (context, state) => ProductListPage(),),
+  GoRoute(path: '/riverpod-on-view-cart-list', builder: (context, state) => CartListPodPage(),),
+  GoRoute(path: '/riverpod-auth-login', builder: (context, state) => AuthRiverPodLoginPage(),),
+  GoRoute(path: '/riverpod-auth-signup', builder: (context, state) => AuthRiverPodSignupPage(),),
+  GoRoute(path: '/riverpod-on-view-certain-product', builder: (context, state) {
+    ProductEntryRiverPodModel product = state.extra as ProductEntryRiverPodModel;
+
+    return ViewCertainProductPodPage(productEntryRiverPodModel: product);
+  }),
+  GoRoute(path: '/admin-update-product-v2', builder: (context, state) {
+    ProductEntryRiverPodModel product = state.extra as ProductEntryRiverPodModel;
+
+    return UpdateProductPage(product: product,);
+  },),
+  // END OF RIVERPOD
 ]);
 
 // ADD pages here, it it belongs to admin

@@ -6,12 +6,15 @@ import 'package:clean_arch2/config/db/hive_model/mock_auth/mock_auth.model.dart'
 import 'package:clean_arch2/config/db/hive_model/product_model/product_model.dart';
 import 'package:clean_arch2/config/db/hive_model/topup_model/balance_model.dart';
 import 'package:clean_arch2/config/db/hive_model/transaction_model/transaction_model.dart';
+import 'package:clean_arch2/config/db/hiver_riverpod/hiver_riverpod_model/auth_riverpod_model.dart';
+import 'package:clean_arch2/config/db/hiver_riverpod/hiver_riverpod_model/hive_riverpod_model.dart';
 import 'package:clean_arch2/config/routes/routes.dart';
 import 'package:clean_arch2/feature/auth/presentation/bloc/auth.bloc.dart';
 import 'package:clean_arch2/feature/balance/presentation/bloc/balance.bloc.dart';
 import 'package:clean_arch2/feature/cart/presentation/bloc/cart.bloc.dart';
 import 'package:clean_arch2/feature/dashboard/presentation/bloc/dashboard.bloc.dart';
 import 'package:clean_arch2/feature/home/presentation/bloc/home.bloc.dart';
+import 'package:clean_arch2/feature/riverpod-feature/feature/auth/model/auth.signup.riverpod.model.dart';
 import 'package:clean_arch2/feature/topup/presentation/bloc/topup.bloc.dart';
 import 'package:clean_arch2/feature/transactions/presentation/bloc/transaction.bloc.dart';
 import 'package:clean_arch2/firebase_options.dart';
@@ -19,6 +22,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_vertexai/firebase_vertexai.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
 // import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:hive_flutter/hive_flutter.dart';
@@ -33,6 +37,10 @@ import 'package:hive_flutter/hive_flutter.dart';
 // https://docs.flutter.dev/ai-toolkit
 // https://www.datacamp.com/tutorial/vertex-ai-tutorial?utm_source=google&utm_medium=paid_search&utm_campaignid=19589720824&utm_adgroupid=157098106775&utm_device=c&utm_keyword=&utm_matchtype=&utm_network=g&utm_adpostion=&utm_creative=733936254857&utm_targetid=dsa-2264919291989&utm_loc_interest_ms=&utm_loc_physical_ms=1011159&utm_content=&accountid=9624585688&utm_campaign=230119_1-sea~dsa~tofu_2-b2c_3-apac_4-prc_5-na_6-na_7-le_8-pdsh-go_9-nb-e_10-na_11-na&gad_source=1&gclid=Cj0KCQjws-S-BhD2ARIsALssG0a8YZUWDcm764t8t3_YWCeJESpHjw6L1J5aubr_ENgZpb4CdEhGWGYaAtySEALw_wcB
 
+/* River pod things
+  1) dart run build_runner watch
+  1.1) this generate a Notifier
+*/
 final Di = GetIt.instance;
 
 void main() async {
@@ -46,6 +54,11 @@ void main() async {
   Hive.registerAdapter(UserInfoModelAdapter());
   Hive.registerAdapter(AuthEntityAdapter());
   Hive.registerAdapter(BalanceEntityAdapter());
+
+  // Riverpod adapter
+  Hive.registerAdapter(ProductEntryRiverPodModelAdapter());
+  Hive.registerAdapter(AuthRiverpodModelAdapter());
+  Hive.registerAdapter(AuthSignupRiverpodModelAdapter());
   
   Di.registerLazySingleton(() => AppDatabase());
   Di.registerLazySingleton(() => CartBloc(appDatabase: Di()));
@@ -57,19 +70,25 @@ void main() async {
   AppDatabase appDB = AppDatabase();
   appDB.initBaseRecords();
 
+  /* Bloc */
+  // runApp(
+  //   MultiBlocProvider(
+  //     providers: [
+  //       BlocProvider(create: (context) => HomeProductBloc(appDatabase: appDB),),
+  //       BlocProvider(create: (context) => CartBloc(appDatabase: Di())),
+  //       BlocProvider(create: (context) => AuthBloc(appDatabase: Di())),
+  //       BlocProvider(create: (context) => DashBoardBloc()),
+  //       BlocProvider(create: (context) => TransactionBloc(appDatabase: Di())),
+  //       BlocProvider(create: (context) => TopUpBloc(appDatabase: Di())),
+  //       BlocProvider(create: (context) => BalanceBloc(appDatabase: Di())),
+  //     ], 
+  //     child: const MyApp()
+  //   )
+  // );
+
+  /* for Riverpod */
   runApp(
-    MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (context) => HomeProductBloc(appDatabase: appDB),),
-        BlocProvider(create: (context) => CartBloc(appDatabase: Di())),
-        BlocProvider(create: (context) => AuthBloc(appDatabase: Di())),
-        BlocProvider(create: (context) => DashBoardBloc()),
-        BlocProvider(create: (context) => TransactionBloc(appDatabase: Di())),
-        BlocProvider(create: (context) => TopUpBloc(appDatabase: Di())),
-        BlocProvider(create: (context) => BalanceBloc(appDatabase: Di())),
-      ], 
-      child: const MyApp()
-    )
+    ProviderScope(child: const MyApp())
   );
 }
 
