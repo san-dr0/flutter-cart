@@ -7,6 +7,7 @@ import 'package:clean_arch2/config/db/hive_model/product_model/product_model.dar
 import 'package:clean_arch2/config/db/hive_model/topup_model/balance_model.dart';
 import 'package:clean_arch2/config/db/hive_model/transaction_model/transaction_model.dart';
 import 'package:clean_arch2/config/db/hiver_riverpod/hiver_riverpod_model/auth_riverpod_model.dart';
+import 'package:clean_arch2/config/db/hiver_riverpod/hiver_riverpod_model/balance_riverpod_model.dart';
 import 'package:clean_arch2/config/db/hiver_riverpod/hiver_riverpod_model/hive_riverpod_model.dart';
 import 'package:clean_arch2/config/routes/routes.dart';
 import 'package:clean_arch2/feature/auth/presentation/bloc/auth.bloc.dart';
@@ -59,6 +60,7 @@ void main() async {
   Hive.registerAdapter(ProductEntryRiverPodModelAdapter());
   Hive.registerAdapter(AuthRiverpodModelAdapter());
   Hive.registerAdapter(AuthSignupRiverpodModelAdapter());
+  Hive.registerAdapter(BalanceRiverpodModelAdapter());
   
   Di.registerLazySingleton(() => AppDatabase());
   Di.registerLazySingleton(() => CartBloc(appDatabase: Di()));

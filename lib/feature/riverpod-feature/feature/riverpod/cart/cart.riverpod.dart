@@ -1,53 +1,59 @@
+import 'dart:developer';
+
 import 'package:clean_arch2/config/db/hiver_riverpod/hiver_riverpod_model/hive_riverpod_model.dart';
 import 'package:clean_arch2/core/string.dart';
+import 'package:clean_arch2/feature/riverpod-feature/component/button/alertDialog.dart';
 import 'package:clean_arch2/feature/riverpod-feature/component/button/ink.dart';
-import 'package:clean_arch2/feature/riverpod-feature/feature/riverpod/auth/auth.riverpod.dart';
+import 'package:clean_arch2/feature/riverpod-feature/feature/riverpod/balance/balance.riverpod.dart';
+import 'package:clean_arch2/feature/riverpod-feature/feature/riverpod/pod-entry/pod_entry.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../auth/model/auth.signup.riverpod.model.dart';
-
-part "cart.riverpod.g.dart";
-
-var authProvider = AsyncNotifierProvider<AuthRiverPod, AuthSignupRiverpodModel?>(() {
-  return AuthRiverPod();
-});
-
 @riverpod
-class CartRiverPod extends _$CartRiverPod{
+class CartRiverPod extends AsyncNotifier<List<ProductEntryRiverPodModel>>{
 
   @override
   List<ProductEntryRiverPodModel> build() {
     return [];
   }
-
+  
   FutureOr<void> addToCart(ProductEntryRiverPodModel product) {
-    var rec = state.where((rec) => rec.id == product.id).toList();
+    var rec = state.value?.where((rec) => rec.id == product.id).toList();
+    List<ProductEntryRiverPodModel>? tempCartList = state.value;
 
-    if (rec.isNotEmpty) {
+    if (rec!.isNotEmpty) {
       rec[0].quantity = rec[0].quantity + 1;
     }
     else {
-      state = [
-        ...state, 
-        ProductEntryRiverPodModel(id: product.id, name: product.name, price: product.price, quantity: 1)
-      ];
+      tempCartList!.add(product);
+      state = AsyncValue.data(tempCartList);
     }
 
     Fluttertoast.showToast(msg: productAddedToCartTitle, toastLength: Toast.LENGTH_SHORT);
   }
 
   FutureOr<void> removeProductFromCart(ProductEntryRiverPodModel product) {
-    state = state.where((item) => item.id != product.id).toList();
+    // state = state.value?.where((item) => item.id != product.id).toList();
   }
 
   FutureOr<void> cartOnBuyProduct(BuildContext context) {
     var authRecord = ref.read(authProvider);
+    var balance = ref.read(balancePod);
     
     if (authRecord.value != null) {
+      if (balance.value! > 0) {
 
+        alertDialog(context: context, title: areYouSureYouWantToPayThisTitle, okayFunc: () {}, closeFunc: () {
+
+        });
+      }
+      else if (balance.value! <= 0) {
+        alertDialog(context: context, title: cantProceedPurchaseInsufficientBalance, okayFunc: () {}, closeFunc: () {
+
+        });
+      }
     }
     else if (authRecord.value == null){
       showDialog(context: context, builder: (context) {

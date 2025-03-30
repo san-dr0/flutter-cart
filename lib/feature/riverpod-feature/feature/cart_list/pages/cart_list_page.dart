@@ -2,8 +2,10 @@ import 'package:clean_arch2/config/db/hiver_riverpod/hiver_riverpod_model/hive_r
 import 'package:clean_arch2/core/color.dart';
 import 'package:clean_arch2/core/string.dart';
 import 'package:clean_arch2/feature/riverpod-feature/feature/riverpod/cart/cart.riverpod.dart';
+import 'package:clean_arch2/feature/riverpod-feature/feature/riverpod/pod-entry/pod_entry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class CartListPodPage extends ConsumerStatefulWidget {
   const CartListPodPage({super.key});
@@ -15,20 +17,20 @@ class CartListPodPage extends ConsumerStatefulWidget {
 class _CartListPodPage extends ConsumerState<CartListPodPage> {
 
   void removeItem (ProductEntryRiverPodModel product) {
-    ref.read(cartRiverPodProvider.notifier).removeProductFromCart(product);
+    ref.read(cartRiverPod.notifier).removeProductFromCart(product);
   }
 
   void addItem (ProductEntryRiverPodModel product) {
-    ref.read(cartRiverPodProvider.notifier).addToCart(product);
+    ref.read(cartRiverPod.notifier).addToCart(product);
   }
 
   void onPayCartItem () {
-    ref.read(cartRiverPodProvider.notifier).cartOnBuyProduct(context);
+    ref.read(cartRiverPod.notifier).cartOnBuyProduct(context);
   }
 
   @override
   Widget build(BuildContext context) {
-    var cartList = ref.watch(cartRiverPodProvider);
+    var cartList = ref.watch(cartRiverPod);
 
     return Scaffold(
       appBar: AppBar(
@@ -47,18 +49,18 @@ class _CartListPodPage extends ConsumerState<CartListPodPage> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Name: ${cartList[index].name}"),
-                        Text("\$: ${cartList[index].price}"),
-                        Text("Qty: ${cartList[index].quantity}"),
+                        Text("Name: ${cartList.value![index].name}"),
+                        Text("\$: ${cartList.value![index].price}"),
+                        Text("Qty: ${cartList.value![index].quantity}"),
                       ],
                     ),
                     Row(
                       children: [
                         IconButton(onPressed: () {
-                          removeItem(cartList[index]);
+                          removeItem(cartList.value![index]);
                         }, icon: Icon(Icons.remove)),
                         IconButton(onPressed: () {
-                          addItem(cartList[index]);
+                          addItem(cartList.value![index]);
                         }, icon: Icon(Icons.add))
                       ],
                     ),
@@ -70,7 +72,8 @@ class _CartListPodPage extends ConsumerState<CartListPodPage> {
           separatorBuilder: (context, index) {
             return const SizedBox(height: 8.0,);
           }, 
-          itemCount: cartList.length),
+            itemCount: cartList.value!.length
+          ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

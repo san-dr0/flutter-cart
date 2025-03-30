@@ -3,6 +3,7 @@ import 'package:clean_arch2/core/string.dart';
 import 'package:clean_arch2/core/text.style.dart';
 import 'package:clean_arch2/feature/riverpod-feature/component/button/ink.dart';
 import 'package:clean_arch2/feature/riverpod-feature/feature/riverpod/cart/cart.riverpod.dart';
+import 'package:clean_arch2/feature/riverpod-feature/feature/riverpod/pod-entry/pod_entry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -22,8 +23,8 @@ class _AuthRiverPodLoginPage extends ConsumerState<AuthRiverPodLoginPage> {
   @override
   void initState() {
     super.initState();
-    _txtEmail = TextEditingController();
-    _txtPassword = TextEditingController();
+    _txtEmail = TextEditingController(text: "ada.ada@gmail.com");
+    _txtPassword = TextEditingController(text: "123");
   }
 
   void onLoginUser() {
@@ -69,6 +70,7 @@ class _AuthRiverPodLoginPage extends ConsumerState<AuthRiverPodLoginPage> {
                   return null;
                 },
                 decoration: inputDecoration(label: "Email"),
+                keyboardType: TextInputType.emailAddress,
               ),
               TextFormField(
                 controller: _txtPassword,

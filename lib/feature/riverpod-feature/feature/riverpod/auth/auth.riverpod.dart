@@ -13,12 +13,13 @@ import '../../auth/model/auth.signup.riverpod.model.dart';
 class AuthRiverPod extends AsyncNotifier<AuthSignupRiverpodModel?> {
   
   @override
-  FutureOr<AuthSignupRiverpodModel?> build() {
-    return null;
+  Future<AuthSignupRiverpodModel?> build() async{
+    return currentActiveUser();
   }
-  
-  AsyncValue<AuthSignupRiverpodModel?> getActiveUser() {
-    return state;
+
+  AuthSignupRiverpodModel? currentActiveUser() {
+    log("Got >>>> ${state.value}");
+    return state.value;
   }
   
   FutureOr<void> onSingupUser(BuildContext context, AuthSignupRiverpodModel signUp) async {
@@ -35,23 +36,30 @@ class AuthRiverPod extends AsyncNotifier<AuthSignupRiverpodModel?> {
   }
   
   FutureOr<void> onLoginUser({required BuildContext context, required String email, required String password}) async {
-    AuthSignupRiverpodModel? response = await ref.read(riverpodDbProvider.notifier).loginUser(email: email, password: password) as AuthSignupRiverpodModel;
-    log('weqwe >>> ');
+    var response = await ref.read(riverpodDbProvider.notifier).loginUser(email: email, password: password);
+    log("response >>> ");
     log(response.toString());
     if (response == null) {
       Fluttertoast.showToast(msg: invalidCredsTitle, toastLength: Toast.LENGTH_SHORT);
       return;
     }
 
-    AuthSignupRiverpodModel authSignupRiverpodModel = AuthSignupRiverpodModel(
-      id: response.id, 
-      firstname: response.firstname, 
-      lastname: response.lastname, 
+    AuthSignupRiverpodModel responseAuth = response as AuthSignupRiverpodModel;
+
+    AuthSignupRiverpodModel? authSignupRiverpodModel = AuthSignupRiverpodModel(
+      id: responseAuth.id, 
+      firstname: responseAuth.firstname, 
+      lastname: responseAuth.lastname, 
       email: email, 
       password: password
     );
     state = AsyncValue.data(authSignupRiverpodModel);
+    log("Owss s >>>> ${state.value?.firstname}");
     
     context.go("/riverpod-dashboard");
+  }
+
+  void logOutUser() {
+    state = AsyncValue.data(null);
   }
 }
