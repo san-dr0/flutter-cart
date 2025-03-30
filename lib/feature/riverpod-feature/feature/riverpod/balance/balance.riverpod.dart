@@ -1,5 +1,6 @@
 import 'package:clean_arch2/config/db/hiver_riverpod/riverpod_db.dart';
 import 'package:clean_arch2/core/string.dart';
+import 'package:clean_arch2/feature/riverpod-feature/feature/riverpod/pod-entry/pod_entry.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -8,7 +9,7 @@ class BalanceRiverPod extends AsyncNotifier<double?> {
     @override
     Future<double?> build() async {
 
-      return 0.00;
+      return getCurrentBalance(email: ref.read(authProvider).value!.email);
     }
     
     Future<double?> getCurrentBalance({required String email}) async {
@@ -24,8 +25,8 @@ class BalanceRiverPod extends AsyncNotifier<double?> {
         return currentBalance;
     }
     
-    FutureOr<void> updateBalance() {
-
+    FutureOr<void> updateBalance({required String email, required double balance}) async {
+      var newBalance = await ref.read(riverpodDbProvider.notifier).updateBalance(email: email, newBalance: balance);
     }
 
 }

@@ -21,7 +21,7 @@ class DashBoardRiverpodPage extends ConsumerStatefulWidget {
 class _DashBoardRiverpodPage extends ConsumerState<DashBoardRiverpodPage> {
 
   void onTopup() {
-
+    context.push("/riverpod-topup");
   }
   void onBiometrics () {
 
@@ -43,6 +43,7 @@ class _DashBoardRiverpodPage extends ConsumerState<DashBoardRiverpodPage> {
   @override
   Widget build(BuildContext context) {
     var authPod = ref.watch(authProvider);
+    var currentBalance = ref.watch(balancePod);
 
     return Scaffold(
       appBar: AppBar(
@@ -69,7 +70,7 @@ class _DashBoardRiverpodPage extends ConsumerState<DashBoardRiverpodPage> {
                   ),
                   const SizedBox(height: 50.0,),
                   Text(
-                    "Balance: \$0.00 ->",
+                    "Balance: \$ ${currentBalance.value}",
                     style: textStyle(),
                   )
                 ],
@@ -82,6 +83,9 @@ class _DashBoardRiverpodPage extends ConsumerState<DashBoardRiverpodPage> {
               title: Text("Home"),
             ),
             ListTile(
+              onTap: () {
+                onTopup();
+              },
               title: Text("Topup"),
             ),
             ListTile(

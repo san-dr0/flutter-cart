@@ -23,6 +23,7 @@ import 'package:clean_arch2/feature/view_certain_product/pages/view_certain_prod
 import 'package:go_router/go_router.dart';
 
 import '../../feature/riverpod-feature/feature/product_entry/pages/presentation/product_entry.page.dart';
+import '../../feature/riverpod-feature/feature/topup/pages/topup.riverpod.page.dart';
 import '../../feature/riverpod-feature/feature/view_certain_product/presentation/view_certain_product.dart';
 
 GoRouter appRoutes = GoRouter(routes: [
@@ -54,6 +55,7 @@ GoRouter appRoutes = GoRouter(routes: [
   GoRoute(path: '/riverpod-auth-login', builder: (context, state) => AuthRiverPodLoginPage(),),
   GoRoute(path: '/riverpod-auth-signup', builder: (context, state) => AuthRiverPodSignupPage(),),
   GoRoute(path: '/riverpod-dashboard', builder: (context, state) => DashBoardRiverpodPage(),),
+  GoRoute(path: '/riverpod-topup', builder: (context, state) => TopUpRiverpodPage(),),
   GoRoute(path: '/riverpod-on-view-certain-product', builder: (context, state) {
     ProductEntryRiverPodModel product = state.extra as ProductEntryRiverPodModel;
 
