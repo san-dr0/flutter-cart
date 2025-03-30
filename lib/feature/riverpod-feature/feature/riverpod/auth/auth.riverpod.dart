@@ -18,7 +18,7 @@ class AuthRiverPod extends AsyncNotifier<AuthSignupRiverpodModel?> {
   }
 
   AuthSignupRiverpodModel? currentActiveUser() {
-    log("Got >>>> ${state.value}");
+    // log("Got >>>> ${state.value}");
     return state.value;
   }
   
@@ -37,8 +37,7 @@ class AuthRiverPod extends AsyncNotifier<AuthSignupRiverpodModel?> {
   
   FutureOr<void> onLoginUser({required BuildContext context, required String email, required String password}) async {
     var response = await ref.read(riverpodDbProvider.notifier).loginUser(email: email, password: password);
-    log("response >>> ");
-    log(response.toString());
+    
     if (response == null) {
       Fluttertoast.showToast(msg: invalidCredsTitle, toastLength: Toast.LENGTH_SHORT);
       return;
@@ -54,7 +53,6 @@ class AuthRiverPod extends AsyncNotifier<AuthSignupRiverpodModel?> {
       password: password
     );
     state = AsyncValue.data(authSignupRiverpodModel);
-    log("Owss s >>>> ${state.value?.firstname}");
     
     context.go("/riverpod-dashboard");
   }

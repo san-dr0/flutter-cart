@@ -43,16 +43,20 @@ class CartRiverPod extends AsyncNotifier<List<ProductEntryRiverPodModel>>{
     var balance = ref.read(balancePod);
     
     if (authRecord.value != null) {
-      if (balance.value! > 0) {
+      if(balance.value != null) {
+        if (balance.value! > 0) {
 
         alertDialog(context: context, title: areYouSureYouWantToPayThisTitle, okayFunc: () {}, closeFunc: () {
 
         });
       }
       else if (balance.value! <= 0) {
-        alertDialog(context: context, title: cantProceedPurchaseInsufficientBalance, okayFunc: () {}, closeFunc: () {
+        alertDialog(context: context, title: cantProceedPurchaseInsufficientBalance, okayFunc: () {
+          context.push("/riverpod-dashboard");
+        }, closeFunc: () {
 
         });
+      }
       }
     }
     else if (authRecord.value == null){
