@@ -37,11 +37,11 @@ class _TodoHomePage extends ConsumerState<TodoHomePage> {
   }
 
   void onViewCartList() {
-    // if (ref.read(cartRiverPodProvider).isEmpty) {
-    //   Fluttertoast.showToast(msg: emptyCartTitle, toastLength: Toast.LENGTH_SHORT);
+    if (ref.read(cartRiverPod).value!.isEmpty) {
+      Fluttertoast.showToast(msg: emptyCartTitle, toastLength: Toast.LENGTH_SHORT);
       
-    //   return;
-    // }
+      return;
+    }
     context.push("/riverpod-on-view-cart-list");
   }
 

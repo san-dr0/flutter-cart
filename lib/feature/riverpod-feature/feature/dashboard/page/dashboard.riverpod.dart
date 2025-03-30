@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:clean_arch2/core/color.dart';
 import 'package:clean_arch2/core/string.dart';
 import 'package:clean_arch2/core/text.style.dart';
@@ -44,6 +46,8 @@ class _DashBoardRiverpodPage extends ConsumerState<DashBoardRiverpodPage> {
   Widget build(BuildContext context) {
     var authPod = ref.watch(authProvider);
     var currentBalance = ref.watch(balancePod);
+    log("currentBalance >>> ");
+    log(currentBalance.value.toString());
 
     return Scaffold(
       appBar: AppBar(
@@ -69,10 +73,16 @@ class _DashBoardRiverpodPage extends ConsumerState<DashBoardRiverpodPage> {
                     style: textStyle(),
                   ),
                   const SizedBox(height: 50.0,),
-                  Text(
-                    "Balance: \$ ${currentBalance.value}",
-                    style: textStyle(),
-                  )
+                  // if (currentBalance.value != null)
+                  //   Text(
+                  //     "Balance: \$ ${currentBalance.value!.toStringAsFixed(2)}",
+                  //     style: textStyle(),
+                  //   ),
+                  // if (currentBalance.value == null)
+                  //   Text(
+                  //     "Balance: \$ 0.00",
+                  //     style: textStyle(),
+                  //   ),
                 ],
               ),
             ),

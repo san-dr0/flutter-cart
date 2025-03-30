@@ -32,6 +32,7 @@ class _TopUpRiverpodPage extends ConsumerState<TopUpRiverpodPage> {
       email: authPod.value!.email,
       balance: balance
     );
+    _txtCreditBalance.clear();
     ref.read(balancePod.notifier).getCurrentBalance(email: authPod.value!.email);
   }
 

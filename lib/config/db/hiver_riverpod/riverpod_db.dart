@@ -96,7 +96,8 @@ class RiverpodDb extends _$RiverpodDb{
       double currentBalance = 0.00;
       
       var balanceRepsonse = balanceBox.get(email);
-      currentBalance = double.parse(balanceRepsonse);
+      currentBalance = balanceRepsonse;
+
       return currentBalance;
     }
     catch(error) {
@@ -104,25 +105,26 @@ class RiverpodDb extends _$RiverpodDb{
     }
   }
 
-  FutureOr<int> updateBalance({String email = "", double newBalance = 0.00}) async {
+  FutureOr<double?> updateBalance({String email = "", double newBalance = 0.00}) async {
     try{
       var balanceBox = await Hive.openBox("riverpod-balance");
       var currBalance = balanceBox.get(email);
+      double updatedBalance = 0.00;
       
       if (currBalance == null) {
         balanceBox.put(email, newBalance);
       }
       else {
-        double updatedBalance = double.parse(currBalance.toString()) + newBalance;
+        updatedBalance = double.parse(currBalance.toString()) + newBalance;
         balanceBox.put(email, updatedBalance);
       }
       
-      return 0;
+      return updatedBalance;
     }
     catch(error) {
       log("Errororo --- >>> ");
       log(error.toString());
-      return -1;
+      return null;
     }
   }
 
