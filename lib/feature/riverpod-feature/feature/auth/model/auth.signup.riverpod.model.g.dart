@@ -18,25 +18,27 @@ class AuthSignupRiverpodModelAdapter
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return AuthSignupRiverpodModel(
-      id: Uuid().v1(),
-      firstname: fields[0] as String,
-      lastname: fields[1] as String,
-      email: fields[2] as String,
-      password: fields[3] as String,
+      id: fields[0] as String,
+      firstname: fields[1] as String,
+      lastname: fields[2] as String,
+      email: fields[3] as String,
+      password: fields[4] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, AuthSignupRiverpodModel obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(0)
-      ..write(obj.firstname)
+      ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.lastname)
+      ..write(obj.firstname)
       ..writeByte(2)
-      ..write(obj.email)
+      ..write(obj.lastname)
       ..writeByte(3)
+      ..write(obj.email)
+      ..writeByte(4)
       ..write(obj.password);
   }
 

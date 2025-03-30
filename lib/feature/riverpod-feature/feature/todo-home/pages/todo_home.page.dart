@@ -5,6 +5,7 @@ import 'package:clean_arch2/core/text.style.dart';
 import 'package:clean_arch2/feature/riverpod-feature/component/button/ink.dart';
 import 'package:clean_arch2/feature/riverpod-feature/feature/product_list/pages/product_list.page.dart';
 import 'package:clean_arch2/feature/riverpod-feature/feature/riverpod/cart/cart.riverpod.dart';
+import 'package:clean_arch2/feature/riverpod-feature/feature/riverpod/pod-entry/pod_entry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -28,7 +29,7 @@ class _TodoHomePage extends ConsumerState<TodoHomePage> {
   }
 
   void addToCart(ProductEntryRiverPodModel product) {
-    ref.read(cartRiverPodProvider.notifier).addToCart(product);
+    ref.read(cartRiverPod.notifier).addToCart(product);
   }
 
   void onViewProductInfo(ProductEntryRiverPodModel product) {
@@ -36,25 +37,31 @@ class _TodoHomePage extends ConsumerState<TodoHomePage> {
   }
 
   void onViewCartList() {
-    if (ref.read(cartRiverPodProvider).isEmpty) {
-      Fluttertoast.showToast(msg: emptyCartTitle, toastLength: Toast.LENGTH_SHORT);
+    // if (ref.read(cartRiverPodProvider).isEmpty) {
+    //   Fluttertoast.showToast(msg: emptyCartTitle, toastLength: Toast.LENGTH_SHORT);
       
-      return;
-    }
+    //   return;
+    // }
     context.push("/riverpod-on-view-cart-list");
+  }
+
+  void onLoginUser() {
+    context.push('/riverpod-auth-login');
   }
 
   @override
   Widget build(BuildContext context) {
     var productList = ref.watch(productProvider);
-    var cartProductList = ref.watch(cartRiverPodProvider);
+    var cartProductList = ref.watch(cartRiverPod);
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: tealColor,
         title: Text(cartTitle),
         actions: [
-          IconButton(onPressed: () {}, icon: Icon(Icons.person, color: whiteColor,)),
+          IconButton(onPressed: () {
+            onLoginUser();
+          }, icon: Icon(Icons.person, color: whiteColor,)),
           Stack(
             children: [
               IconButton(onPressed: () {
@@ -64,7 +71,7 @@ class _TodoHomePage extends ConsumerState<TodoHomePage> {
                 top: -5,
                 right: 8,
                 child: Text(
-                  cartProductList.length.toString(),
+                  cartProductList.value!.length.toString(),
                   style: textStyle(
                     color: Colors.red,
                     fontSize: 22.0
