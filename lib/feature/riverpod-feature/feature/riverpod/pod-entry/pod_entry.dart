@@ -14,6 +14,6 @@ var cartRiverPod = AsyncNotifierProvider<CartRiverPod, List<ProductEntryRiverPod
   return CartRiverPod();
 });
 
-var balancePod = AsyncNotifierProvider<BalanceRiverPod, double?> (() {
+var balancePod = AsyncNotifierProvider<BalanceRiverPod, double> (() {
   return BalanceRiverPod();
 });

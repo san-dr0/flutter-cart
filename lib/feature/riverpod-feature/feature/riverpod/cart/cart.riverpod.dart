@@ -40,7 +40,7 @@ class CartRiverPod extends AsyncNotifier<List<ProductEntryRiverPodModel>>{
 
   FutureOr<void> cartOnBuyProduct(BuildContext context) {
     var authRecord = ref.read(authProvider);
-    var balance = ref.read(balancePod);
+    var balance = ref.read(balancePod.notifier).getCurrentBalance(email: authRecord.value!.email);
     
     if (authRecord.value != null) {
       if(balance.value != null) {

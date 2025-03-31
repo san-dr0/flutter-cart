@@ -7,19 +7,18 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 @riverpod
-class BalanceRiverPod extends AsyncNotifier<double?> {
+class BalanceRiverPod extends AsyncNotifier<double> {
     @override
-    Future<double?> build() async {
+    Future<double> build() async {
       return getCurrentBalance(email: ref.read(authProvider).value!.email);
     }
     
-    Future<double?> getCurrentBalance({required String email}) async {
+    Future<double> getCurrentBalance({required String email}) async {
         double? currentBalance = 0.00;
         currentBalance = await ref.read(riverpodDbProvider.notifier).getCurrentBalance(email: email);
 
         if (currentBalance == null) {
           Fluttertoast.showToast(msg: somethingWentWrongTitle, toastLength: Toast.LENGTH_SHORT);
-
           return 0.00;
         }
 

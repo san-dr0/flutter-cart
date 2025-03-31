@@ -42,6 +42,8 @@ import 'package:hive_flutter/hive_flutter.dart';
   1) dart run build_runner watch
   1.1) this generate a Notifier
 */
+// LANG CHAIN
+// https://nanonets.com/blog/langchain/
 final Di = GetIt.instance;
 
 void main() async {
