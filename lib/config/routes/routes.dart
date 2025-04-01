@@ -15,6 +15,7 @@ import 'package:clean_arch2/feature/riverpod-feature/feature/cart_list/pages/car
 import 'package:clean_arch2/feature/riverpod-feature/feature/dashboard/page/dashboard.riverpod.dart';
 import 'package:clean_arch2/feature/riverpod-feature/feature/product_list/pages/product_list.page.dart';
 import 'package:clean_arch2/feature/riverpod-feature/feature/todo-home/pages/todo_home.page.dart';
+import 'package:clean_arch2/feature/riverpod-feature/feature/transactions/pages/transaction_riverpod.page.dart';
 import 'package:clean_arch2/feature/riverpod-feature/feature/update_product/pages/update_product.page.dart';
 import 'package:clean_arch2/feature/topup/presentation/pages/topup.page.dart';
 import 'package:clean_arch2/feature/transactions/presentation/pages/transaction.pages.dart';
@@ -56,6 +57,7 @@ GoRouter appRoutes = GoRouter(routes: [
   GoRoute(path: '/riverpod-auth-signup', builder: (context, state) => AuthRiverPodSignupPage(),),
   GoRoute(path: '/riverpod-dashboard', builder: (context, state) => DashBoardRiverpodPage(),),
   GoRoute(path: '/riverpod-topup', builder: (context, state) => TopUpRiverpodPage(),),
+  GoRoute(path: '/riverpod-transactions', builder: (context, state) => TransactionHistoryRiverpodPage(),),
   GoRoute(path: '/riverpod-on-view-certain-product', builder: (context, state) {
     ProductEntryRiverPodModel product = state.extra as ProductEntryRiverPodModel;
 

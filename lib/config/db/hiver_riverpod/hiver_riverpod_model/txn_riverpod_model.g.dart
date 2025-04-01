@@ -9,7 +9,7 @@ part of 'txn_riverpod_model.dart';
 class TransactionHistoryRiverpodModelAdapter
     extends TypeAdapter<TransactionHistoryRiverpodModel> {
   @override
-  final int typeId = 9;
+  final int typeId = 10;
 
   @override
   TransactionHistoryRiverpodModel read(BinaryReader reader) {

@@ -2,7 +2,7 @@ import 'package:clean_arch2/config/db/hiver_riverpod/hiver_riverpod_model/hive_r
 import 'package:hive/hive.dart';
 part "txn_riverpod_model.g.dart";
 
-@HiveType(typeId: 9)
+@HiveType(typeId: 10)
 class TransactionHistoryRiverpodModel {
   @HiveField(0)
   final String id;
@@ -14,4 +14,8 @@ class TransactionHistoryRiverpodModel {
   TransactionHistoryRiverpodModel({
     required this.id, required this.email, required this.cartList
   });
+
+  factory TransactionHistoryRiverpodModel.fromJson(TransactionHistoryRiverpodModel record) {
+    return TransactionHistoryRiverpodModel(id: record.id, email: record.email, cartList: record.cartList);
+  }
 }

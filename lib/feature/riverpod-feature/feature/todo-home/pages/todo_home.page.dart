@@ -99,7 +99,7 @@ class _TodoHomePage extends ConsumerState<TodoHomePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text("Name: ${productList.value![index].name}"),
-                        Text("\$: ${productList.value![index].price}"),
+                        Text("\$: ${productList.value![index].price.toStringAsFixed(2)}"),
                         Text("Qty: ${productList.value![index].quantity}"),
                       ],
                     ),

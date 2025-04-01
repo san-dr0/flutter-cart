@@ -1,9 +1,6 @@
-import 'dart:developer';
-
 import 'package:clean_arch2/core/color.dart';
 import 'package:clean_arch2/core/string.dart';
 import 'package:clean_arch2/core/text.style.dart';
-import 'package:clean_arch2/feature/riverpod-feature/feature/riverpod/cart/cart.riverpod.dart';
 import 'package:clean_arch2/feature/riverpod-feature/feature/riverpod/pod-entry/pod_entry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -40,6 +37,10 @@ class _DashBoardRiverpodPage extends ConsumerState<DashBoardRiverpodPage> {
 
   void onGoHome() {
     context.go("/");
+  }
+
+  void onGoToTransactions() {
+    context.push("/riverpod-transactions");
   }
 
   @override
@@ -94,6 +95,9 @@ class _DashBoardRiverpodPage extends ConsumerState<DashBoardRiverpodPage> {
               title: Text("Biometrics"),
             ),
             ListTile(
+              onTap: () {
+                onGoToTransactions();
+              },
               title: Text("Transactions"),
             ),
             ListTile(

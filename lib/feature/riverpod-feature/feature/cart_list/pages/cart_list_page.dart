@@ -48,7 +48,7 @@ class _CartListPodPage extends ConsumerState<CartListPodPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text("Name: ${cartList.value![index].name}"),
-                        Text("\$: ${cartList.value![index].price}"),
+                        Text("\$: ${cartList.value![index].price.toStringAsFixed(2)}"),
                         Text("Qty: ${cartList.value![index].quantity}"),
                       ],
                     ),

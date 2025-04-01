@@ -70,4 +70,4 @@ const String adminPageProductEntryTitle = "Product Entry";
 const String productAddedToCartTitle = "Product added to cart";
 const String closeTitle = "Close";
 const String okayTitle = "Okay";
-const String transactionRecordTitleAdded = "New transaction was adeed.";
+const String transactionRecordTitleAdded = "New transaction was added.";

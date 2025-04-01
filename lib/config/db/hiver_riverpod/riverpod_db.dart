@@ -5,6 +5,7 @@ import 'package:clean_arch2/config/db/hiver_riverpod/hiver_riverpod_model/txn_ri
 import 'package:clean_arch2/feature/riverpod-feature/feature/auth/model/auth.signup.riverpod.model.dart';
 import 'package:hive/hive.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:uuid/uuid.dart';
 part "riverpod_db.g.dart";
 /*
   Error codes;
@@ -146,7 +147,10 @@ class RiverpodDb extends _$RiverpodDb{
   FutureOr<int?> addCartTransactionList({required List<ProductEntryRiverPodModel> cartList, required  String email}) async {
     try{
       var txnBox = await Hive.openBox("riverpod-txnHistory");
-      txnBox.put(email, cartList);
+      TransactionHistoryRiverpodModel txnRecord = TransactionHistoryRiverpodModel(
+        id: Uuid().v1(), email: email, cartList: cartList
+      );
+      txnBox.add(txnRecord);
 
       return 0;
     }
@@ -158,13 +162,21 @@ class RiverpodDb extends _$RiverpodDb{
   FutureOr<List<TransactionHistoryRiverpodModel>> getTransactionHistory({required String email})  async {
     try{
       var txnBox = await Hive.openBox("riverpod-txnHistory");
-      var boxTxnList = txnBox.get(email);
-      log("boxTxnList >>> ");
-      log(boxTxnList.toString());
+      
+      List<TransactionHistoryRiverpodModel> transctionRecords = [];
+      for(var tr in txnBox.values.toList()) {
+        log(tr.toString());
 
+        // transctionRecords.add(TransactionHistoryRiverpodModel.fromJson(tr));
+      }
+      // log('transctionRecords >>> ');
+      // log(transctionRecords.toString());
+      
       return [];
     }
     catch(error) {
+      log('Err --- >>> ');
+      log(error.toString());
       return [];
     }
   }

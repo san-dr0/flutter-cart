@@ -27,7 +27,10 @@ class CartRiverPod extends AsyncNotifier<List<ProductEntryRiverPodModel>>{
       rec[0].quantity = rec[0].quantity + 1;
     }
     else {
-      tempCartList!.add(product);
+      ProductEntryRiverPodModel newProduct = ProductEntryRiverPodModel(
+        id: product.id, name: product.name, price: product.price, quantity: 1
+      );
+      tempCartList!.add(newProduct);
       state = AsyncValue.data(tempCartList);
     }
 
@@ -43,13 +46,13 @@ class CartRiverPod extends AsyncNotifier<List<ProductEntryRiverPodModel>>{
     
     if (authRecord.value != null) {
       var balance = await ref.read(balancePod.notifier).getCurrentBalance(email: authRecord.value!.email);
-      
       if (balance > 0) {
         alertDialog(context: context, title: areYouSureYouWantToPayThisTitle, okayFunc: () {
           ref.read(transactionsPod.notifier).addTransactionHistory(context: context, 
           cartList: state.value!, 
           email: authRecord.value!.email
         );
+        state = AsyncValue.data([]);
         }, closeFunc: () {
           Navigator.pop(context);
         });
