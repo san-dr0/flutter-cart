@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:clean_arch2/config/db/hiver_riverpod/hiver_riverpod_model/hive_riverpod_model.dart';
 import 'package:clean_arch2/config/db/hiver_riverpod/hiver_riverpod_model/txn_riverpod_model.dart';
 import 'package:clean_arch2/config/db/hiver_riverpod/riverpod_db.dart';

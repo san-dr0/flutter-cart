@@ -102,6 +102,11 @@ class _DashBoardRiverpodPage extends ConsumerState<DashBoardRiverpodPage> {
             ),
             ListTile(
               onTap: () {
+              },
+              title: Text("Inquiries"),
+            ),
+            ListTile(
+              onTap: () {
                 onLogout();
               },
               title: Text("Logout"),

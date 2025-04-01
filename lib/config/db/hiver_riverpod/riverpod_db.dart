@@ -162,21 +162,17 @@ class RiverpodDb extends _$RiverpodDb{
   FutureOr<List<TransactionHistoryRiverpodModel>> getTransactionHistory({required String email})  async {
     try{
       var txnBox = await Hive.openBox("riverpod-txnHistory");
-      
       List<TransactionHistoryRiverpodModel> transctionRecords = [];
-      for(var tr in txnBox.values.toList()) {
-        log(tr.toString());
-
-        // transctionRecords.add(TransactionHistoryRiverpodModel.fromJson(tr));
-      }
-      // log('transctionRecords >>> ');
-      // log(transctionRecords.toString());
       
-      return [];
+      for(TransactionHistoryRiverpodModel tr in txnBox.values.toList()) {
+        if (tr.email == email) {
+          transctionRecords.add(TransactionHistoryRiverpodModel.fromJson(tr));
+        }
+      }
+      
+      return transctionRecords;
     }
     catch(error) {
-      log('Err --- >>> ');
-      log(error.toString());
       return [];
     }
   }

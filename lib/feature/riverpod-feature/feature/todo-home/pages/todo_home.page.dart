@@ -46,6 +46,10 @@ class _TodoHomePage extends ConsumerState<TodoHomePage> {
   }
 
   void onLoginUser() {
+    if (ref.read(authProvider).value != null) {
+      context.push("/riverpod-dashboard");
+      return;
+    }
     context.push('/riverpod-auth-login');
   }
 
