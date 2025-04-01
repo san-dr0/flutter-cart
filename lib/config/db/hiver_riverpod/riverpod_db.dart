@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:clean_arch2/config/db/hiver_riverpod/hiver_riverpod_model/hive_riverpod_model.dart';
+import 'package:clean_arch2/config/db/hiver_riverpod/hiver_riverpod_model/txn_riverpod_model.dart';
 import 'package:clean_arch2/feature/riverpod-feature/feature/auth/model/auth.signup.riverpod.model.dart';
 import 'package:hive/hive.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -92,16 +93,18 @@ class RiverpodDb extends _$RiverpodDb{
 
   FutureOr<double?> getCurrentBalance({String email = ""}) async {
     try{
-      var balanceBox = await Hive.openBox("riverpod-balance");
-      double currentBalance = 0.00;
-      
+      var balanceBox = await Hive.openBox("riverpod-balance");      
       var balanceRepsonse = balanceBox.get(email);
-      currentBalance = balanceRepsonse;
+
+      if (balanceRepsonse == null) {
+        return 0.00;
+      }
+      var currentBalance = balanceRepsonse;
 
       return currentBalance;
     }
     catch(error) {
-      return null;
+      return 0.00;
     }
   }
 
@@ -139,5 +142,30 @@ class RiverpodDb extends _$RiverpodDb{
       return null;
     }
   }
+  
+  FutureOr<int?> addCartTransactionList({required List<ProductEntryRiverPodModel> cartList, required  String email}) async {
+    try{
+      var txnBox = await Hive.openBox("riverpod-txnHistory");
+      txnBox.put(email, cartList);
 
+      return 0;
+    }
+    catch(error) {
+      return -1;
+    }
+  }
+
+  FutureOr<List<TransactionHistoryRiverpodModel>> getTransactionHistory({required String email})  async {
+    try{
+      var txnBox = await Hive.openBox("riverpod-txnHistory");
+      var boxTxnList = txnBox.get(email);
+      log("boxTxnList >>> ");
+      log(boxTxnList.toString());
+
+      return [];
+    }
+    catch(error) {
+      return [];
+    }
+  }
 }

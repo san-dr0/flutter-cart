@@ -63,6 +63,7 @@ void main() async {
   Hive.registerAdapter(AuthRiverpodModelAdapter());
   Hive.registerAdapter(AuthSignupRiverpodModelAdapter());
   Hive.registerAdapter(BalanceRiverpodModelAdapter());
+  Hive.registerAdapter(TransactionEntityAdapter());
   
   Di.registerLazySingleton(() => AppDatabase());
   Di.registerLazySingleton(() => CartBloc(appDatabase: Di()));

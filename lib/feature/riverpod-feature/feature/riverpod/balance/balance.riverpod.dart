@@ -14,8 +14,7 @@ class BalanceRiverPod extends AsyncNotifier<double> {
     }
     
     Future<double> getCurrentBalance({required String email}) async {
-        double? currentBalance = 0.00;
-        currentBalance = await ref.read(riverpodDbProvider.notifier).getCurrentBalance(email: email);
+        var currentBalance =  await ref.read(riverpodDbProvider.notifier).getCurrentBalance(email: email);
 
         if (currentBalance == null) {
           Fluttertoast.showToast(msg: somethingWentWrongTitle, toastLength: Toast.LENGTH_SHORT);
