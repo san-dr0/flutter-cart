@@ -1,10 +1,7 @@
-import 'dart:developer';
-
 import 'package:clean_arch2/config/db/hiver_riverpod/hiver_riverpod_model/hive_riverpod_model.dart';
 import 'package:clean_arch2/core/string.dart';
 import 'package:clean_arch2/feature/riverpod-feature/component/button/alertDialog.dart';
 import 'package:clean_arch2/feature/riverpod-feature/component/button/ink.dart';
-import 'package:clean_arch2/feature/riverpod-feature/feature/riverpod/balance/balance.riverpod.dart';
 import 'package:clean_arch2/feature/riverpod-feature/feature/riverpod/pod-entry/pod_entry.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -27,10 +24,7 @@ class CartRiverPod extends AsyncNotifier<List<ProductEntryRiverPodModel>>{
       rec[0].quantity = rec[0].quantity + 1;
     }
     else {
-      ProductEntryRiverPodModel newProduct = ProductEntryRiverPodModel(
-        id: product.id, name: product.name, price: product.price, quantity: 1
-      );
-      tempCartList!.add(newProduct);
+      tempCartList!.add(product);
       state = AsyncValue.data(tempCartList);
     }
 
@@ -45,23 +39,18 @@ class CartRiverPod extends AsyncNotifier<List<ProductEntryRiverPodModel>>{
     var authRecord = ref.read(authProvider);
     
     if (authRecord.value != null) {
-      var balance = await ref.read(balancePod.notifier).getCurrentBalance(email: authRecord.value!.email);
+    var balance = await ref.read(balancePod.notifier).getCurrentBalance(email: authRecord.value!.email);
       if (balance > 0) {
-        alertDialog(context: context, title: areYouSureYouWantToPayThisTitle, okayFunc: () {
-          ref.read(transactionsPod.notifier).addTransactionHistory(context: context, 
-          cartList: state.value!, 
-          email: authRecord.value!.email
-        );
-        state = AsyncValue.data([]);
-        }, closeFunc: () {
-          Navigator.pop(context);
+
+        alertDialog(context: context, title: areYouSureYouWantToPayThisTitle, okayFunc: () {}, closeFunc: () {
+
         });
       }
       else if (balance <= 0) {
         alertDialog(context: context, title: cantProceedPurchaseInsufficientBalance, okayFunc: () {
           context.push("/riverpod-dashboard");
         }, closeFunc: () {
-          Navigator.pop(context);
+
         });
       }
     }
