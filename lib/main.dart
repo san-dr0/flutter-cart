@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:clean_arch2/config/db/app_db.dart';
 import 'package:clean_arch2/config/db/hive_model/auth_model/auth_model.dart';
 import 'package:clean_arch2/config/db/hive_model/mock_auth/mock_auth.model.dart';
@@ -12,18 +10,12 @@ import 'package:clean_arch2/config/db/hiver_riverpod/hiver_riverpod_model/hive_r
 import 'package:clean_arch2/config/db/hiver_riverpod/hiver_riverpod_model/txn_riverpod_model.dart';
 import 'package:clean_arch2/config/routes/routes.dart';
 import 'package:clean_arch2/feature/auth/presentation/bloc/auth.bloc.dart';
-import 'package:clean_arch2/feature/balance/presentation/bloc/balance.bloc.dart';
 import 'package:clean_arch2/feature/cart/presentation/bloc/cart.bloc.dart';
-import 'package:clean_arch2/feature/dashboard/presentation/bloc/dashboard.bloc.dart';
-import 'package:clean_arch2/feature/home/presentation/bloc/home.bloc.dart';
 import 'package:clean_arch2/feature/riverpod-feature/feature/auth/model/auth.signup.riverpod.model.dart';
-import 'package:clean_arch2/feature/topup/presentation/bloc/topup.bloc.dart';
 import 'package:clean_arch2/feature/transactions/presentation/bloc/transaction.bloc.dart';
 import 'package:clean_arch2/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_vertexai/firebase_vertexai.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
 // import 'package:path_provider/path_provider.dart' as path_provider;
