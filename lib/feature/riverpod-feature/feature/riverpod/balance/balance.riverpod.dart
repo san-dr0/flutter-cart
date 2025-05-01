@@ -21,7 +21,7 @@ class BalanceRiverPod extends AsyncNotifier<double> {
         return 0.00;
       }
 
-      return 0.00;
+      return currentBalance;
     }
     
     FutureOr<void> updateBalance({required String email, required double balance}) async {

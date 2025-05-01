@@ -53,6 +53,8 @@ dependencies:
   dash_chat_2: ^0.0.21
   flutter_riverpod: ^2.6.1
   riverpod_annotation: ^2.6.1
+  biometric_signature: ^6.2.0
+  device_security_checking: ^0.0.4
 
 dev_dependencies:
   flutter_test:
