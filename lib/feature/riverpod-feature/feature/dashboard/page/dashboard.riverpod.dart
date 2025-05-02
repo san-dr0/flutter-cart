@@ -49,23 +49,32 @@ class _DashBoardRiverpodPage extends ConsumerState<DashBoardRiverpodPage> {
     try{
       final String? biometricType = await biometricSignature.biometricAuthAvailable();
       log("biometricType $biometricType");
+      
       // final bool? result = await biometricSignature.deleteKeys();
-      final String? biometricKey = await biometricSignature.createKeys(
-        androidConfig: AndroidConfig(useDeviceCredentials: true),
-        iosConfig: IosConfig(useDeviceCredentials: false)
-      );
       final bool doExist = await biometricSignature.biometricKeyExists(checkValidity: true) ?? false;
-      log("DoExists --- >>> $doExist");
-      log("biometricKey >>> $biometricKey");
-      final String? signatrue = await biometricSignature.createSignature(
-        options: {
-          "payload": biometricKey!,
-          "promptMessage": "You are Welcome!",
-        "shouldMigrate": "true",
-        "allowDeviceCredentials": "true"
-        }
-      );
-      log('signatrue >>> $signatrue');
+
+      if (!doExist) {
+        final String? biometricKey = await biometricSignature.createKeys(
+          androidConfig: AndroidConfig(useDeviceCredentials: true),
+          iosConfig: IosConfig(useDeviceCredentials: false)
+        );
+         log("DoExists --- >>> $doExist");
+        log("biometricKey >>> $biometricKey");
+        final String? signatrue = await biometricSignature.createSignature(
+          options: {
+            "payload": biometricKey!,
+            "promptMessage": "You are Welcome!",
+          "shouldMigrate": "true",
+          "allowDeviceCredentials": "true"
+          }
+        );
+        log('signatrue >>> $signatrue');
+      }
+      else {
+        log("Already has keys");
+      }
+      
+     
 
     } on PlatformException catch(e) {
       debugPrint("ErrM 1--- ${e.message}");
