@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:clean_arch2/config/db/hiver_riverpod/hiver_riverpod_model/hive_riverpod_model.dart';
 import 'package:clean_arch2/core/string.dart';
 import 'package:clean_arch2/feature/riverpod-feature/component/button/alertDialog.dart';
@@ -42,7 +44,9 @@ class CartRiverPod extends AsyncNotifier<List<ProductEntryRiverPodModel>>{
     var balance = await ref.read(balancePod.notifier).getCurrentBalance(email: authRecord.value!.email);
       if (balance > 0) {
 
-        alertDialog(context: context, title: areYouSureYouWantToPayThisTitle, okayFunc: () {}, closeFunc: () {
+        alertDialog(context: context, title: areYouSureYouWantToPayThisTitle, okayFunc: () {
+          ref.read(transactionsPod.notifier).addTransactionHistory(context: context, cartList: state.value!, email: authRecord.value!.email);
+        }, closeFunc: () {
 
         });
       }
