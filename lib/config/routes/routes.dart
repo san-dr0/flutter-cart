@@ -17,6 +17,7 @@ import 'package:clean_arch2/feature/riverpod-feature/feature/product_list/pages/
 import 'package:clean_arch2/feature/riverpod-feature/feature/todo-home/pages/todo_home.page.dart';
 import 'package:clean_arch2/feature/riverpod-feature/feature/transactions/pages/transaction_riverpod.page.dart';
 import 'package:clean_arch2/feature/riverpod-feature/feature/update_product/pages/update_product.page.dart';
+import 'package:clean_arch2/feature/riverpod-feature/inherited/inherited.dart';
 import 'package:clean_arch2/feature/topup/presentation/pages/topup.page.dart';
 import 'package:clean_arch2/feature/transactions/presentation/pages/transaction.pages.dart';
 import 'package:clean_arch2/feature/update-creds/pages/update-bloc.page.dart';
@@ -48,7 +49,8 @@ GoRouter appRoutes = GoRouter(routes: [
   ),
   GoRoute(path: '/inquiry', builder: (context, state) => InquiryPage(),),
   // RIVERPOD
-  GoRoute(path: '/', builder: (context, state) => TodoHomePage(),),
+  // GoRoute(path: '/', builder: (context, state) => TodoHomePage(),),
+  GoRoute(path: '/', builder: (context, state) => TestMainInheritedWidget(),),
   GoRoute(path: '/admin-dashboard-v2', builder: (context, state) => AdminPageV2(),),
   GoRoute(path: '/admin-page-entry-v2', builder: (context, state) => ProductEntryPage(),),
   GoRoute(path: '/admin-page-list-v2', builder: (context, state) => ProductListPage(),),
