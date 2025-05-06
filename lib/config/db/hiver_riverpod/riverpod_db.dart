@@ -5,6 +5,7 @@ import 'package:clean_arch2/config/db/hiver_riverpod/hiver_riverpod_model/txn_ri
 import 'package:clean_arch2/feature/riverpod-feature/feature/auth/model/auth.signup.riverpod.model.dart';
 import 'package:hive/hive.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 part "riverpod_db.g.dart";
 /*
@@ -34,13 +35,20 @@ class RiverpodDb extends _$RiverpodDb{
   }
   
   Future<List<ProductEntryRiverPodModel>> allProductItem() async {
-    final riverpodProduct = await Hive.openBox("riverpod-product");
+    // final riverpodProduct = await Hive.openBox("riverpod-product");
+
+    // for(var rp in riverpodProduct.values.toList()) {
+    //   ProductEntryRiverPodModel productModel = rp as ProductEntryRiverPodModel;
+      
+    //   productList.add(productModel);
+    // }
 
     List<ProductEntryRiverPodModel> productList = [];
-    for(var rp in riverpodProduct.values.toList()) {
-      ProductEntryRiverPodModel productModel = rp as ProductEntryRiverPodModel;
-      
-      productList.add(productModel);
+    final supabase = Supabase.instance.client;
+    final product = await supabase.from('products').select('''id, name, price, quantity''');
+
+    for(var p in product) {
+      productList.add(ProductEntryRiverPodModel.fromJson(p));
     }
     
     return productList;

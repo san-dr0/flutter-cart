@@ -20,6 +20,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
 // import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 // flutter pub run build_runner build --delete-conflicting-outputs
 // flutter pub run build_runner build
@@ -67,6 +68,13 @@ void main() async {
   
   AppDatabase appDB = AppDatabase();
   appDB.initBaseRecords();
+
+  // SUPA-BASE
+  await Supabase.initialize(
+    url: 'https://lqzswfpscueholfadvsr.supabase.co',
+    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxxenN3ZnBzY3VlaG9sZmFkdnNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY1MzI5MTAsImV4cCI6MjA2MjEwODkxMH0.SXLfF9cHwM49cZDdotC2cZ5KyMI25QtUIsJW-3UX8uk'
+  );
+  // END OF SUPA-BASE
 
   /* Bloc */
   // runApp(
