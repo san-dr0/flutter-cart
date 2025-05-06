@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Count extends InheritedWidget {
-  const Count({super.key, required super.child});
-  final c = 0;
+  const Count({super.key, required this.c, required this.increment, required super.child});
+  final int c;
 
-  void increment() {}
+  final void Function() increment;
 
   static Count of(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<Count>()!;
@@ -27,10 +27,13 @@ class TestInheritedWidgetPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final c = Count.of(context).c;
+
     return Scaffold(
       appBar: AppBar(),
       body: Column(
         children: [
+          Text(c.toString()),
           OutlinedButton(onPressed: () {
             Count.of(context).increment();
           }, child: Text("Tap"))
@@ -41,7 +44,13 @@ class TestInheritedWidgetPage extends StatelessWidget {
 }
 
 class _TestInheritedWidgetPage extends State<TestMainInheritedWidget> {
+  int c = 0;
+  void increment () {
+    setState(() {
+      c++;
+    });
+  }
   Widget build(BuildContext context) {
-    return Count(child: TestInheritedWidgetPage());
+    return Count(c: c, child: TestInheritedWidgetPage(), increment: increment,);
   } 
 }
