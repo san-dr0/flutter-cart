@@ -124,7 +124,7 @@ class _TodoHomePage extends ConsumerState<TodoHomePage> {
           separatorBuilder: (context, index) {
             return SizedBox(height: 5.0,);
           }, 
-          itemCount: productList.value != null ? productList.value!.length : 0
+          itemCount: 0
         ),
       ),
     );

@@ -42,7 +42,6 @@ class RiverpodDb extends _$RiverpodDb{
       
     //   productList.add(productModel);
     // }
-
     List<ProductEntryRiverPodModel> productList = [];
     final supabase = Supabase.instance.client;
     final product = await supabase.from('products').select('''id, name, price, quantity''');
@@ -50,7 +49,7 @@ class RiverpodDb extends _$RiverpodDb{
     for(var p in product) {
       productList.add(ProductEntryRiverPodModel.fromJson(p));
     }
-    
+    log('Len :: ${productList.length}');
     return productList;
   }
 
