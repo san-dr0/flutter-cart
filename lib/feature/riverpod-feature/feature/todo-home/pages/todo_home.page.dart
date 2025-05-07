@@ -1,6 +1,4 @@
 
-import 'dart:developer';
-
 import 'package:clean_arch2/config/db/hiver_riverpod/hiver_riverpod_model/hive_riverpod_model.dart';
 import 'package:clean_arch2/core/color.dart';
 import 'package:clean_arch2/core/string.dart';
@@ -12,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class TodoHomePage extends ConsumerStatefulWidget {
   const TodoHomePage({super.key});
