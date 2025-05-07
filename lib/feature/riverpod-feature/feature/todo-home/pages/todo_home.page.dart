@@ -1,10 +1,10 @@
+
 import 'package:clean_arch2/config/db/hiver_riverpod/hiver_riverpod_model/hive_riverpod_model.dart';
 import 'package:clean_arch2/core/color.dart';
 import 'package:clean_arch2/core/string.dart';
 import 'package:clean_arch2/core/text.style.dart';
 import 'package:clean_arch2/feature/riverpod-feature/component/button/ink.dart';
 import 'package:clean_arch2/feature/riverpod-feature/feature/product_list/pages/product_list.page.dart';
-import 'package:clean_arch2/feature/riverpod-feature/feature/riverpod/cart/cart.riverpod.dart';
 import 'package:clean_arch2/feature/riverpod-feature/feature/riverpod/pod-entry/pod_entry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,11 +18,6 @@ class TodoHomePage extends ConsumerStatefulWidget {
 }
 
 class _TodoHomePage extends ConsumerState<TodoHomePage> {
-
-  @override
-  void initState() {
-    super.initState(); 
-  }
 
   void loginAdminDashBoard () {
     context.go("/admin-dashboard-v2");
@@ -126,7 +121,7 @@ class _TodoHomePage extends ConsumerState<TodoHomePage> {
           separatorBuilder: (context, index) {
             return SizedBox(height: 5.0,);
           }, 
-          itemCount: productList.value != null ? productList.value!.length : 0
+          itemCount: productList.value != null ? productList.value!.length : 0,
         ),
       ),
     );
