@@ -35,22 +35,33 @@ class RiverpodDb extends _$RiverpodDb{
   }
   
   Future<List<ProductEntryRiverPodModel>> allProductItem() async {
-    // final riverpodProduct = await Hive.openBox("riverpod-product");
+    try{
+      // final riverpodProduct = await Hive.openBox("riverpod-product");
 
-    // for(var rp in riverpodProduct.values.toList()) {
-    //   ProductEntryRiverPodModel productModel = rp as ProductEntryRiverPodModel;
-      
-    //   productList.add(productModel);
-    // }
-    List<ProductEntryRiverPodModel> productList = [];
-    final supabase = Supabase.instance.client;
-    final product = await supabase.from('products').select('''id, name, price, quantity''');
-
-    for(var p in product) {
-      productList.add(ProductEntryRiverPodModel.fromJson(p));
+      // for(var rp in riverpodProduct.values.toList()) {
+      //   ProductEntryRiverPodModel productModel = rp as ProductEntryRiverPodModel;
+        
+      //   productList.add(productModel);
+      // }
+      List<ProductEntryRiverPodModel> productList = [];
+      final supabase = Supabase.instance.client;
+      final product = await supabase.from('products').select('''id, name, price, quantity''');
+      for(var p in product) {
+        int id = p['id'];
+        String name = p['name'];
+        double price = (p['price'] as num).toDouble();
+        int quantity = p['quantity'];
+        productList.add(ProductEntryRiverPodModel(id: id.toString(), name: name, price: price, quantity: quantity));
+        // productList.add(ProductEntryRiverPodModel.fromJson(p));
+      }
+      return productList;
     }
-    log('Len :: ${productList.length}');
-    return productList;
+    catch(error) {
+      log('Error');
+      log(error.toString());
+
+      return [];
+    }
   }
 
   FutureOr<int> updateSpecificProduct(ProductEntryRiverPodModel product) async {
