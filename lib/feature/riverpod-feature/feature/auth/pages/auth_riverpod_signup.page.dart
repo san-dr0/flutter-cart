@@ -9,6 +9,7 @@ import 'package:clean_arch2/feature/riverpod-feature/feature/auth/model/signup/s
 import 'package:clean_arch2/feature/riverpod-feature/feature/riverpod/pod-entry/pod_entry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:uuid/uuid.dart';
 
@@ -53,6 +54,15 @@ class _AuthRiverPodSignupPage extends ConsumerState<AuthRiverPodSignupPage> {
       password: _txtPassword.text
     );
     int resp = await ref.read(authProvider.notifier).supRegisterNewUser(supaUserModel);
+    Fluttertoast.showToast(msg: userAlreadyExistsTitle, toastLength: Toast.LENGTH_SHORT);
+    clearFields();
+  }
+
+  void clearFields() {
+    _txtFirstname.clear();
+    _txtLastname.clear();
+    _txtEmail.clear();
+    _txtPassword.clear();
   }
 
   void onAlreadyHaveAnAccount() {
