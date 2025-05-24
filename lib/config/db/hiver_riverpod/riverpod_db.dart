@@ -5,7 +5,10 @@ import 'package:clean_arch2/config/db/hiver_riverpod/hiver_riverpod_model/txn_ri
 import 'package:clean_arch2/feature/riverpod-feature/feature/auth/model/auth.signup.riverpod.model.dart';
 import 'package:hive/hive.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
+
+import '../../../feature/riverpod-feature/feature/auth/model/signup/signup.model.dart';
 part "riverpod_db.g.dart";
 /*
   Error codes;
@@ -34,16 +37,34 @@ class RiverpodDb extends _$RiverpodDb{
   }
   
   Future<List<ProductEntryRiverPodModel>> allProductItem() async {
-    final riverpodProduct = await Hive.openBox("riverpod-product");
+    try{
+      // final riverpodProduct = await Hive.openBox("riverpod-product");
 
-    List<ProductEntryRiverPodModel> productList = [];
-    for(var rp in riverpodProduct.values.toList()) {
-      ProductEntryRiverPodModel productModel = rp as ProductEntryRiverPodModel;
+      // for(var rp in riverpodProduct.values.toList()) {
+      //   ProductEntryRiverPodModel productModel = rp as ProductEntryRiverPodModel;
+        
+      //   productList.add(productModel);
+      // }
+      List<ProductEntryRiverPodModel> productList = [];
+      final supabase = Supabase.instance.client;
+      final product = await supabase.from('products').select('''id, name, price, quantity''');
       
-      productList.add(productModel);
+      for(var p in product) {
+        int id = p['id'];
+        String name = p['name'];
+        double price = (p['price'] as num).toDouble();
+        int quantity = p['quantity'];
+        productList.add(ProductEntryRiverPodModel(id: id.toString(), name: name, price: price, quantity: quantity));
+        // productList.add(ProductEntryRiverPodModel.fromJson(p));
+      }
+      return productList;
     }
-    
-    return productList;
+    catch(error) {
+      log('Error');
+      log(error.toString());
+
+      return [];
+    }
   }
 
   FutureOr<int> updateSpecificProduct(ProductEntryRiverPodModel product) async {
@@ -174,6 +195,29 @@ class RiverpodDb extends _$RiverpodDb{
     }
     catch(error) {
       return [];
+    }
+  }
+
+  // SUPABASE
+  FutureOr<int> supaRegisterNewUser(SupaUserModel user) async {
+    // 0 fail
+    // 1 success
+    try{
+      final instance = Supabase.instance.client;
+      log("User ${user.firstname}");
+      await instance.from("users").insert([{
+        "firstname": user.firstname,
+        "lastname": user.lastname,
+        "email": user.email,
+        "password": user.password
+      }]).select();
+
+      return 1;
+    }
+    catch(error) {
+      log("Errr ---- ");
+      log(error.toString());
+      return 0;
     }
   }
 }

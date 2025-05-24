@@ -1,8 +1,11 @@
+import 'dart:developer';
+
 import 'package:clean_arch2/core/color.dart';
 import 'package:clean_arch2/core/string.dart';
 import 'package:clean_arch2/core/text.style.dart';
 import 'package:clean_arch2/feature/riverpod-feature/component/button/ink.dart';
 import 'package:clean_arch2/feature/riverpod-feature/feature/auth/model/auth.signup.riverpod.model.dart';
+import 'package:clean_arch2/feature/riverpod-feature/feature/auth/model/signup/signup.model.dart';
 import 'package:clean_arch2/feature/riverpod-feature/feature/riverpod/pod-entry/pod_entry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -32,18 +35,24 @@ class _AuthRiverPodSignupPage extends ConsumerState<AuthRiverPodSignupPage> {
     _txtLastname = TextEditingController();
   }
 
-  void onSignupUser() {
+  void onSignupUser() async {
     if (!_formKey.currentState!.validate()) {
       return;
     }
-    AuthSignupRiverpodModel signupRiverpodModel = AuthSignupRiverpodModel(
-      id: Uuid().v1(),
+    // AuthSignupRiverpodModel signupRiverpodModel = AuthSignupRiverpodModel(
+    //   id: Uuid().v1(),
+    //   firstname: _txtFirstname.text, 
+    //   lastname: _txtLastname.text, 
+    //   email: _txtEmail.text, 
+    //   password: _txtPassword.text
+    // );
+    SupaUserModel supaUserModel = SupaUserModel(
       firstname: _txtFirstname.text, 
       lastname: _txtLastname.text, 
       email: _txtEmail.text, 
       password: _txtPassword.text
     );
-    ref.read(authProvider.notifier).onSingupUser(context, signupRiverpodModel);
+    int resp = await ref.read(authProvider.notifier).supRegisterNewUser(supaUserModel);
   }
 
   void onAlreadyHaveAnAccount() {
