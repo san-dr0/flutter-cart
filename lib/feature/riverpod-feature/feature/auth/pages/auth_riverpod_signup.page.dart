@@ -1,17 +1,13 @@
-import 'dart:developer';
-
 import 'package:clean_arch2/core/color.dart';
 import 'package:clean_arch2/core/string.dart';
 import 'package:clean_arch2/core/text.style.dart';
 import 'package:clean_arch2/feature/riverpod-feature/component/button/ink.dart';
-import 'package:clean_arch2/feature/riverpod-feature/feature/auth/model/auth.signup.riverpod.model.dart';
 import 'package:clean_arch2/feature/riverpod-feature/feature/auth/model/signup/signup.model.dart';
 import 'package:clean_arch2/feature/riverpod-feature/feature/riverpod/pod-entry/pod_entry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
-import 'package:uuid/uuid.dart';
 
 class AuthRiverPodSignupPage extends ConsumerStatefulWidget {
   const AuthRiverPodSignupPage({super.key});
@@ -53,8 +49,22 @@ class _AuthRiverPodSignupPage extends ConsumerState<AuthRiverPodSignupPage> {
       email: _txtEmail.text, 
       password: _txtPassword.text
     );
-    int resp = await ref.read(authProvider.notifier).supRegisterNewUser(supaUserModel);
-    Fluttertoast.showToast(msg: userAlreadyExistsTitle, toastLength: Toast.LENGTH_SHORT);
+    
+    final response = await ref.read(authProvider.notifier).supRegisterNewUser(supaUserModel);
+    
+    switch(response) {
+      case 0:
+        Fluttertoast.showToast(msg: userAlreadyExistsTitle, toastLength: Toast.LENGTH_SHORT);
+        break;
+      case 1:
+        Fluttertoast.showToast(msg: userCreatedSuccessfullyTitle, toastLength: Toast.LENGTH_SHORT);
+        context.push("/riverpod-auth-login");
+        break;
+      default:
+        Fluttertoast.showToast(msg: somethingWentWrongTitle, toastLength: Toast.LENGTH_SHORT);
+        break;
+    }
+
     clearFields();
   }
 

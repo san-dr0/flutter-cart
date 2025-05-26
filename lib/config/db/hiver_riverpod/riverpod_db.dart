@@ -113,38 +113,60 @@ class RiverpodDb extends _$RiverpodDb{
     }
   }
 
-  FutureOr<double?> getCurrentBalance({String email = ""}) async {
+  FutureOr<String?> getCurrentBalance({String email = ""}) async {
     try{
-      var balanceBox = await Hive.openBox("riverpod-balance");      
-      var balanceRepsonse = balanceBox.get(email);
+      // var balanceBox = await Hive.openBox("riverpod-balance");      
+      // var balanceRepsonse = balanceBox.get(email);
 
-      if (balanceRepsonse == null) {
-        return 0.00;
+      // if (balanceRepsonse == null) {
+      //   return 0.00;
+      // }
+      // var currentBalance = balanceRepsonse;
+
+      // return currentBalance;
+      // END of Riverpod and Hive implementation
+
+      final instance = Supabase.instance.client;
+      final response = await instance.from("balances")
+        .select("running_balance")
+        .eq("email", email);
+      if (response.isNotEmpty) {
+        return response[0]['running_balance'].toString();
       }
-      var currentBalance = balanceRepsonse;
-
-      return currentBalance;
+      return "0.00";
     }
     catch(error) {
-      return 0.00;
+      log("Errr >>> getCurrentBalance");
+      return "0.00";
     }
   }
 
-  FutureOr<double?> updateBalance({String email = "", double newBalance = 0.00}) async {
+  FutureOr<String?> updateBalance({String email = "",
+   double currentRunningBalance = 0.00, double newBalance = 0.00}) async {
     try{
-      var balanceBox = await Hive.openBox("riverpod-balance");
-      var currBalance = balanceBox.get(email);
-      double updatedBalance = 0.00;
+      // var balanceBox = await Hive.openBox("riverpod-balance");
+      // var currBalance = balanceBox.get(email);
+      // String updatedBalance = "0.00";
       
-      if (currBalance == null) {
-        balanceBox.put(email, newBalance);
-      }
-      else {
-        updatedBalance = double.parse(currBalance.toString()) + newBalance;
-        balanceBox.put(email, updatedBalance);
-      }
+      // if (currBalance == null) {
+      //   balanceBox.put(email, newBalance);
+      // }
+      // else {
+      //   updatedBalance = (double.parse(currBalance.toString()) + newBalance).toString();
+      //   balanceBox.put(email, updatedBalance);
+      // }
       
-      return updatedBalance;
+      // return updatedBalance;
+      // END of Riverpod and Hive implementation
+
+      final instance = Supabase.instance.client;
+      await instance.from("balances")
+        .update({
+          "running_balance": (currentRunningBalance + newBalance)
+        })
+        .eq("email", email);
+      
+      return (currentRunningBalance + newBalance).toString();
     }
     catch(error) {
       log("Errororo --- >>> ");
@@ -200,24 +222,65 @@ class RiverpodDb extends _$RiverpodDb{
 
   // SUPABASE
   FutureOr<int> supaRegisterNewUser(SupaUserModel user) async {
-    // 0 fail
+    // 0 user already exists
     // 1 success
+    // - fail
     try{
       final instance = Supabase.instance.client;
-      log("User ${user.firstname}");
-      await instance.from("users").insert([{
+      final response = await instance.from("users").insert([{
         "firstname": user.firstname,
         "lastname": user.lastname,
         "email": user.email,
         "password": user.password
       }]).select();
 
-      return 1;
+      if (response.isNotEmpty) {
+        supaDefaultUserCurrentRunningBalance(response[0]['id'], user.email);
+        return 1;
+      }
+      return 0;
     }
     catch(error) {
-      log("Errr ---- ");
+      log("Errr ---- supaRegisterNewUser");
       log(error.toString());
-      return 0;
+      return -1;
+    }
+  }
+
+  FutureOr<SupaUserModelRetrieve?> supaLoginUser(SupaLoginUser user) async {
+    try{
+      final instance = Supabase.instance.client;
+      final response = await instance.from("users")
+      .select("id, firstname, lastname, email, password")
+      .eq("email", user.email)
+      .eq("password", user.password);
+
+      if (response.isNotEmpty) {
+        return SupaUserModelRetrieve.fromJson(response[0]);
+      }
+     
+      return null;
+    }
+    catch(error) {
+      log("Errr ---- Login");
+      log(error.toString());
+      return null;
+    }
+  }
+
+  FutureOr<void> supaDefaultUserCurrentRunningBalance(int userId, String email) async {
+    try{
+      final instance = Supabase.instance.client;
+      await instance.from("balances").insert({
+        "user_id": userId,
+        "email": email,
+        "running_balance": 0.00
+      });
+    }
+    catch(error) {
+      log("Errr ---- supaDefaultUserCurrentRunningBalance");
+      log(error.toString());
+      return null;
     }
   }
 }

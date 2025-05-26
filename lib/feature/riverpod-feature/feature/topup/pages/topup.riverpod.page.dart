@@ -21,19 +21,20 @@ class _TopUpRiverpodPage extends ConsumerState<TopUpRiverpodPage> {
     _txtCreditBalance = TextEditingController();
   }
 
-  void onTopupBalance() {
+  Future<void> onTopupBalance() async {
     if (!_formKey.currentState!.validate()) {
       return;
     }
     var authPod = ref.read(authProvider);
     double balance = double.parse(_txtCreditBalance.text);
 
+    final currentBalance = await ref.read(balancePod.notifier).getCurrentBalance(email: authPod.value!.email);
     ref.read(balancePod.notifier).updateBalance(
       email: authPod.value!.email,
+      currentRunningBalance: double.parse(currentBalance.toString()),
       balance: balance
     );
     _txtCreditBalance.clear();
-    ref.read(balancePod.notifier).getCurrentBalance(email: authPod.value!.email);
   }
 
   @override
