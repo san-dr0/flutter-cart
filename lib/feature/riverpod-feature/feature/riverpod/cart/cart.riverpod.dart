@@ -26,7 +26,13 @@ class CartRiverPod extends AsyncNotifier<List<ProductEntryRiverPodModel>>{
       rec[0].quantity = rec[0].quantity + 1;
     }
     else {
-      tempCartList!.add(product);
+      final tempProduct = ProductEntryRiverPodModel(
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        quantity: 1,
+      );
+      tempCartList!.add(tempProduct);
       state = AsyncValue.data(tempCartList);
     }
 
@@ -34,7 +40,11 @@ class CartRiverPod extends AsyncNotifier<List<ProductEntryRiverPodModel>>{
   }
 
   FutureOr<void> removeProductFromCart(ProductEntryRiverPodModel product) {
-    // state = state.value?.where((item) => item.id != product.id).toList();
+    final tempCartRecord = state.value?.where((item) => {
+      log(item.id.toString());
+    });
+    log("tempCartRecord >>>> ");
+    log(tempCartRecord!.toString());
   }
 
   FutureOr<void> cartOnBuyProduct(BuildContext context) async{
@@ -44,10 +54,12 @@ class CartRiverPod extends AsyncNotifier<List<ProductEntryRiverPodModel>>{
     var balance = await ref.read(balancePod.notifier).getCurrentBalance(email: authRecord.value!.email);
       if (double.parse(balance!) > 0) {
 
+        if (!context.mounted) return;
+        
         alertDialog(context: context, title: areYouSureYouWantToPayThisTitle, okayFunc: () {
           ref.read(transactionsPod.notifier).addTransactionHistory(context: context, cartList: state.value!, email: authRecord.value!.email);
         }, closeFunc: () {
-
+          context.pop();
         });
       }
       else if (double.parse(balance!) <= 0) {
