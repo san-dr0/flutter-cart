@@ -40,11 +40,15 @@ class CartRiverPod extends AsyncNotifier<List<ProductEntryRiverPodModel>>{
   }
 
   FutureOr<void> removeProductFromCart(ProductEntryRiverPodModel product) {
-    final tempCartRecord = state.value?.where((item) => {
-      log(item.id.toString());
-    });
-    log("tempCartRecord >>>> ");
-    log(tempCartRecord!.toString());
+    for(var product in state.value!.toList()) {
+      if (product.id == product.id) {
+        product.quantity = product.quantity - 1;
+        if (product.quantity == 0) {
+          state.value!.remove(product);
+        }
+      }
+    }
+    state = AsyncValue.data(state.value!);
   }
 
   FutureOr<void> cartOnBuyProduct(BuildContext context) async{
