@@ -127,9 +127,14 @@ class RiverpodDb extends _$RiverpodDb{
       // END of Riverpod and Hive implementation
 
       final instance = Supabase.instance.client;
+      final resp = await instance.auth
+        .signInWithPassword(email: 'lisandro.batiancila@gmail.com', password: 'p4ssW0rd');
+      log("Wwewewewe ::: ${resp.user?.id}");
+
       final response = await instance.from("balances")
         .select("running_balance")
-        .eq("email", email);
+        .eq("email", email)
+        .eq("user_id", resp.user!.id);
       if (response.isNotEmpty) {
         return response[0]['running_balance'].toString();
       }
@@ -137,6 +142,7 @@ class RiverpodDb extends _$RiverpodDb{
     }
     catch(error) {
       log("Errr >>> getCurrentBalance");
+      log(error.toString());
       return "0.00";
     }
   }
@@ -227,6 +233,10 @@ class RiverpodDb extends _$RiverpodDb{
     // - fail
     try{
       final instance = Supabase.instance.client;
+      final signUpResponse = await instance.auth.signUp(
+        email: 'lisandro.batiancila@gmail.com',
+        password: 'p4ssW0rd');
+
       final response = await instance.from("users").insert([{
         "firstname": user.firstname,
         "lastname": user.lastname,
@@ -235,7 +245,7 @@ class RiverpodDb extends _$RiverpodDb{
       }]).select();
 
       if (response.isNotEmpty) {
-        supaDefaultUserCurrentRunningBalance(response[0]['id'], user.email);
+        supaDefaultUserCurrentRunningBalance(response[0]['id'], user.email, signUpResponse.user!.id);
         return 1;
       }
       return 0;
@@ -268,11 +278,11 @@ class RiverpodDb extends _$RiverpodDb{
     }
   }
 
-  FutureOr<void> supaDefaultUserCurrentRunningBalance(int userId, String email) async {
+  FutureOr<void> supaDefaultUserCurrentRunningBalance(int userId, String email, String userUuid) async {
     try{
       final instance = Supabase.instance.client;
       await instance.from("balances").insert({
-        "user_id": userId,
+        "user_id": userUuid,
         "email": email,
         "running_balance": 0.00
       });
