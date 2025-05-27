@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:clean_arch2/config/db/hiver_riverpod/hiver_riverpod_model/hive_riverpod_model.dart';
 import 'package:clean_arch2/core/string.dart';
 import 'package:clean_arch2/feature/riverpod-feature/component/button/alertDialog.dart';
@@ -24,6 +22,7 @@ class CartRiverPod extends AsyncNotifier<List<ProductEntryRiverPodModel>>{
 
     if (rec!.isNotEmpty) {
       rec[0].quantity = rec[0].quantity + 1;
+      state = AsyncValue.data(state.value!);
     }
     else {
       final tempProduct = ProductEntryRiverPodModel(
@@ -39,7 +38,7 @@ class CartRiverPod extends AsyncNotifier<List<ProductEntryRiverPodModel>>{
     Fluttertoast.showToast(msg: productAddedToCartTitle, toastLength: Toast.LENGTH_SHORT);
   }
 
-  FutureOr<void> removeProductFromCart(ProductEntryRiverPodModel product) {
+  FutureOr<void> removeProductFromCart(BuildContext context, ProductEntryRiverPodModel product) {
     for(var product in state.value!.toList()) {
       if (product.id == product.id) {
         product.quantity = product.quantity - 1;
@@ -49,6 +48,9 @@ class CartRiverPod extends AsyncNotifier<List<ProductEntryRiverPodModel>>{
       }
     }
     state = AsyncValue.data(state.value!);
+    if (state.value!.isEmpty) {
+      context.push("/");
+    }
   }
 
   FutureOr<void> cartOnBuyProduct(BuildContext context) async{

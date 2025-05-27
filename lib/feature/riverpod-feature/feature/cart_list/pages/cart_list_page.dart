@@ -15,10 +15,10 @@ class CartListPodPage extends ConsumerStatefulWidget {
 class _CartListPodPage extends ConsumerState<CartListPodPage> {
 
   void removeItem (ProductEntryRiverPodModel product) {
-    ref.read(cartRiverPod.notifier).removeProductFromCart(product);
+    ref.read(cartRiverPod.notifier).removeProductFromCart(context, product);
   }
 
-  void addItem (ProductEntryRiverPodModel product) {
+  void updateCartQuantity (ProductEntryRiverPodModel product) {
     ref.read(cartRiverPod.notifier).addToCart(product);
   }
 
@@ -58,7 +58,7 @@ class _CartListPodPage extends ConsumerState<CartListPodPage> {
                           removeItem(cartList.value![index]);
                         }, icon: Icon(Icons.remove)),
                         IconButton(onPressed: () {
-                          addItem(cartList.value![index]);
+                          updateCartQuantity(cartList.value![index]);
                         }, icon: Icon(Icons.add))
                       ],
                     ),
