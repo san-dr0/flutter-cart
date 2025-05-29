@@ -20,7 +20,7 @@ class TodoHomePage extends ConsumerStatefulWidget {
 class _TodoHomePage extends ConsumerState<TodoHomePage> {
 
   void loginAdminDashBoard () {
-    context.go("/admin-dashboard-v2");
+    // context.go("/admin-dashboard-v2");
   }
 
   void addToCart(ProductEntryRiverPodModel product) {

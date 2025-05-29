@@ -129,12 +129,12 @@ class RiverpodDb extends _$RiverpodDb{
       final instance = Supabase.instance.client;
       final resp = await instance.auth
         .signInWithPassword(email: 'lisandro.batiancila@gmail.com', password: 'p4ssW0rd');
-      log("Wwewewewe ::: ${resp.user?.id}");
 
       final response = await instance.from("balances")
         .select("running_balance")
         .eq("email", email)
         .eq("user_id", resp.user!.id);
+      
       if (response.isNotEmpty) {
         return response[0]['running_balance'].toString();
       }
