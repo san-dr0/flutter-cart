@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:clean_arch2/core/color.dart';
 import 'package:clean_arch2/core/string.dart';
 import 'package:clean_arch2/core/text.style.dart';
@@ -5,7 +7,10 @@ import 'package:clean_arch2/feature/riverpod-feature/component/button/ink.dart';
 import 'package:clean_arch2/feature/riverpod-feature/feature/riverpod/pod-entry/pod_entry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
+
+import '../model/signup/signup.model.dart';
 
 class AuthRiverPodLoginPage extends ConsumerStatefulWidget {
   const AuthRiverPodLoginPage({super.key});
@@ -26,14 +31,21 @@ class _AuthRiverPodLoginPage extends ConsumerState<AuthRiverPodLoginPage> {
     _txtPassword = TextEditingController(text: "123");
   }
 
-  void onLoginUser() {
+  void onLoginUser() async {
     if (!_formKey.currentState!.validate()) {
       return;
     }
     String email = _txtEmail.text;
     String password = _txtPassword.text;
 
-    ref.read(authProvider.notifier).onLoginUser(context: context, email: email, password: password);
+    final response = await ref.read(authProvider.notifier).supaLoginUser(SupaLoginUser(email: email, password: password));
+    if (response == 0) {
+      Fluttertoast.showToast(msg: invalidCredsTitle, toastLength: Toast.LENGTH_SHORT);
+      return;
+    }
+
+    context.push("/riverpod-dashboard");
+    
   }
 
   void onNavigateToSignup() {

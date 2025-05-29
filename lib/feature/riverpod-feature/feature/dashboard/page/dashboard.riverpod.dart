@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 // var authProvider = AsyncNotifierProvider<AuthRiverPod, AuthSignupRiverpodModel?>(() {
 //   return AuthRiverPod();
@@ -27,6 +28,7 @@ class DashBoardRiverpodPage extends ConsumerStatefulWidget {
 class _DashBoardRiverpodPage extends ConsumerState<DashBoardRiverpodPage> {
   final _deviceSecurityChecking = DeviceSecurityChecking();
   bool isDeveloperOptionEnabled = false;
+  RefreshController _refreshController = RefreshController();
 
   @override
   void initState() {
@@ -109,6 +111,28 @@ class _DashBoardRiverpodPage extends ConsumerState<DashBoardRiverpodPage> {
         backgroundColor: tealColor,
         title: Text(dashBoardTitle),
       ),
+      body: SmartRefresher(
+        onLoading: () {
+          _refreshController.loadComplete();
+        },
+        onRefresh: () {
+          _refreshController.refreshCompleted();
+        },
+        controller: _refreshController,
+        enablePullDown: true,
+        enablePullUp: true,
+        physics: const BouncingScrollPhysics(),
+        footer: CustomFooter(
+          builder: (context, mode) {
+            return mode == LoadStatus.loading ? const SizedBox(height: 20, child: Center(child: CircularProgressIndicator())) : const SizedBox(height: 20);
+          },
+        ),
+        header: const WaterDropHeader(),
+        child: Column(
+          children: [
+          ],
+        ),
+      ),
       drawer: Drawer(
         child: ListView(
           children: [
@@ -129,7 +153,7 @@ class _DashBoardRiverpodPage extends ConsumerState<DashBoardRiverpodPage> {
                   ),
                   const SizedBox(height: 42.0,),
                   Text(
-                    "Balance: \$ ${currentBalance.hasValue ? currentBalance.value!.toStringAsFixed(2) : 0.00}",
+                    "Balance: \$ ${currentBalance.hasValue ? double.parse(currentBalance.value!).toStringAsFixed(2) : 0.00}",
                     style: textStyle(),
                   ),
                   if (isDeveloperOptionEnabled)

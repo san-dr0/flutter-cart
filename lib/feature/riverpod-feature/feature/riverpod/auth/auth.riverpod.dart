@@ -11,14 +11,14 @@ import 'package:go_router/go_router.dart';
 
 import '../../auth/model/auth.signup.riverpod.model.dart';
 
-class AuthRiverPod extends AsyncNotifier<AuthSignupRiverpodModel?> {
+class AuthRiverPod extends AsyncNotifier<SupaUserModelRetrieve?> {
   
   @override
-  Future<AuthSignupRiverpodModel?> build() async{
+  Future<SupaUserModelRetrieve?> build() async{
     return currentActiveUser();
   }
 
-  AuthSignupRiverpodModel? currentActiveUser() {
+  SupaUserModelRetrieve? currentActiveUser() {
     // log("Got >>>> ${state.value}");
     return state.value;
   }
@@ -44,12 +44,12 @@ class AuthRiverPod extends AsyncNotifier<AuthSignupRiverpodModel?> {
       return;
     }
 
-    AuthSignupRiverpodModel responseAuth = response as AuthSignupRiverpodModel;
+    SupaUserModelRetrieve responseAuth = response as SupaUserModelRetrieve;
 
-    AuthSignupRiverpodModel? authSignupRiverpodModel = AuthSignupRiverpodModel(
+    SupaUserModelRetrieve? authSignupRiverpodModel = SupaUserModelRetrieve(
       id: responseAuth.id, 
       firstname: responseAuth.firstname, 
-      lastname: responseAuth.lastname, 
+      lastname: responseAuth.lastname,
       email: email, 
       password: password
     );
@@ -64,5 +64,17 @@ class AuthRiverPod extends AsyncNotifier<AuthSignupRiverpodModel?> {
 
   FutureOr<int> supRegisterNewUser(SupaUserModel user) async {
     return await ref.read(riverpodDbProvider.notifier).supaRegisterNewUser(user);
+  }
+  
+  // SUPABASE
+  FutureOr<int?> supaLoginUser(SupaLoginUser user) async {
+    final response = await ref.read(riverpodDbProvider.notifier).supaLoginUser(user);
+    
+    if (response != null) {
+      state = AsyncValue.data(response);
+      return 1;
+    }
+        
+    return 0;
   }
 }

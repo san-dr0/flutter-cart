@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:clean_arch2/config/db/hiver_riverpod/hiver_riverpod_model/hive_riverpod_model.dart';
 import 'package:clean_arch2/core/string.dart';
 import 'package:clean_arch2/feature/riverpod-feature/component/button/alertDialog.dart';
@@ -24,17 +22,35 @@ class CartRiverPod extends AsyncNotifier<List<ProductEntryRiverPodModel>>{
 
     if (rec!.isNotEmpty) {
       rec[0].quantity = rec[0].quantity + 1;
+      state = AsyncValue.data(state.value!);
     }
     else {
-      tempCartList!.add(product);
+      final tempProduct = ProductEntryRiverPodModel(
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        quantity: 1,
+      );
+      tempCartList!.add(tempProduct);
       state = AsyncValue.data(tempCartList);
     }
 
     Fluttertoast.showToast(msg: productAddedToCartTitle, toastLength: Toast.LENGTH_SHORT);
   }
 
-  FutureOr<void> removeProductFromCart(ProductEntryRiverPodModel product) {
-    // state = state.value?.where((item) => item.id != product.id).toList();
+  FutureOr<void> removeProductFromCart(BuildContext context, ProductEntryRiverPodModel product) {
+    for(var product in state.value!.toList()) {
+      if (product.id == product.id) {
+        product.quantity = product.quantity - 1;
+        if (product.quantity == 0) {
+          state.value!.remove(product);
+        }
+      }
+    }
+    state = AsyncValue.data(state.value!);
+    if (state.value!.isEmpty) {
+      context.push("/");
+    }
   }
 
   FutureOr<void> cartOnBuyProduct(BuildContext context) async{
@@ -42,15 +58,17 @@ class CartRiverPod extends AsyncNotifier<List<ProductEntryRiverPodModel>>{
     
     if (authRecord.value != null) {
     var balance = await ref.read(balancePod.notifier).getCurrentBalance(email: authRecord.value!.email);
-      if (balance > 0) {
+      if (double.parse(balance!) > 0) {
 
+        if (!context.mounted) return;
+        
         alertDialog(context: context, title: areYouSureYouWantToPayThisTitle, okayFunc: () {
           ref.read(transactionsPod.notifier).addTransactionHistory(context: context, cartList: state.value!, email: authRecord.value!.email);
         }, closeFunc: () {
-
+          context.pop();
         });
       }
-      else if (balance <= 0) {
+      else if (double.parse(balance!) <= 0) {
         alertDialog(context: context, title: cantProceedPurchaseInsufficientBalance, okayFunc: () {
           context.push("/riverpod-dashboard");
         }, closeFunc: () {

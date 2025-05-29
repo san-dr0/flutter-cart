@@ -20,6 +20,10 @@ class _AdminPageV2 extends State<AdminPageV2> {
     context.push('/admin-page-list-v2');
   }
 
+  void onGoHome() {
+    context.push('/');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,8 +39,18 @@ class _AdminPageV2 extends State<AdminPageV2> {
           }, icon: Icon(Icons.add_box_rounded, color: whiteColor,)),
         ],
       ),
-      body: Drawer(
-        child: DrawerHeader(child: Text("Drawer")),
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            DrawerHeader(child: Text("Drawer")),
+            ListTile(
+              onTap: () {
+                onGoHome();
+              },
+              title: Text("Logout"),
+            )
+          ]
+        ),
       ),
     );
   }

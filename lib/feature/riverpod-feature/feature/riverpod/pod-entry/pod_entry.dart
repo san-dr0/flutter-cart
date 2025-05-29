@@ -6,9 +6,9 @@ import 'package:clean_arch2/feature/riverpod-feature/feature/riverpod/cart/cart.
 import 'package:clean_arch2/feature/riverpod-feature/feature/riverpod/txn_history/txn_riverpod.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../auth/model/auth.signup.riverpod.model.dart';
+import '../../auth/model/signup/signup.model.dart';
 
-var authProvider = AsyncNotifierProvider<AuthRiverPod, AuthSignupRiverpodModel?>(() {
+var authProvider = AsyncNotifierProvider<AuthRiverPod, SupaUserModelRetrieve?>(() {
   return AuthRiverPod();
 });
 
@@ -16,7 +16,7 @@ var cartRiverPod = AsyncNotifierProvider<CartRiverPod, List<ProductEntryRiverPod
   return CartRiverPod();
 });
 
-var balancePod = AsyncNotifierProvider<BalanceRiverPod, double> (() {
+var balancePod = AsyncNotifierProvider<BalanceRiverPod, String?> (() {
   return BalanceRiverPod();
 });
 
