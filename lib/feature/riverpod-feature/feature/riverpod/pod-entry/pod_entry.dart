@@ -6,7 +6,10 @@ import 'package:clean_arch2/feature/riverpod-feature/feature/riverpod/cart/cart.
 import 'package:clean_arch2/feature/riverpod-feature/feature/riverpod/txn_history/txn_riverpod.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../admin/model/admin.model.dart';
 import '../../auth/model/signup/signup.model.dart';
+import '../auth/admin.auth.riverpod.dart';
+import '../user-type/user_type.dart';
 
 var authProvider = AsyncNotifierProvider<AuthRiverPod, SupaUserModelRetrieve?>(() {
   return AuthRiverPod();
@@ -22,4 +25,12 @@ var balancePod = AsyncNotifierProvider<BalanceRiverPod, String?> (() {
 
 var transactionsPod = AsyncNotifierProvider<TransactionPod, List<TransactionHistoryRiverpodModel>>(() {
   return TransactionPod();
+});
+
+var adminAuthPod = AsyncNotifierProvider<AdminAuthRiverPod, AdminCredentials?>(() {
+  return AdminAuthRiverPod();
+});
+
+var userTypePod = AsyncNotifierProvider<RiverPodUserType, String?>(() {
+  return RiverPodUserType();
 });

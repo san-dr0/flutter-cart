@@ -20,7 +20,12 @@ class TodoHomePage extends ConsumerStatefulWidget {
 class _TodoHomePage extends ConsumerState<TodoHomePage> {
 
   void loginAdminDashBoard () {
-    // context.go("/admin-dashboard-v2");
+    final adminAuth = ref.read(adminAuthPod).value;
+    ref.read(userTypePod.notifier).setUserType("admin");
+    if (adminAuth != null) {  
+      context.push("/riverpod-admin-dashboard");
+    }
+    context.push("/riverpod-auth-login");
   }
 
   void addToCart(ProductEntryRiverPodModel product) {
@@ -41,6 +46,7 @@ class _TodoHomePage extends ConsumerState<TodoHomePage> {
   }
 
   void onLoginUser() {
+    ref.read(userTypePod.notifier).setUserType("user");
     if (ref.read(authProvider).value != null) {
       context.push("/riverpod-dashboard");
       return;

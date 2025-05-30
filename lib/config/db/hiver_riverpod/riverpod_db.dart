@@ -234,8 +234,8 @@ class RiverpodDb extends _$RiverpodDb{
     try{
       final instance = Supabase.instance.client;
       final signUpResponse = await instance.auth.signUp(
-        email: 'lisandro.batiancila@gmail.com',
-        password: 'p4ssW0rd');
+        email: user.email,
+        password: user.password);
 
       final response = await instance.from("users").insert([{
         "firstname": user.firstname,
@@ -289,6 +289,29 @@ class RiverpodDb extends _$RiverpodDb{
     }
     catch(error) {
       log("Errr ---- supaDefaultUserCurrentRunningBalance");
+      log(error.toString());
+      return null;
+    }
+  }
+
+  FutureOr<SupaUserModelRetrieve?> supaAdminLogin(SupaLoginUser user) async {
+    try{
+      final instance = Supabase.instance.client;
+      final response = await instance.auth.signInWithPassword(email: user.email, password: user.password);
+      
+      if (response.user != null) {
+        final userResponse = await instance.from("users")
+        .select("id, firstname, lastname, email, password")
+        .eq("email", user.email)
+        .eq("password", user.password);
+
+        if (userResponse.isNotEmpty) {
+          return SupaUserModelRetrieve.fromJson(userResponse[0]);
+        }
+      }
+    }
+    catch(error) {
+      log("Errr ---- supaAdminLogin");
       log(error.toString());
       return null;
     }
