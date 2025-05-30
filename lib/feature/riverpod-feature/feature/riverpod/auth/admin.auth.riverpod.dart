@@ -12,7 +12,8 @@ class AdminAuthRiverPod extends AsyncNotifier<AdminCredentials?>{
     return null;
   }
 
-  FutureOr<void> singupAdmin() {
+  FutureOr<void> singupAdmin(SupaUserModel user) {
+    final adminAuth = ref.read(adminAuthPod.notifier).singupAdmin(user);
     
   }
   
