@@ -57,6 +57,7 @@ dependencies:
   device_security_checking: ^0.0.4
   supabase_flutter: ^2.0.0
   pull_to_refresh_flutter3: ^2.0.2
+  skeletonizer: ^1.4.3
 
 dev_dependencies:
   flutter_test:

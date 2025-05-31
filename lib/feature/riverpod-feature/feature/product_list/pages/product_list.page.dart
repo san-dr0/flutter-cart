@@ -6,6 +6,7 @@ import 'package:clean_arch2/feature/riverpod-feature/feature/riverpod/product/pr
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 final productProvider = AsyncNotifierProvider<ProductPod, List<ProductEntryRiverPodModel>>(() {
     return ProductPod();
@@ -19,6 +20,8 @@ class ProductListPage extends ConsumerStatefulWidget {
 }
 
 class _ProductListPage extends ConsumerState<ProductListPage> {
+  RefreshController refreshController = RefreshController(initialRefresh: false);
+  var productRecord;
 
   void onUpdateProduct(ProductEntryRiverPodModel product) {
     context.push("/admin-update-product-v2", extra: product);
@@ -27,18 +30,26 @@ class _ProductListPage extends ConsumerState<ProductListPage> {
   void onViewProduct(ProductEntryRiverPodModel product) {
     
   }
+
+  void onRefresh() {
+    setState(() {
+    });
+    refreshController.refreshCompleted();
+  }
   
   @override
   Widget build(BuildContext context) {
-    final productRecord = ref.watch(productProvider);
-    
+          productRecord = ref.watch(productProvider);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: tealColor,
         title: Text(productListTitle),
       ),
       body: SafeArea(
-        child: ListView.separated(
+        child: SmartRefresher(
+          controller: refreshController,
+          child: ListView.separated(
           itemBuilder: (context, index) {
             return Padding(
               padding: const EdgeInsets.all(5.0),
@@ -74,7 +85,9 @@ class _ProductListPage extends ConsumerState<ProductListPage> {
           separatorBuilder: (context, index) {
             return const SizedBox(height: 5.0,);
           }, 
-          itemCount: productRecord.value != null ? productRecord.value!.length:0),
+          itemCount: productRecord.value != null ? productRecord.value!.length:0
+        ),
+        ),
       ),
     );
   }

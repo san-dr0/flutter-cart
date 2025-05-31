@@ -17,6 +17,7 @@ import 'package:clean_arch2/feature/riverpod-feature/feature/product_list/pages/
 import 'package:clean_arch2/feature/riverpod-feature/feature/todo-home/pages/todo_home.page.dart';
 import 'package:clean_arch2/feature/riverpod-feature/feature/transactions/pages/transaction_riverpod.page.dart';
 import 'package:clean_arch2/feature/riverpod-feature/feature/update_product/pages/update_product.page.dart';
+import 'package:clean_arch2/feature/riverpod-feature/feature/users/pages/user.page.dart';
 import 'package:clean_arch2/feature/topup/presentation/pages/topup.page.dart';
 import 'package:clean_arch2/feature/transactions/presentation/pages/transaction.pages.dart';
 import 'package:clean_arch2/feature/update-creds/pages/update-bloc.page.dart';
@@ -68,6 +69,7 @@ GoRouter appRoutes = GoRouter(routes: [
 
     return UpdateProductPage(product: product,);
   },),
+  GoRoute(path: '/user-list-page', builder: (context, state) => UserListPage(),)
   // END OF RIVERPOD
 ]);
 
