@@ -25,6 +25,10 @@ class _AdminPageV2 extends State<AdminPageV2> {
     context.push('/');
   }
 
+  void onGoToListUser() {
+    context.push('/user-list-page');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,6 +50,7 @@ class _AdminPageV2 extends State<AdminPageV2> {
             DrawerHeader(child: Text("Drawer")),
             ListTile(
               onTap: () {
+                onGoToListUser();
               },
               title: Text("List all users"),
             ),
