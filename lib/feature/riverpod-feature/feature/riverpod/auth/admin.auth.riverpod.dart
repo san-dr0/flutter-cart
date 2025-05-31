@@ -19,9 +19,24 @@ class AdminAuthRiverPod extends AsyncNotifier<AdminCredentials?>{
     return adminAuth;
   }
   
-  FutureOr<void> signinAdmin(SupaLoginUser user) async {
-    final adminAuth = await ref.read(adminAuthPod.notifier).signinAdmin(user);
+  FutureOr<SupaUserModelRetrieve?> signinAdmin(SupaLoginUser user) async {
+    final adminAuth = await ref.read(riverpodDbProvider.notifier).supaAdminLogin(user);
+    if (adminAuth != null) {
+      AdminCredentials adminCredentials = AdminCredentials(
+        id: adminAuth.id, 
+        firstName: adminAuth.firstname, 
+        lastName: adminAuth.lastname, 
+        middleName: 'No md', 
+        email: adminAuth.email, 
+        password: adminAuth.password
+      );
+
+      state = AsyncValue.data(adminCredentials);
+
+      return adminAuth;
+    }
     
+    return null;
   }
   
 }

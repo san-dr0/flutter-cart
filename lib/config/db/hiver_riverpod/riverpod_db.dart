@@ -128,7 +128,7 @@ class RiverpodDb extends _$RiverpodDb{
 
       final instance = Supabase.instance.client;
       final resp = await instance.auth
-        .signInWithPassword(email: 'lisandro.batiancila@gmail.com', password: 'p4ssW0rd');
+        .signInWithPassword(email: 'lisandro.batiancila@gmail.com', password: 'p4ssw0rd_00');
 
       final response = await instance.from("balances")
         .select("running_balance")
@@ -234,8 +234,8 @@ class RiverpodDb extends _$RiverpodDb{
     try{
       final instance = Supabase.instance.client;
       final signUpResponse = await instance.auth.signUp(
-        email: user.email,
-        password: user.password);
+        email: 'lisandro.batiancila@gmail.com',
+        password: 'p4ssw0rd_00');
 
       final response = await instance.from("users").insert([{
         "firstname": user.firstname,
@@ -298,7 +298,7 @@ class RiverpodDb extends _$RiverpodDb{
   FutureOr<SupaUserModelRetrieve?> supaAdminLogin(SupaLoginUser user) async {
     try{
       final instance = Supabase.instance.client;
-      final response = await instance.auth.signInWithPassword(email: user.email, password: user.password);
+      final response = await instance.auth.signInWithPassword(email: 'lisandro.batiancila@mlhuillier.com', password: 'p4ssw0rd_00');
       
       if (response.user != null) {
         final userResponse = await instance.from("users")
@@ -310,6 +310,7 @@ class RiverpodDb extends _$RiverpodDb{
           return SupaUserModelRetrieve.fromJson(userResponse[0]);
         }
       }
+      return null;
     }
     catch(error) {
       log("Errr ---- supaAdminLogin");
@@ -342,25 +343,28 @@ class RiverpodDb extends _$RiverpodDb{
     }   
   }
 
-  FutureOr<void> supaAdminInsertProduct(ProductEntryRiverPodModel product, SupaLoginUser user) async {
+  FutureOr<int?> supaAdminInsertProduct(ProductEntryRiverPodModel product, SupaLoginUser user) async {
     try{
       SupabaseClient instance = Supabase.instance.client;
-      AuthResponse adminId = await instance.auth.signInWithPassword(
-        email: user.email,
-        password: user.password
+      AuthResponse adomAuth = await instance.auth.signInWithPassword(
+        email: 'lisandro.batiancila@mlhuillier.com',
+        password: 'p4ssw0rd_00'
       );
-      log("supaAdminInsertProduct >>>> ---- ");
-      log(adminId.toString());
-      // await instance.from("products").insert({
-      //   "name": product.name,
-      //   "price": product.price,
-      //   "quantity": product.quantity,
-      //   // "admin_id": adminId.user.
-      // });
       
+      await instance.from("products").insert({
+        "name": product.name,
+        "price": product.price,
+        "quantity": product.quantity,
+        "admin_id": adomAuth.user!.id
+      });
+      
+      return 1;
     }
     catch(error) {
       log('Errorrrrrr --- supaAdminInsertProduct');
+      log(error.toString());
+
+      return 0;
     }
   }
 }
