@@ -1,8 +1,8 @@
 import 'package:clean_arch2/config/db/hiver_riverpod/riverpod_db.dart';
 import 'package:clean_arch2/feature/riverpod-feature/feature/admin/model/admin.model.dart';
+import 'package:clean_arch2/feature/riverpod-feature/feature/users/model/user.model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../auth/model/signup/signup.model.dart';
-import '../pod-entry/pod_entry.dart';
 
 @riverpod
 
@@ -39,4 +39,10 @@ class AdminAuthRiverPod extends AsyncNotifier<AdminCredentials?>{
     return null;
   }
   
+  FutureOr<List<UserListModel>> listAllUser() async {
+    List<UserListModel> userListResponse = await ref.read(riverpodDbProvider.notifier).listAllUser();
+    
+    return userListResponse;
+  }
+
 }

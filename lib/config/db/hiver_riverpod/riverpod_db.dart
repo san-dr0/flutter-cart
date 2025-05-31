@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:clean_arch2/config/db/hiver_riverpod/hiver_riverpod_model/hive_riverpod_model.dart';
 import 'package:clean_arch2/config/db/hiver_riverpod/hiver_riverpod_model/txn_riverpod_model.dart';
 import 'package:clean_arch2/feature/riverpod-feature/feature/auth/model/auth.signup.riverpod.model.dart';
+import 'package:clean_arch2/feature/riverpod-feature/feature/users/model/user.model.dart';
 import 'package:hive/hive.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -366,5 +367,20 @@ class RiverpodDb extends _$RiverpodDb{
 
       return 0;
     }
+  }
+
+  FutureOr<List<UserListModel>> listAllUser() async {
+    SupabaseClient instance = Supabase.instance.client;
+    List<UserListModel> userList = [];
+
+    final response = await instance.from("users")
+      .select("id, firstname, lastname, email, password, user_type")
+      .eq("user_type", "user");
+
+    for(var resp in response) {
+      userList.add(UserListModel.fromJson(resp));
+    }
+
+    return userList;
   }
 }
