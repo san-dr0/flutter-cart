@@ -300,7 +300,7 @@ class RiverpodDb extends _$RiverpodDb{
     try{
       final instance = Supabase.instance.client;
       final response = await instance.auth.signInWithPassword(email: 'lisandro.batiancila@mlhuillier.com', password: 'p4ssw0rd_00');
-      
+
       if (response.user != null) {
         final userResponse = await instance.from("users")
         .select("id, firstname, lastname, email, password")

@@ -1,17 +1,19 @@
 import 'package:clean_arch2/core/color.dart';
 import 'package:clean_arch2/core/string.dart';
 import 'package:clean_arch2/core/text.style.dart';
+import 'package:clean_arch2/feature/riverpod-feature/feature/riverpod/pod-entry/pod_entry.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class AdminPageV2 extends StatefulWidget {
+class AdminPageV2 extends ConsumerStatefulWidget {
   const AdminPageV2({super.key});
 
   @override
-  State<AdminPageV2> createState () => _AdminPageV2();
+  ConsumerState<AdminPageV2> createState () => _AdminPageV2();
 }
 
-class _AdminPageV2 extends State<AdminPageV2> {
+class _AdminPageV2 extends ConsumerState<AdminPageV2> {
 
   void addPageEntry() {
     context.push("/admin-page-entry-v2");
@@ -31,6 +33,8 @@ class _AdminPageV2 extends State<AdminPageV2> {
 
   @override
   Widget build(BuildContext context) {
+    final adminInfo = ref.read(adminAuthPod);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(adminV2Title),
@@ -47,7 +51,16 @@ class _AdminPageV2 extends State<AdminPageV2> {
       drawer: Drawer(
         child: ListView(
           children: [
-            DrawerHeader(child: Text("Drawer")),
+            DrawerHeader(
+              decoration: BoxDecoration(color: tealColor),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Name: ${adminInfo.hasValue ? "${adminInfo.value!.lastName}, ${adminInfo.value!.firstName}" : 'No user'}"),
+                  Text("Email: ${adminInfo.hasValue ? adminInfo.value!.email : 'No user'}"),
+                ],
+              ),
+            ),
             ListTile(
               onTap: () {
                 onGoToListUser();
