@@ -241,7 +241,8 @@ class RiverpodDb extends _$RiverpodDb{
         "firstname": user.firstname,
         "lastname": user.lastname,
         "email": user.email,
-        "password": user.password
+        "password": user.password,
+        "user_type": "user"
       }]).select();
 
       if (response.isNotEmpty) {
@@ -314,6 +315,52 @@ class RiverpodDb extends _$RiverpodDb{
       log("Errr ---- supaAdminLogin");
       log(error.toString());
       return null;
+    }
+  }
+
+  FutureOr<int?> supaAdminSignup(SupaUserModel user) async{
+    // the ADMIN is the MLhuillier Credentials
+    try{
+      final instance = Supabase.instance.client;
+      await instance.auth.signUp(email: 'lisandro.batiancila@mlhuillier.com', password: "p4ss0rd_00");
+
+      await instance.from("users").insert([{
+        "email": user.email,
+        "password": user.password,
+        "firstname": user.firstname,
+        "lastname": user.lastname,
+        "user_type": 'admin'
+      }]);
+
+      return 1;
+    }
+    catch(error) {
+      log('Errror ---- supaAdminSignup');
+      log(error.toString());
+
+      return 0;
+    }   
+  }
+
+  FutureOr<void> supaAdminInsertProduct(ProductEntryRiverPodModel product, SupaLoginUser user) async {
+    try{
+      SupabaseClient instance = Supabase.instance.client;
+      AuthResponse adminId = await instance.auth.signInWithPassword(
+        email: user.email,
+        password: user.password
+      );
+      log("supaAdminInsertProduct >>>> ---- ");
+      log(adminId.toString());
+      // await instance.from("products").insert({
+      //   "name": product.name,
+      //   "price": product.price,
+      //   "quantity": product.quantity,
+      //   // "admin_id": adminId.user.
+      // });
+      
+    }
+    catch(error) {
+      log('Errorrrrrr --- supaAdminInsertProduct');
     }
   }
 }

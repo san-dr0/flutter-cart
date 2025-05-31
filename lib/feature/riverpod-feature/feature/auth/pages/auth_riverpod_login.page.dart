@@ -27,8 +27,8 @@ class _AuthRiverPodLoginPage extends ConsumerState<AuthRiverPodLoginPage> {
   @override
   void initState() {
     super.initState();
-    _txtEmail = TextEditingController(text: "ada@gmail.com");
-    _txtPassword = TextEditingController(text: "123");
+    _txtEmail = TextEditingController(text: "");
+    _txtPassword = TextEditingController(text: "");
   }
 
   void onLoginUser() async {

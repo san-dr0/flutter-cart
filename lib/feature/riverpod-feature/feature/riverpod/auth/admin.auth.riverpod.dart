@@ -1,3 +1,4 @@
+import 'package:clean_arch2/config/db/hiver_riverpod/riverpod_db.dart';
 import 'package:clean_arch2/feature/riverpod-feature/feature/admin/model/admin.model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../auth/model/signup/signup.model.dart';
@@ -12,9 +13,10 @@ class AdminAuthRiverPod extends AsyncNotifier<AdminCredentials?>{
     return null;
   }
 
-  FutureOr<void> singupAdmin(SupaUserModel user) {
-    final adminAuth = ref.read(adminAuthPod.notifier).singupAdmin(user);
-    
+  FutureOr<int?> singupAdmin(SupaUserModel user) async {
+    final adminAuth = await ref.read(riverpodDbProvider.notifier).supaAdminSignup(user);
+
+    return adminAuth;
   }
   
   FutureOr<void> signinAdmin(SupaLoginUser user) async {

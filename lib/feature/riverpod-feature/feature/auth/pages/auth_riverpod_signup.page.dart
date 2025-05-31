@@ -68,6 +68,12 @@ class _AuthRiverPodSignupPage extends ConsumerState<AuthRiverPodSignupPage> {
     }
     else if (ref.read(userTypePod.notifier).getUserType() == 'admin') {
       final adminResponse = await ref.read(adminAuthPod.notifier).singupAdmin(supaUserModel);
+      if (adminResponse != 0) {
+        context.go("/admin-dashboard-v2");
+      }
+      else {
+        Fluttertoast.showToast(msg: somethingWentWrongTitle, toastLength: Toast.LENGTH_SHORT);
+      }
     }
 
     clearFields();

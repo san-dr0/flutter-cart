@@ -1,10 +1,14 @@
 import 'package:clean_arch2/config/db/hiver_riverpod/hiver_riverpod_model/hive_riverpod_model.dart';
+import 'package:clean_arch2/config/db/hiver_riverpod/riverpod_db.dart';
 import 'package:clean_arch2/core/color.dart';
 import 'package:clean_arch2/core/string.dart';
 import 'package:clean_arch2/core/text.style.dart';
-import 'package:clean_arch2/feature/riverpod-feature/feature/product_list/pages/product_list.page.dart';
+import 'package:clean_arch2/feature/riverpod-feature/feature/admin/model/admin.model.dart';
+import 'package:clean_arch2/feature/riverpod-feature/feature/auth/model/signup/signup.model.dart';
+import 'package:clean_arch2/feature/riverpod-feature/feature/riverpod/pod-entry/pod_entry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:uuid/uuid.dart';
 
 class ProductEntryPage extends ConsumerStatefulWidget {
@@ -29,19 +33,36 @@ class _ProductEntryPage extends ConsumerState<ProductEntryPage> {
   }
 
   void addProductRecord () {
+    AdminCredentials? adminPod = ref.read(adminAuthPod).value;
+
+    if (adminPod == null) {
+      Fluttertoast.showToast(msg: authNotLoggedInTitle, toastLength: Toast.LENGTH_SHORT);
+      return;
+    }
     if (_formKey.currentState!.validate()) {
       String name = txtProductTitle.text;
       double price = double.parse( txtProductPrice.text);
       int quantity = int.parse(txtProductQty.text);
       
-      final productEntryRiverPod = ProductEntryRiverPodModel(id: Uuid().v1(), name: name, price: price, quantity: quantity);
-      ref.read(productProvider.notifier).insertProduct(productEntryRiverPod);
-      ref.read(productProvider.notifier).getAllProduct();
+      final productEntryRiverPod = ProductEntryRiverPodModel(
+        id: Uuid().v1(), // this is unused currently; we are using the auto_incremented of supaBase
+        name: name, 
+        price: price, 
+        quantity: quantity
+      );
+      SupaLoginUser supaLoginUser = SupaLoginUser(email: adminPod!.email, password: adminPod.password);
+      // ref.read(productProvider.notifier).insertProduct(productEntryRiverPod);
+      // ref.read(productProvider.notifier).getAllProduct();
 
-      txtProductTitle.clear();
-      txtProductPrice.clear();
-      txtProductQty.clear();
+      ref.read(riverpodDbProvider.notifier).supaAdminInsertProduct(productEntryRiverPod, supaLoginUser);
+      clearForm();
     }
+  }
+
+  void clearForm() {
+    txtProductTitle.clear();
+    txtProductPrice.clear();
+    txtProductQty.clear();
   }
 
   @override

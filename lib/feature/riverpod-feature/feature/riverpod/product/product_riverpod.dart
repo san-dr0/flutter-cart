@@ -1,6 +1,7 @@
 import 'package:clean_arch2/config/db/hiver_riverpod/hiver_riverpod_model/hive_riverpod_model.dart';
 import 'package:clean_arch2/config/db/hiver_riverpod/riverpod_db.dart';
 import 'package:clean_arch2/core/string.dart';
+import 'package:clean_arch2/feature/riverpod-feature/feature/auth/model/signup/signup.model.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 // part "product_riverpod.g.dart";
@@ -42,5 +43,10 @@ class ProductPod extends AsyncNotifier<List<ProductEntryRiverPodModel>>{
     else {
       Fluttertoast.showToast(msg: somethingWentWrongTitle, toastLength: Toast.LENGTH_LONG);
     }
+  }
+
+  // supaBase
+  FutureOr<void> supaAdminInsertProduct(ProductEntryRiverPodModel product, SupaLoginUser user) async {
+    await ref.read(riverpodDbProvider.notifier).supaAdminInsertProduct(product, user);
   }
 }
