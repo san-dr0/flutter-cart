@@ -1,5 +1,6 @@
 import 'package:clean_arch2/core/color.dart';
 import 'package:clean_arch2/core/string.dart';
+import 'package:clean_arch2/core/text.style.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -45,12 +46,63 @@ class _AdminPageV2 extends State<AdminPageV2> {
             DrawerHeader(child: Text("Drawer")),
             ListTile(
               onTap: () {
+              },
+              title: Text("List all users"),
+            ),
+            ListTile(
+              onTap: () {
+              },
+              title: Text("Subscribed users"),
+            ),
+            ListTile(
+              onTap: () {
+              },
+              title: Text("Unsubscribed users"),
+            ),
+            ListTile(
+              onTap: () {
                 onGoHome();
               },
               title: Text("Logout"),
             )
           ]
         ),
+      ),
+      body: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(10.0),
+            width: MediaQuery.sizeOf(context).width,
+            child: Column(
+              children: [
+                Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(supBaseTitle, style: textStyle(fontSize: 20.0, color: Colors.black, fontWeight: FontWeight.bold),),
+                        Text(supaBaseTitleDescription)
+                      ],
+                    ),
+                  ),
+                ),
+                Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(riverPodTitle, style: textStyle(fontSize: 20.0, color: Colors.black, fontWeight: FontWeight.bold),),
+                        Text(riverPodTitleDescription)
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            )
+          )
+        ],
       ),
     );
   }

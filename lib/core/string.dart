@@ -71,3 +71,7 @@ const String productAddedToCartTitle = "Product added to cart";
 const String closeTitle = "Close";
 const String okayTitle = "Okay";
 const String transactionRecordTitleAdded = "New transaction was added.";
+const String supBaseTitle = "Supabase";
+const String supaBaseTitleDescription = "I've been studying supabase and dropping some task in ml-services, Fastlane and Circle CI CI/CD";
+const String riverPodTitle = "Riverpod";
+const String riverPodTitleDescription = "For the state management i've been using the riverpod, but before the first implementation is im using the BLOC for the state management, but it was too advanced that is not too good for teams that is beginners, and for my opinion BLOC is the best 100%";

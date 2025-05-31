@@ -23,7 +23,8 @@ class _TodoHomePage extends ConsumerState<TodoHomePage> {
     final adminAuth = ref.read(adminAuthPod).value;
     ref.read(userTypePod.notifier).setUserType("admin");
     if (adminAuth != null) {  
-      context.push("/riverpod-admin-dashboard");
+      context.push("/admin-dashboard-v2");
+      return;
     }
     context.push("/riverpod-auth-login");
   }
