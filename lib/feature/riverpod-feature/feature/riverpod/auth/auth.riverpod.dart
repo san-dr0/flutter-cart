@@ -51,11 +51,18 @@ class AuthRiverPod extends AsyncNotifier<SupaUserModelRetrieve?> {
       firstname: responseAuth.firstname, 
       lastname: responseAuth.lastname,
       email: email, 
-      password: password
+      password: password,
+      userType: responseAuth.userType
     );
     state = AsyncValue.data(authSignupRiverpodModel);
+
+    if (responseAuth.userType == 'admin') {
+      context.go("/riverpod-dashboard");
+      return;
+    }
     
-    context.go("/riverpod-dashboard");
+    context.go('/admin-dashboard-v2');
+    return;
   }
 
   void logOutUser() {
@@ -67,14 +74,14 @@ class AuthRiverPod extends AsyncNotifier<SupaUserModelRetrieve?> {
   }
   
   // SUPABASE
-  FutureOr<int?> supaLoginUser(SupaLoginUser user) async {
+  FutureOr<SupaUserModelRetrieve?> supaLoginUser(SupaLoginUser user) async {
     final response = await ref.read(riverpodDbProvider.notifier).supaLoginUser(user);
     
     if (response != null) {
       state = AsyncValue.data(response);
-      return 1;
+      return response;
     }
         
-    return 0;
+    return null;
   }
 }

@@ -50,19 +50,30 @@ class _AuthRiverPodSignupPage extends ConsumerState<AuthRiverPodSignupPage> {
       password: _txtPassword.text
     );
     
-    final response = await ref.read(authProvider.notifier).supRegisterNewUser(supaUserModel);
+    if (ref.read(userTypePod.notifier).getUserType() == 'user') {
+      final response = await ref.read(authProvider.notifier).supRegisterNewUser(supaUserModel);
     
-    switch(response) {
-      case 0:
-        Fluttertoast.showToast(msg: userAlreadyExistsTitle, toastLength: Toast.LENGTH_SHORT);
-        break;
-      case 1:
-        Fluttertoast.showToast(msg: userCreatedSuccessfullyTitle, toastLength: Toast.LENGTH_SHORT);
-        context.push("/riverpod-auth-login");
-        break;
-      default:
+      switch(response) {
+        case 0:
+          Fluttertoast.showToast(msg: userAlreadyExistsTitle, toastLength: Toast.LENGTH_SHORT);
+          break;
+        case 1:
+          Fluttertoast.showToast(msg: userCreatedSuccessfullyTitle, toastLength: Toast.LENGTH_SHORT);
+          context.push("/riverpod-auth-login");
+          break;
+        default:
+          Fluttertoast.showToast(msg: somethingWentWrongTitle, toastLength: Toast.LENGTH_SHORT);
+          break;
+      }
+    }
+    else if (ref.read(userTypePod.notifier).getUserType() == 'admin') {
+      final adminResponse = await ref.read(adminAuthPod.notifier).singupAdmin(supaUserModel);
+      if (adminResponse != 0) {
+        context.go("/admin-dashboard-v2");
+      }
+      else {
         Fluttertoast.showToast(msg: somethingWentWrongTitle, toastLength: Toast.LENGTH_SHORT);
-        break;
+      }
     }
 
     clearFields();

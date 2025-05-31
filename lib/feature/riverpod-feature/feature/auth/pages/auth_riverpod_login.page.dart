@@ -27,8 +27,8 @@ class _AuthRiverPodLoginPage extends ConsumerState<AuthRiverPodLoginPage> {
   @override
   void initState() {
     super.initState();
-    _txtEmail = TextEditingController(text: "ada@gmail.com");
-    _txtPassword = TextEditingController(text: "123");
+    _txtEmail = TextEditingController(text: "");
+    _txtPassword = TextEditingController(text: "");
   }
 
   void onLoginUser() async {
@@ -38,14 +38,20 @@ class _AuthRiverPodLoginPage extends ConsumerState<AuthRiverPodLoginPage> {
     String email = _txtEmail.text;
     String password = _txtPassword.text;
 
-    final response = await ref.read(authProvider.notifier).supaLoginUser(SupaLoginUser(email: email, password: password));
-    if (response == 0) {
+    SupaUserModelRetrieve? response = await ref.read(authProvider.notifier).supaLoginUser(SupaLoginUser(email: email, password: password));
+    if (response == null) {
       Fluttertoast.showToast(msg: invalidCredsTitle, toastLength: Toast.LENGTH_SHORT);
       return;
     }
 
-    context.push("/riverpod-dashboard");
-    
+    if (response.userType == 'admin') {
+      context.push("/admin-dashboard-v2");
+      return;
+    }
+    else if (response.userType == 'user') {
+      context.push("/riverpod-dashboard");
+      return;
+    }
   }
 
   void onNavigateToSignup() {

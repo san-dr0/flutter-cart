@@ -15,9 +15,11 @@ class SupaUserModelRetrieve {
   String lastname;
   String email;
   String password;
+  String userType;
 
   SupaUserModelRetrieve({
-    required this.id, required this.firstname, required this.lastname, required this.email, required this.password
+    required this.id, required this.firstname, required this.lastname, required this.email, required this.password,
+    required this.userType
   });
 
   factory SupaUserModelRetrieve.fromJson(Map<String, dynamic> json) {
@@ -26,7 +28,8 @@ class SupaUserModelRetrieve {
       firstname: json["firstname"] ?? '',
       lastname: json["lastname"] ?? '',
       email: json["email"] ?? '',
-      password: json["password"] ?? ''
+      password: json["password"] ?? '',
+      userType: json['user_type'] ?? '',
     );
   }
 } // used for retrieval
