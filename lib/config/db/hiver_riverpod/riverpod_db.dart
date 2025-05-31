@@ -262,10 +262,10 @@ class RiverpodDb extends _$RiverpodDb{
     try{
       final instance = Supabase.instance.client;
       final response = await instance.from("users")
-      .select("id, firstname, lastname, email, password")
+      .select("id, firstname, lastname, email, password, user_type")
       .eq("email", user.email)
       .eq("password", user.password);
-
+      
       if (response.isNotEmpty) {
         return SupaUserModelRetrieve.fromJson(response[0]);
       }
@@ -322,7 +322,7 @@ class RiverpodDb extends _$RiverpodDb{
     // the ADMIN is the MLhuillier Credentials
     try{
       final instance = Supabase.instance.client;
-      await instance.auth.signUp(email: 'lisandro.batiancila@mlhuillier.com', password: "p4ss0rd_00");
+      await instance.auth.signUp(email: 'lisandro.batiancila@mlhuillier.com', password: "p4ssw0rd_00");
 
       await instance.from("users").insert([{
         "email": user.email,
