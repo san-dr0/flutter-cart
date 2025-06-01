@@ -17,12 +17,26 @@ class TodoHomePage extends ConsumerStatefulWidget {
   ConsumerState<TodoHomePage> createState () => _TodoHomePage();
 }
 
-class _TodoHomePage extends ConsumerState<TodoHomePage> {
+class _TodoHomePage extends ConsumerState<TodoHomePage> {	
+	List<ProductEntryRiverPodModel>? productList = [];
+	bool isLoading = true;
+	List<ProductEntryRiverPodModel>? cartProductList = [];
+
+	void getRecords () async {
+		var product = ref.watch(productProvider).value;
+		bool loading = ref.read(appLoading).value!;
+		var cartList = ref.watch(cartRiverPod).value;
+		setState(() {
+		  productList = product;
+			isLoading = loading;
+			cartProductList = cartList;
+		});
+	}
 
   void loginAdminDashBoard () {
     final adminAuth = ref.read(adminAuthPod).value;
     ref.read(userTypePod.notifier).setUserType("admin");
-    if (adminAuth != null) {  
+    if (adminAuth != null) {
       context.push("/admin-dashboard-v2");
       return;
     }
@@ -57,8 +71,65 @@ class _TodoHomePage extends ConsumerState<TodoHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    var productList = ref.watch(productProvider);
-    var cartProductList = ref.watch(cartRiverPod);
+		getRecords();
+		Widget content = SizedBox();
+
+		if (isLoading){
+			content = Center(
+				child: Column(
+					mainAxisAlignment: MainAxisAlignment.center,
+					crossAxisAlignment: CrossAxisAlignment.center,
+					children: [
+						CircularProgressIndicator(
+							color: Colors.amber,
+						),
+						Text(pleaseWaitTitle)
+					],
+				),
+			);
+		}
+		else {
+			content = Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: ListView.separated(
+          itemBuilder: (context, index) {
+            return Card(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Name: ${productList![index].name}"),
+                        Text("\$: ${productList![index].price.toStringAsFixed(2)}"),
+                        Text("Qty: ${productList![index].quantity}"),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        inkButton(tapped: (param) {
+                          addToCart(productList![index]);
+                        }, subTitle: "Add to cart"),
+                        const SizedBox(height: 5.0,),
+                        inkButton(tapped: (param) {
+                          onViewProductInfo(productList![index]);
+                        }, subTitle: "View info"),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            );
+          }, 
+          separatorBuilder: (context, index) {
+            return SizedBox(height: 5.0,);
+          }, 
+          itemCount: productList != null ? productList!.length : 0,
+        ),
+      );
+		}
 
     return Scaffold(
       appBar: AppBar(
@@ -77,7 +148,7 @@ class _TodoHomePage extends ConsumerState<TodoHomePage> {
                 top: -5,
                 right: 8,
                 child: Text(
-                  cartProductList.value!.length.toString(),
+                  cartProductList!.length.toString(),
                   style: textStyle(
                     color: Colors.red,
                     fontSize: 22.0
@@ -91,46 +162,7 @@ class _TodoHomePage extends ConsumerState<TodoHomePage> {
           }, icon: Icon(Icons.admin_panel_settings_outlined, color: whiteColor)),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: ListView.separated(
-          itemBuilder: (context, index) {
-            return Card(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Name: ${productList.value![index].name}"),
-                        Text("\$: ${productList.value![index].price.toStringAsFixed(2)}"),
-                        Text("Qty: ${productList.value![index].quantity}"),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        inkButton(tapped: (param) {
-                          addToCart(productList.value![index]);
-                        }, subTitle: "Add to cart"),
-                        const SizedBox(height: 5.0,),
-                        inkButton(tapped: (param) {
-                          onViewProductInfo(productList.value![index]);
-                        }, subTitle: "View info"),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            );
-          }, 
-          separatorBuilder: (context, index) {
-            return SizedBox(height: 5.0,);
-          }, 
-          itemCount: productList.value != null ? productList.value!.length : 0,
-        ),
-      ),
+      body: content
     );
   }
 }
