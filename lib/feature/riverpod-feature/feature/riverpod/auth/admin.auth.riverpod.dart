@@ -45,4 +45,8 @@ class AdminAuthRiverPod extends AsyncNotifier<AdminCredentials?>{
     return userListResponse;
   }
 
+  FutureOr<void> logoutAdmin () {
+    state = AsyncValue.data(null);
+  }
+
 }

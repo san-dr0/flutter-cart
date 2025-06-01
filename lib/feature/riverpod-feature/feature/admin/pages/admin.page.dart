@@ -24,6 +24,7 @@ class _AdminPageV2 extends ConsumerState<AdminPageV2> {
   }
 
   void onGoHome() {
+    ref.read(adminAuthPod.notifier).logoutAdmin();
     context.push('/');
   }
 
@@ -56,8 +57,8 @@ class _AdminPageV2 extends ConsumerState<AdminPageV2> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Name: ${adminInfo.hasValue ? "${adminInfo.value!.lastName}, ${adminInfo.value!.firstName}" : 'No user'}"),
-                  Text("Email: ${adminInfo.hasValue ? adminInfo.value!.email : 'No user'}"),
+                  Text("Name: ${adminInfo.hasValue ? "${adminInfo.value?.lastName}, ${adminInfo.value?.firstName}" : 'No user'}"),
+                  Text("Email: ${adminInfo.hasValue ? adminInfo.value?.email : 'No user'}"),
                 ],
               ),
             ),
