@@ -324,7 +324,8 @@ class RiverpodDb extends _$RiverpodDb{
     // the ADMIN is the MLhuillier Credentials
     try{
       final instance = Supabase.instance.client;
-      await instance.auth.signUp(email: 'lisandro.batiancila@mlhuillier.com', password: "p4ssw0rd_00");
+      // await instance.auth.signUp(email: 'lisandro.batiancila@mlhuillier.com', password: "p4ssw0rd_00");
+      await instance.auth.signUp(email: 'tasks.newbie@gmail.com', password: "p4ssw0rd_00");
 
       await instance.from("users").insert([{
         "email": user.email,
