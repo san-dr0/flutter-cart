@@ -1,5 +1,6 @@
 import 'package:clean_arch2/config/db/hive_model/product_model/product_model.dart';
 import 'package:clean_arch2/config/db/hiver_riverpod/hiver_riverpod_model/hive_riverpod_model.dart';
+import 'package:clean_arch2/feature-school/school-home/school.home.dart';
 import 'package:clean_arch2/feature/admin/feature/home/pages/admin.home.dart';
 import 'package:clean_arch2/feature/admin/feature/users/pages/admin.user.list.page.dart';
 import 'package:clean_arch2/feature/auth/presentation/pages/login.dart';
@@ -69,6 +70,9 @@ GoRouter appRoutes = GoRouter(routes: [
     return UpdateProductPage(product: product,);
   },),
   // END OF RIVERPOD
+
+  // SCHOOL FEATURE
+  GoRoute(path: '/school-home', builder: (context, state) => SchoolHomePage(),)
 ]);
 
 // ADD pages here, it it belongs to admin

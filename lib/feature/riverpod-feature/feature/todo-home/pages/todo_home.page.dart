@@ -54,6 +54,10 @@ class _TodoHomePage extends ConsumerState<TodoHomePage> {
     context.push('/riverpod-auth-login');
   }
 
+  void onGoToHomeFeature() {
+    context.go("/school-home");
+  }
+  
   @override
   Widget build(BuildContext context) {
     var productList = ref.watch(productProvider);
@@ -88,6 +92,9 @@ class _TodoHomePage extends ConsumerState<TodoHomePage> {
           IconButton(onPressed: () {
             loginAdminDashBoard();
           }, icon: Icon(Icons.admin_panel_settings_outlined, color: whiteColor)),
+          IconButton(onPressed: () {
+            onGoToHomeFeature();
+          }, icon: Icon(Icons.book, color: whiteColor)),
         ],
       ),
       body: Padding(

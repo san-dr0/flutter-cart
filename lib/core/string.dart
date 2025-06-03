@@ -71,3 +71,6 @@ const String productAddedToCartTitle = "Product added to cart";
 const String closeTitle = "Close";
 const String okayTitle = "Okay";
 const String transactionRecordTitleAdded = "New transaction was added.";
+
+// SCHOOL FEATURE
+const String homeSchoolTitle = "School";

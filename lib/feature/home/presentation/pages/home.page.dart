@@ -8,6 +8,7 @@ import 'package:clean_arch2/feature/home/presentation/bloc/home.bloc.dart';
 import 'package:clean_arch2/feature/home/presentation/bloc/home.state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../core/color.dart';
 import '../../../cart/presentation/bloc/cart.event.dart';
@@ -48,6 +49,10 @@ class _HomePage extends State<HomePage> {
 
   void onLoginUser() {
     context.read<AuthBloc>().add(AuthOnAlreadyHaveAnAccountEvent(context: context));
+  }
+
+  void onGoToSchoolFeature() {
+    context.push('/school-home');
   }
 
   @override
