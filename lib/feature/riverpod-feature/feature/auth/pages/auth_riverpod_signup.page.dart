@@ -104,7 +104,7 @@ class _AuthRiverPodSignupPage extends ConsumerState<AuthRiverPodSignupPage> {
           child: Column(
             children: [
               Text(
-                signupAsTitle,
+                "$signupAsTitle ${ref.read(userTypePod).value}",
                 style: textStyle(
                   color: Colors.black,
                   fontSize: 20

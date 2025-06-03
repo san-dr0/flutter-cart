@@ -1,8 +1,8 @@
 import 'package:clean_arch2/config/db/hiver_riverpod/riverpod_db.dart';
 import 'package:clean_arch2/feature/riverpod-feature/feature/admin/model/admin.model.dart';
+import 'package:clean_arch2/feature/riverpod-feature/feature/users/model/user.model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../auth/model/signup/signup.model.dart';
-import '../pod-entry/pod_entry.dart';
 
 @riverpod
 
@@ -19,9 +19,34 @@ class AdminAuthRiverPod extends AsyncNotifier<AdminCredentials?>{
     return adminAuth;
   }
   
-  FutureOr<void> signinAdmin(SupaLoginUser user) async {
-    final adminAuth = await ref.read(adminAuthPod.notifier).signinAdmin(user);
+  FutureOr<SupaUserModelRetrieve?> signinAdmin(SupaLoginUser user) async {
+    final adminAuth = await ref.read(riverpodDbProvider.notifier).supaAdminLogin(user);
+    if (adminAuth != null) {
+      AdminCredentials adminCredentials = AdminCredentials(
+        id: adminAuth.id, 
+        firstName: adminAuth.firstname, 
+        lastName: adminAuth.lastname, 
+        middleName: 'No md', 
+        email: adminAuth.email, 
+        password: adminAuth.password
+      );
+
+      state = AsyncValue.data(adminCredentials);
+
+      return adminAuth;
+    }
     
+    return null;
   }
   
+  FutureOr<List<UserListModel>> listAllUser() async {
+    List<UserListModel> userListResponse = await ref.read(riverpodDbProvider.notifier).listAllUser();
+    
+    return userListResponse;
+  }
+
+  FutureOr<void> logoutAdmin () {
+    state = AsyncValue.data(null);
+  }
+
 }
