@@ -32,6 +32,10 @@ class _AdminPageV2 extends ConsumerState<AdminPageV2> {
     context.push('/user-list-page');
   }
 
+  void onGoToHome() {
+    context.push('/');
+  }
+
   @override
   Widget build(BuildContext context) {
     final adminInfo = ref.read(adminAuthPod);
@@ -41,6 +45,9 @@ class _AdminPageV2 extends ConsumerState<AdminPageV2> {
         title: Text(adminV2Title),
         backgroundColor: tealColor,
         actions: [
+          IconButton(onPressed: () {
+            onGoToHome();
+          }, icon: Icon(Icons.home, color: whiteColor,)),
           IconButton(onPressed: () {
             onGoToPage();
           }, icon: Icon(Icons.view_list_outlined, color: whiteColor,)),

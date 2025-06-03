@@ -76,3 +76,4 @@ const String supaBaseTitleDescription = "I've been studying supabase and droppin
 const String riverPodTitle = "Riverpod";
 const String riverPodTitleDescription = "For the state management i've been using the riverpod, but before the first implementation is im using the BLOC for the state management, but it was too advanced that is not too good for teams that is beginners, and for my opinion BLOC is the best 100%";
 const String registeredUserTitle = "Registered User";
+const String yourAnAdminTitle = "Sorry, Admin is not allowed to buy!";

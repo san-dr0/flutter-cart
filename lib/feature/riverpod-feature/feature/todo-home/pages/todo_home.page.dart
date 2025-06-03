@@ -52,6 +52,13 @@ class _TodoHomePage extends ConsumerState<TodoHomePage> {
   }
 
   void onViewCartList() {
+    final adminAuth = ref.read(adminAuthPod).value;
+    
+    if (adminAuth != null) {
+      Fluttertoast.showToast(msg: yourAnAdminTitle, toastLength: Toast.LENGTH_SHORT);
+      return;
+    }
+
     if (ref.read(cartRiverPod).value!.isEmpty) {
       Fluttertoast.showToast(msg: emptyCartTitle, toastLength: Toast.LENGTH_SHORT);
       
