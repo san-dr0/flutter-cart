@@ -49,4 +49,8 @@ class ProductPod extends AsyncNotifier<List<ProductEntryRiverPodModel>>{
   FutureOr<void> supaAdminInsertProduct(ProductEntryRiverPodModel product, SupaLoginUser user) async {
     await ref.read(riverpodDbProvider.notifier).supaAdminInsertProduct(product, user);
   }
+
+  FutureOr<List<ProductEntryRiverPodModel>> getAllProductPerAdmin(String email) async {
+    return await ref.read(riverpodDbProvider.notifier).getAllProductPerAdmin(email);
+  }
 }

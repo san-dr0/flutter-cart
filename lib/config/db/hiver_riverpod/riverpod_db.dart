@@ -363,4 +363,46 @@ class RiverpodDb extends _$RiverpodDb{
       log('Errorrrrrr --- supaAdminInsertProduct');
     }
   }
+<<<<<<< Updated upstream
+=======
+
+  FutureOr<List<UserListModel>> listAllUser() async {
+    SupabaseClient instance = Supabase.instance.client;
+    List<UserListModel> userList = [];
+
+    final response = await instance.from("users")
+      .select("id, firstname, lastname, email, password, user_type")
+      .eq("user_type", "user");
+
+    for(var resp in response) {
+      userList.add(UserListModel.fromJson(resp));
+    }
+
+    return userList;
+  }
+
+  FutureOr<List<ProductEntryRiverPodModel>> getAllProductPerAdmin (String email) async {
+    try{
+      List<ProductEntryRiverPodModel> productList = [];
+      SupabaseClient supaInstance = Supabase.instance.client;
+      final userRespo = await supaInstance.from("users")
+        .select("admin_id")
+        .eq("email", email);
+
+      final productResp = await supaInstance.from("products")
+        .select("id, name, price, quantity")
+        .eq("admin_id", userRespo[0]['admin_id']);
+
+        log("getAllProductPerAdmin --- productResp");
+        log(productResp.toString());
+
+      return productList;
+    }
+    catch(error) {
+      log("getAllProductPerAdmin ---- error ");
+      log(error.toString());
+      return [];
+    }
+  }
+>>>>>>> Stashed changes
 }
