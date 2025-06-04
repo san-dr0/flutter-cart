@@ -3,6 +3,7 @@ import 'package:clean_arch2/config/db/hiver_riverpod/hiver_riverpod_model/txn_ri
 import 'package:clean_arch2/feature/riverpod-feature/feature/riverpod/auth/auth.riverpod.dart';
 import 'package:clean_arch2/feature/riverpod-feature/feature/riverpod/balance/balance.riverpod.dart';
 import 'package:clean_arch2/feature/riverpod-feature/feature/riverpod/cart/cart.riverpod.dart';
+import 'package:clean_arch2/feature/riverpod-feature/feature/riverpod/loading/loading.dart';
 import 'package:clean_arch2/feature/riverpod-feature/feature/riverpod/txn_history/txn_riverpod.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -33,4 +34,8 @@ var adminAuthPod = AsyncNotifierProvider<AdminAuthRiverPod, AdminCredentials?>((
 
 var userTypePod = AsyncNotifierProvider<RiverPodUserType, String?>(() {
   return RiverPodUserType();
+});
+
+var appLoading = AsyncNotifierProvider<LoadingPod, bool>(() {
+  return LoadingPod();
 });

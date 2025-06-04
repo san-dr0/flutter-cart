@@ -7,6 +7,7 @@ import 'package:clean_arch2/feature/riverpod-feature/feature/riverpod/product/pr
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 final productProvider = AsyncNotifierProvider<ProductPod, List<ProductEntryRiverPodModel>>(() {
     return ProductPod();
@@ -55,7 +56,9 @@ class _ProductListPage extends ConsumerState<ProductListPage> {
         title: Text(productListTitle),
       ),
       body: SafeArea(
-        child: ListView.separated(
+        child: SmartRefresher(
+          controller: refreshController,
+          child: ListView.separated(
           itemBuilder: (context, index) {
             return Padding(
               padding: const EdgeInsets.all(5.0),

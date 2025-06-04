@@ -32,8 +32,8 @@ class _ProductEntryPage extends ConsumerState<ProductEntryPage> {
     txtProductQty = TextEditingController();
   }
 
-  void addProductRecord () {
-    AdminCredentials? adminPod = ref.read(adminAuthPod).value;
+  void addProductRecord () async {
+    final adminPod = ref.read(adminAuthPod).value;
 
     if (adminPod == null) {
       Fluttertoast.showToast(msg: authNotLoggedInTitle, toastLength: Toast.LENGTH_SHORT);
@@ -54,7 +54,13 @@ class _ProductEntryPage extends ConsumerState<ProductEntryPage> {
       // ref.read(productProvider.notifier).insertProduct(productEntryRiverPod);
       // ref.read(productProvider.notifier).getAllProduct();
 
-      ref.read(riverpodDbProvider.notifier).supaAdminInsertProduct(productEntryRiverPod, supaLoginUser);
+      int? response = await ref.read(riverpodDbProvider.notifier).supaAdminInsertProduct(productEntryRiverPod, supaLoginUser);
+      if (response == 0) {
+        Fluttertoast.showToast(msg: somethingWentWrongTitle, toastLength: Toast.LENGTH_SHORT);
+        return;
+      }
+
+      Fluttertoast.showToast(msg: productAddedTitle, toastLength: Toast.LENGTH_SHORT);
       clearForm();
     }
   }
