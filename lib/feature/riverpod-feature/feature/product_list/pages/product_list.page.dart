@@ -2,6 +2,7 @@ import 'package:clean_arch2/config/db/hiver_riverpod/hiver_riverpod_model/hive_r
 import 'package:clean_arch2/core/color.dart';
 import 'package:clean_arch2/core/string.dart';
 import 'package:clean_arch2/feature/riverpod-feature/component/button/ink.dart';
+import 'package:clean_arch2/feature/riverpod-feature/feature/riverpod/pod-entry/pod_entry.dart';
 import 'package:clean_arch2/feature/riverpod-feature/feature/riverpod/product/product_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,7 +22,7 @@ class ProductListPage extends ConsumerStatefulWidget {
 
 class _ProductListPage extends ConsumerState<ProductListPage> {
   RefreshController refreshController = RefreshController(initialRefresh: false);
-  var productRecord;
+  List<ProductEntryRiverPodModel> productRecord = [];
 
   void onUpdateProduct(ProductEntryRiverPodModel product) {
     context.push("/admin-update-product-v2", extra: product);
@@ -36,10 +37,18 @@ class _ProductListPage extends ConsumerState<ProductListPage> {
     });
     refreshController.refreshCompleted();
   }
+
+  void onGetProductList() async{
+    final adminAuth = ref.read(adminAuthPod).value;
+    final product = await ref.watch(productProvider.notifier).getAllProductPerAdmin(adminAuth!.email);
+    setState(() {
+      productRecord = product;
+    });
+  }
   
   @override
   Widget build(BuildContext context) {
-          productRecord = ref.watch(productProvider);
+    onGetProductList();
 
     return Scaffold(
       appBar: AppBar(
@@ -59,16 +68,16 @@ class _ProductListPage extends ConsumerState<ProductListPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Name: ${productRecord.value![index].name}"),
-                      Text("\$: ${productRecord.value![index].price}"),
-                      Text("Qty: ${productRecord.value![index].quantity}"),
+                      Text("Name: ${productRecord[index].name}"),
+                      Text("\$: ${productRecord[index].price}"),
+                      Text("Qty: ${productRecord[index].quantity}"),
                       const SizedBox(height: 5.0,),
 
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           inkButton(tapped: (param) {
-                            onUpdateProduct(productRecord.value![index]);
+                            onUpdateProduct(productRecord[index]);
                           }, subTitle: "Update"),
                           const SizedBox(width: 5.0,),
                           inkButton(tapped: (param) {
@@ -85,7 +94,7 @@ class _ProductListPage extends ConsumerState<ProductListPage> {
           separatorBuilder: (context, index) {
             return const SizedBox(height: 5.0,);
           }, 
-          itemCount: productRecord.value != null ? productRecord.value!.length:0
+          itemCount: productRecord.length
         ),
         ),
       ),
