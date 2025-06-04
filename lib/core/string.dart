@@ -74,3 +74,6 @@ const String transactionRecordTitleAdded = "New transaction was added.";
 
 // SCHOOL FEATURE
 const String homeSchoolTitle = "School";
+const String schoolRegistrationTitle = "School Registration";
+const String registrationTitle = "Registration";
+const String studentRegistrationTitle = "Student registration was success.";

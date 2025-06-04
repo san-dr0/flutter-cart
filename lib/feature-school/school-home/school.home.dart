@@ -5,6 +5,7 @@ import 'package:clean_arch2/core/string.dart';
 import 'package:clean_arch2/core/text.style.dart';
 import 'package:clean_arch2/feature-school/school-home/school.menu.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class SchoolHomePage extends StatefulWidget {
   const SchoolHomePage({super.key});
@@ -15,7 +16,7 @@ class SchoolHomePage extends StatefulWidget {
 
 class _SchoolHomePage extends State<SchoolHomePage> {
   void onRegistration() {
-    
+    context.push("/school-registration");
   }
   
   void onLogin() {
@@ -35,8 +36,8 @@ class _SchoolHomePage extends State<SchoolHomePage> {
       ),
       body: SizedBox(
         width: MediaQuery.sizeOf(context).width,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text("Welcome to school application",
