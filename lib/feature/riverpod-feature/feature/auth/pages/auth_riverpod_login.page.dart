@@ -5,6 +5,7 @@ import 'package:clean_arch2/core/string.dart';
 import 'package:clean_arch2/core/text.style.dart';
 import 'package:clean_arch2/feature/riverpod-feature/component/button/ink.dart';
 import 'package:clean_arch2/feature/riverpod-feature/feature/riverpod/pod-entry/pod_entry.dart';
+import 'package:clean_arch2/feature/riverpod-feature/feature/riverpod/user-type/user_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -37,20 +38,24 @@ class _AuthRiverPodLoginPage extends ConsumerState<AuthRiverPodLoginPage> {
     }
     String email = _txtEmail.text;
     String password = _txtPassword.text;
-
-    SupaUserModelRetrieve? response = await ref.read(authProvider.notifier).supaLoginUser(SupaLoginUser(email: email, password: password));
-    if (response == null) {
-      Fluttertoast.showToast(msg: invalidCredsTitle, toastLength: Toast.LENGTH_SHORT);
-      return;
+    final userPod = await ref.read(userTypePod).value;
+    
+    if (userPod == 'user') {
+      SupaUserModelRetrieve? response = await ref.read(authProvider.notifier).supaLoginUser(SupaLoginUser(email: email, password: password));
+      if (response == null) {
+        Fluttertoast.showToast(msg: invalidCredsTitle, toastLength: Toast.LENGTH_SHORT);
+        return;
+      }
+        context.push("/riverpod-dashboard");
     }
+    else if (userPod == 'admin') {
+      final adminResponse = await ref.read(adminAuthPod.notifier).signinAdmin(SupaLoginUser(email: email, password: password));
+      if (adminResponse == null) {
+        Fluttertoast.showToast(msg: invalidCredsTitle, toastLength: Toast.LENGTH_SHORT);
+        return;
+      }
 
-    if (response.userType == 'admin') {
       context.push("/admin-dashboard-v2");
-      return;
-    }
-    else if (response.userType == 'user') {
-      context.push("/riverpod-dashboard");
-      return;
     }
   }
 
