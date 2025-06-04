@@ -71,6 +71,12 @@ const String productAddedToCartTitle = "Product added to cart";
 const String closeTitle = "Close";
 const String okayTitle = "Okay";
 const String transactionRecordTitleAdded = "New transaction was added.";
+
+// SCHOOL FEATURE
+const String homeSchoolTitle = "School";
+const String schoolRegistrationTitle = "School Registration";
+const String registrationTitle = "Registration";
+const String studentRegistrationTitle = "Student registration was success.";
 const String supBaseTitle = "Supabase";
 const String supaBaseTitleDescription = "I've been studying supabase and dropping some task in ml-services, Fastlane and Circle CI CI/CD";
 const String riverPodTitle = "Riverpod";
