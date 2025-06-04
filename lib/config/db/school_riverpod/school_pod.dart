@@ -35,4 +35,14 @@ class SchoolPod extends _$SchoolPod{
     }
   }
 
+  FutureOr<List<Map<String, dynamic>>> getTeacherList() async {
+    List<Map<String, dynamic>> teacherList = [];
+    SupabaseClient instance = Supabase.instance.client;
+    var teacherResp = await instance.from("teachers").select("firstname, lastname, id");
+    for(var tp in teacherResp) {
+      log('Tpp pp p p p pp >>>> ');
+      log(tp.toString());
+    }
+    return teacherList;
+  }
 }
