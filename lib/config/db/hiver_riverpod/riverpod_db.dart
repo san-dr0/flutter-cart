@@ -384,4 +384,8 @@ class RiverpodDb extends _$RiverpodDb{
 
     return userList;
   }
+  FutureOr<List<ProductEntryRiverPodModel>> getAllProductPerAdmin(String email) {
+
+    return [];
+  }
 }

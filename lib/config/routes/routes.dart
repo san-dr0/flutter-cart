@@ -71,7 +71,7 @@ GoRouter appRoutes = GoRouter(routes: [
 
     return UpdateProductPage(product: product,);
   },),
-  GoRoute(path: '/user-list-page', builder: (context, state) => UserListPage(),)
+  GoRoute(path: '/user-list-page', builder: (context, state) => UserListPage(),),
   // END OF RIVERPOD
 
   // SCHOOL FEATURE
