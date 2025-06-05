@@ -21,8 +21,8 @@ class SchoolPod extends _$SchoolPod{
       await supaInstance.from("students")
         .insert([{
           "teacher_id": student.teacherId,
-          "firstname": student.firstname,
-          "lastname": student.lastname,
+          "fname": student.firstname,
+          "lname": student.lastname,
           "age": student.age,
         }]);
 
