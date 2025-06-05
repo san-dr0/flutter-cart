@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:clean_arch2/feature-school/pod/teacher/model/teacher.model.dart';
 import 'package:clean_arch2/feature-school/registration/model/student.model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -35,13 +36,12 @@ class SchoolPod extends _$SchoolPod{
     }
   }
 
-  FutureOr<List<Map<String, dynamic>>> getTeacherList() async {
-    List<Map<String, dynamic>> teacherList = [];
+  FutureOr<List<TeacherModel>> getTeacherList() async {
+    List<TeacherModel> teacherList = [];
     SupabaseClient instance = Supabase.instance.client;
-    var teacherResp = await instance.from("teachers").select("firstname, lastname, id");
+    var teacherResp = await instance.from("teachers").select("fname, lname, id, age");
     for(var tp in teacherResp) {
-      log('Tpp pp p p p pp >>>> ');
-      log(tp.toString());
+      teacherList.add(TeacherModel.fromJson(tp));
     }
     return teacherList;
   }

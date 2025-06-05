@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:clean_arch2/core/color.dart';
 import 'package:clean_arch2/core/string.dart';
 import 'package:clean_arch2/core/text.style.dart';
 import 'package:clean_arch2/feature-school/pod-entry/pod_entry.pod.dart';
+import 'package:clean_arch2/feature-school/pod/teacher/model/teacher.model.dart';
 import 'package:clean_arch2/feature-school/registration/model/student.model.dart';
 import 'package:clean_arch2/feature/riverpod-feature/component/button/ink.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +22,13 @@ class _SchoolRegistration extends ConsumerState<SchoolRegistration> {
   TextEditingController txtLastname = TextEditingController();
   TextEditingController txtAge = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  List<TeacherModel> teacherList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    getTeacherList();
+  }
 
   void onSubmitStudentRegistration() async {
     if (!_formKey.currentState!.validate()) {
@@ -37,6 +47,12 @@ class _SchoolRegistration extends ConsumerState<SchoolRegistration> {
       return;
     }
 
+  }
+
+  void getTeacherList () async {
+    teacherList = await ref.read(teacherPod.notifier).getTeacherList();
+    log("teacherList >>>> ");
+    log(teacherList.toString());
   }
 
   @override
