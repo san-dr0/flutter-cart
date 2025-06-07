@@ -20,7 +20,7 @@ class _SchoolHomePage extends State<SchoolHomePage> {
   }
   
   void onLogin() {
-
+    context.push("/school-login");
   }
 
   void onSubject() {
