@@ -59,43 +59,43 @@ class _ProductListPage extends ConsumerState<ProductListPage> {
         child: SmartRefresher(
           controller: refreshController,
           child: ListView.separated(
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Name: ${productRecord[index].name}"),
-                      Text("\$: ${productRecord[index].price}"),
-                      Text("Qty: ${productRecord[index].quantity}"),
-                      const SizedBox(height: 5.0,),
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Name: ${productRecord[index].name}"),
+                        Text("\$: ${productRecord[index].price}"),
+                        Text("Qty: ${productRecord[index].quantity}"),
+                        const SizedBox(height: 5.0,),
 
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          inkButton(tapped: (param) {
-                            onUpdateProduct(productRecord[index]);
-                          }, subTitle: "Update"),
-                          const SizedBox(width: 5.0,),
-                          inkButton(tapped: (param) {
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            inkButton(tapped: (param) {
+                              onUpdateProduct(productRecord[index]);
+                            }, subTitle: "Update"),
+                            const SizedBox(width: 5.0,),
+                            inkButton(tapped: (param) {
 
-                          }, subTitle: "View"),
-                        ],
-                      )
-                    ],
+                            }, subTitle: "View"),
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            );
-          }, 
-          separatorBuilder: (context, index) {
-            return const SizedBox(height: 5.0,);
-          }, 
-          itemCount: productRecord.length
-        ),
+              );
+            }, 
+            separatorBuilder: (context, index) {
+              return const SizedBox(height: 5.0,);
+            }, 
+            itemCount: productRecord.length
+          ),
         ),
       ),
     );

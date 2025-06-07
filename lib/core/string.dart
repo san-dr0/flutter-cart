@@ -75,6 +75,7 @@ const String transactionRecordTitleAdded = "New transaction was added.";
 // SCHOOL FEATURE
 const String homeSchoolTitle = "School";
 const String schoolRegistrationTitle = "School Registration";
+const String schoolLoginPageTitle = "School Login";
 const String registrationTitle = "Registration";
 const String studentRegistrationTitle = "Student registration was success.";
 const String supBaseTitle = "Supabase";
@@ -85,3 +86,6 @@ const String registeredUserTitle = "Registered User";
 const String yourAnAdminTitle = "Sorry, Admin is not allowed to buy!";
 const String pleaseSelectATeacherTitle = "Please select a teacher first";
 const String studentRegistrationErrorTitle = "Student registration failed";
+const String schoolTeacherDashboardTitle = "Teacher Dashboard";
+const String teacherCantDoActions = "Sorry, but you are not allowed for this actions.";
+const String updateStudentTitle = "Update student";
