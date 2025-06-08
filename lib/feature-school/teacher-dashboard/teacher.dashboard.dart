@@ -32,7 +32,6 @@ class _SchoolTeacherDashboardPage extends ConsumerState<SchoolTeacherDashboardPa
   void onUpdateStudent (int studentId) async{
     var currentActiveTeacher = ref.read(teacherPod).value;
     ref.read(teacherPod.notifier).updateStudent(currentActiveTeacher![0].id!, studentId, context);
-    // Remove mi in second push
   }
 
   void onDeleteStudent () {
