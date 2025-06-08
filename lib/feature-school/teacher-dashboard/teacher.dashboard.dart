@@ -26,6 +26,7 @@ class _SchoolTeacherDashboardPage extends ConsumerState<SchoolTeacherDashboardPa
   }
 
   void onRefreshTeacherDashboardController () {
+    getStudentList();
     dashboardController.refreshCompleted();
   }
 
@@ -50,6 +51,7 @@ class _SchoolTeacherDashboardPage extends ConsumerState<SchoolTeacherDashboardPa
       body: SafeArea(
         child: SmartRefresher(
           controller: dashboardController,
+          onRefresh: onRefreshTeacherDashboardController,
           child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: ListView.separated(
