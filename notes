@@ -2,3 +2,9 @@ ADMIN CREDS ---
 user: lisandro.batiancila@mlhuillier.com
 pass: p4ssw0rd_00
 
+<!-- ISSUE in cmake / debugging flutter application -->
+Delete these directories:
+The .cxx folder in android/app/
+The build folder in android/
+The .dart_tool folder
+The build folder in your project root
