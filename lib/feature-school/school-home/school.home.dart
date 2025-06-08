@@ -3,30 +3,23 @@ import 'dart:developer';
 import 'package:clean_arch2/core/color.dart';
 import 'package:clean_arch2/core/string.dart';
 import 'package:clean_arch2/core/text.style.dart';
-import 'package:clean_arch2/feature-school/pod-entry/pod_entry.pod.dart';
 import 'package:clean_arch2/feature-school/school-home/school.menu.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class SchoolHomePage extends ConsumerStatefulWidget {
+class SchoolHomePage extends StatefulWidget {
   const SchoolHomePage({super.key});
 
   @override
-  ConsumerState<SchoolHomePage> createState () => _SchoolHomePage();
+  State<SchoolHomePage> createState () => _SchoolHomePage();
 }
 
-class _SchoolHomePage extends ConsumerState<SchoolHomePage> {
+class _SchoolHomePage extends State<SchoolHomePage> {
   void onRegistration() {
     context.push("/school-registration");
   }
   
   void onLogin() {
-    bool teacherHasLoggedIn = ref.read(teacherPod).hasValue;
-    if (teacherHasLoggedIn && ref.read(teacherPod).value!.isNotEmpty) {
-      context.push("/school-teacher-dashboard");
-      return;
-    }
     context.push("/school-login");
   }
 

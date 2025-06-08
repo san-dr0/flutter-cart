@@ -4,7 +4,6 @@ import 'package:clean_arch2/feature-school/auth/presentation/school.login.dart';
 import 'package:clean_arch2/feature-school/registration/presentation/school.registration.dart';
 import 'package:clean_arch2/feature-school/school-home/school.home.dart';
 import 'package:clean_arch2/feature-school/teacher-dashboard/teacher.dashboard.dart';
-import 'package:clean_arch2/feature-school/update-student/update.student.dart';
 import 'package:clean_arch2/feature/admin/feature/home/pages/admin.home.dart';
 import 'package:clean_arch2/feature/admin/feature/users/pages/admin.user.list.page.dart';
 import 'package:clean_arch2/feature/auth/presentation/pages/login.dart';
@@ -82,7 +81,6 @@ GoRouter appRoutes = GoRouter(routes: [
   GoRoute(path: '/school-registration', builder: (context, state) => SchoolRegistration(),),
   GoRoute(path: '/school-login', builder: (context, state) => SchoolLoginPage(),),
   GoRoute(path: '/school-teacher-dashboard', builder: (context, state) => SchoolTeacherDashboardPage(),),
-  GoRoute(path: '/school-teacher-update-student', builder: (context, state) => SchoolUpdateStudent(),),
 ]);
 
 // ADD pages here, it it belongs to admin

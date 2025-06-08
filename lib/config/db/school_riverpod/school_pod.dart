@@ -75,8 +75,7 @@ class SchoolPod extends _$SchoolPod{
       List<StudentModel> studentList = [];
       SupabaseClient instance = Supabase.instance.client;
       var studentResp = await instance.from("students")
-        .select("id, teacher_id, fname, lname, age")
-        .eq("teacher_id", teacherId);
+        .select("id, teacher_id, fname, lname, age");
 
       for(var sp in studentResp) {
         studentList.add(StudentModel.fromJson(sp));
