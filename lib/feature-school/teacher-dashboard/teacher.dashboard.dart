@@ -30,9 +30,9 @@ class _SchoolTeacherDashboardPage extends ConsumerState<SchoolTeacherDashboardPa
     dashboardController.refreshCompleted();
   }
 
-  void onUpdateStudent (int studentId) async{
+  void onUpdateStudent (StudentModel student) async{
     var currentActiveTeacher = ref.read(teacherPod).value;
-    ref.read(teacherPod.notifier).updateStudent(currentActiveTeacher![0].id!, studentId, context);
+    ref.read(teacherPod.notifier).updateStudent(currentActiveTeacher![0].id!, student, context);
   }
 
   void onDeleteStudent () {
@@ -74,7 +74,7 @@ class _SchoolTeacherDashboardPage extends ConsumerState<SchoolTeacherDashboardPa
                               child: inkButton(
                                 tapped: (param) {
                                 onUpdateStudent(
-                                  studentList![index].id!,
+                                  studentList![index],
                                 );
                                 }, subTitle: "Update",
                                 bgColor: Colors.amber[900]!,
