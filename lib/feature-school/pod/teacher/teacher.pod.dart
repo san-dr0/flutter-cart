@@ -47,8 +47,8 @@ class TeacherPod extends AsyncNotifier<List<TeacherModel>> {
     return studentList;
   }
 
-  FutureOr<int> updateStudent(int teacherId, int studentId, BuildContext context) async {
-    var teacherResp = await ref.read(schoolPodProvider.notifier).updateStudent(teacherId, studentId);
+  FutureOr<int> updateStudent(int teacherId, StudentModel student, BuildContext context) async {
+    var teacherResp = await ref.read(schoolPodProvider.notifier).updateStudent(teacherId, student.id!);
     switch(teacherResp) {
       case -1:
         Fluttertoast.showToast(msg: somethingWentWrongTitle, toastLength: Toast.LENGTH_SHORT);
@@ -57,9 +57,15 @@ class TeacherPod extends AsyncNotifier<List<TeacherModel>> {
         Fluttertoast.showToast(msg: teacherCantDoActions, toastLength: Toast.LENGTH_SHORT);
       break;
       case 1:
-        context.push("/school-teacher-update-student");
+        context.push("/school-teacher-update-student", extra: student);
       break;
     } 
     return teacherResp;
+  } // these only check if the teacher has the authority to update certain student
+
+  Future<int?> updateStudentRecord(int teacherId, StudentModel student) async {
+    var studentUpdateResp = await ref.read(schoolPodProvider.notifier).updateStudentRecord(teacherId, student);
+
+    return studentUpdateResp;
   }
 }

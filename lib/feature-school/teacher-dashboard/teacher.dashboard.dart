@@ -26,12 +26,13 @@ class _SchoolTeacherDashboardPage extends ConsumerState<SchoolTeacherDashboardPa
   }
 
   void onRefreshTeacherDashboardController () {
+    getStudentList();
     dashboardController.refreshCompleted();
   }
 
-  void onUpdateStudent (int studentId) async{
+  void onUpdateStudent (StudentModel student) async{
     var currentActiveTeacher = ref.read(teacherPod).value;
-    ref.read(teacherPod.notifier).updateStudent(currentActiveTeacher![0].id!, studentId, context);
+    ref.read(teacherPod.notifier).updateStudent(currentActiveTeacher![0].id!, student, context);
   }
 
   void onDeleteStudent () {
@@ -50,6 +51,7 @@ class _SchoolTeacherDashboardPage extends ConsumerState<SchoolTeacherDashboardPa
       body: SafeArea(
         child: SmartRefresher(
           controller: dashboardController,
+          onRefresh: onRefreshTeacherDashboardController,
           child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: ListView.separated(
@@ -72,7 +74,7 @@ class _SchoolTeacherDashboardPage extends ConsumerState<SchoolTeacherDashboardPa
                               child: inkButton(
                                 tapped: (param) {
                                 onUpdateStudent(
-                                  studentList![index].id!,
+                                  studentList![index],
                                 );
                                 }, subTitle: "Update",
                                 bgColor: Colors.amber[900]!,

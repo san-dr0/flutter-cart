@@ -98,8 +98,7 @@ class SchoolPod extends _$SchoolPod{
         .select("id")
         .eq("teacher_id", teacherId)
         .eq("id", studentId);
-      log("teacherResp >>> $teacherId");
-      log(teacherResp.toString());
+        
       if (teacherResp.isEmpty) {
         return 0;
       }
@@ -113,4 +112,23 @@ class SchoolPod extends _$SchoolPod{
     }
   }
   
+  FutureOr<int?> updateStudentRecord (int teacherId, StudentModel student) async{
+    try{
+      SupabaseClient instance = Supabase.instance.client;
+      await instance.from("students")
+        .upsert({
+          "fname": student.firstname,
+          "lname": student.lastname,
+          "age": student.age,
+        });
+        
+      return 1;
+    }
+    catch(error) {
+      log('Errororor >>>> updateStudentRecord');
+      log(error.toString());
+
+      return -1;
+    }
+  }
 }
