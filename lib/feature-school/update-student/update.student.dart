@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:clean_arch2/core/color.dart';
 import 'package:clean_arch2/core/string.dart';
 import 'package:clean_arch2/feature-school/pod-entry/pod_entry.pod.dart';
