@@ -116,11 +116,11 @@ class SchoolPod extends _$SchoolPod{
     try{
       SupabaseClient instance = Supabase.instance.client;
       await instance.from("students")
-        .upsert({
+        .update({
           "fname": student.firstname,
           "lname": student.lastname,
           "age": student.age,
-        });
+        }).eq("id", student.id!);
         
       return 1;
     }
@@ -131,4 +131,6 @@ class SchoolPod extends _$SchoolPod{
       return -1;
     }
   }
+
+  
 }

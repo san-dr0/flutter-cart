@@ -1,21 +1,22 @@
-import 'dart:developer';
-
 import 'package:clean_arch2/core/color.dart';
 import 'package:clean_arch2/core/string.dart';
+import 'package:clean_arch2/feature-school/pod-entry/pod_entry.pod.dart';
 import 'package:clean_arch2/feature-school/registration/model/student.model.dart';
 import 'package:clean_arch2/feature/riverpod-feature/component/button/ink.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 // ignore: must_be_immutable
-class SchoolUpdateStudent extends StatefulWidget {
+class SchoolUpdateStudent extends ConsumerStatefulWidget {
   SchoolUpdateStudent({super.key, this.studentModel});
   StudentModel? studentModel;
 
   @override
-  State<SchoolUpdateStudent> createState () => _SchoolUpdateStudent();
+  ConsumerState<SchoolUpdateStudent> createState () => _SchoolUpdateStudent();
 }
 
-class _SchoolUpdateStudent extends State<SchoolUpdateStudent> {
+class _SchoolUpdateStudent extends ConsumerState<SchoolUpdateStudent> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _txtFname = TextEditingController();
   final TextEditingController _txtLname = TextEditingController();
@@ -29,7 +30,7 @@ class _SchoolUpdateStudent extends State<SchoolUpdateStudent> {
     _txtAge.text = widget.studentModel!.age.toString();
   }
 
-  void onUpdateStudentRecord() {
+  void onUpdateStudentRecord(int studentId) async {
     if (!_formKey.currentState!.validate()) {
       return;
     }
@@ -37,7 +38,16 @@ class _SchoolUpdateStudent extends State<SchoolUpdateStudent> {
     String fname = _txtFname.text;
     String lname = _txtLname.text;
     String age = _txtAge.text;
-    
+
+    var teacherId = ref.read(teacherPod).value![0].id;
+    StudentModel student = StudentModel(id: studentId, firstname: fname, lastname: lname, age: int.parse(age));
+    int? studentUpdateResp = await ref.read(teacherPod.notifier).updateStudentRecord(teacherId!, student);
+
+    if (studentUpdateResp! > 0) {
+      Fluttertoast.showToast(msg: schoolUpdateStudentRecord, toastLength: Toast.LENGTH_SHORT);
+      return;
+    }
+    Fluttertoast.showToast(msg: schoolUpdateStudentRecordFailed, toastLength: Toast.LENGTH_SHORT);
   }
 
   @override
@@ -97,7 +107,7 @@ class _SchoolUpdateStudent extends State<SchoolUpdateStudent> {
                       width: 150.0,
                       child: inkButton(
                         tapped: (param) {
-                          onUpdateStudentRecord();
+                          onUpdateStudentRecord(widget.studentModel!.id!);
                         },
                         subTitle: "Update",
                         splashColor: Colors.amber[900]!,
