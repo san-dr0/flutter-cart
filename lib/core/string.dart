@@ -89,3 +89,5 @@ const String studentRegistrationErrorTitle = "Student registration failed";
 const String schoolTeacherDashboardTitle = "Teacher Dashboard";
 const String teacherCantDoActions = "Sorry, but you are not allowed for this actions.";
 const String updateStudentTitle = "Update student";
+const String schoolUpdateStudentRecord = "Update student record was successfull.";
+const String schoolUpdateStudentRecordFailed = "Updating record has failed.";
