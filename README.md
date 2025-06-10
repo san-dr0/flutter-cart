@@ -19,6 +19,7 @@ An ecommerce flutter project
 <b>NestJS</b>
 <br/>
 <b>Deploy NestJS API to GCP using App Engine</b>
+<br/>
 ** <b>Command to generate Adapter for hive</b><br/>
 #flutter pub run build_runner build
 
