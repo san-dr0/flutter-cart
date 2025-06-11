@@ -13,8 +13,12 @@ class ApplicationApiService {
     return response.data;
   }
 
-  FutureOr<dynamic> postRequest({String baseUrl = "/", Object? data}) async {
-    var response = await dio.post(baseUrl, data: data);
+  FutureOr<dynamic> postRequest({String baseUrl = "/", required Map<String, dynamic> data}) async {
+    var response = await dio.post(baseUrl, data: data, options: Options(
+      headers: {
+        "Content-Type": "application/json"
+      }
+    ));
 
     return response.data;
   }

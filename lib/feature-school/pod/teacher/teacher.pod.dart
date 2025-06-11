@@ -28,16 +28,16 @@ class TeacherPod extends AsyncNotifier<List<TeacherModel>> {
   }
 
   FutureOr<void> loginTeacher(TeacherModel signIn, BuildContext context, bool isMounted) async{
-    var teacherResp = await ref.read(schoolPodProvider.notifier).loginTeacher(signIn);
+    var teacherResp = await ref.read(schoolPodProvider.notifier).loginTeacherV2(signIn);
     
-    if (teacherResp!.isEmpty) {
-      Fluttertoast.showToast(msg: invalidCredsTitle, toastLength: Toast.LENGTH_SHORT);
-      return;
-    }
+    // if (teacherResp!.isEmpty) {
+    //   Fluttertoast.showToast(msg: invalidCredsTitle, toastLength: Toast.LENGTH_SHORT);
+    //   return;
+    // }
 
-    state = AsyncValue.data(teacherResp);
-    if (!isMounted) return;
-    context.go("/school-teacher-dashboard");
+    // state = AsyncValue.data(teacherResp);
+    // if (!isMounted) return;
+    // context.go("/school-teacher-dashboard");
   }
 
   FutureOr<List<StudentModel>?> getStudentList (int teacherId) async{

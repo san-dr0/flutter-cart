@@ -158,7 +158,14 @@ class SchoolPod extends _$SchoolPod{
   FutureOr<int?> insertNewStudentRecordV2(StudentModel student) async{
     try{
       ApplicationApiService applicationApiService = ApplicationApiService();
-      var response = await applicationApiService.postRequest(baseUrl: "auth/");
+      Map<String, dynamic> studentRecord = {
+        "firstName": student.firstName,
+        "lastName": student.lastName,
+        "age": student.age,
+        "teacherId": student.teacherId
+      };
+      var response = await applicationApiService.postRequest(baseUrl: "auth/register-student", data: studentRecord);
+
       log("Response >>> ");
       log(response.toString());
 
@@ -166,6 +173,27 @@ class SchoolPod extends _$SchoolPod{
     }
     catch(error) {
       log("Error >>> insertNewStudentRecordV2");
+      log(error.toString());
+
+      return -1;
+    }
+  }
+
+  FutureOr<int?> loginTeacherV2(TeacherModel teacher) async {
+    try{
+      ApplicationApiService applicationApiService = ApplicationApiService();
+      Map<String, dynamic> teacherRecord = {
+        "id": teacher.id,
+        "firstName": teacher.fname,
+        "lastName": teacher.lname,
+      };
+
+      await applicationApiService.postRequest(baseUrl: "auth/teacher-login", data: teacherRecord);
+
+      return 1;
+    }
+    catch(error) {
+      log('Error >>> loginTeacherV2');
       log(error.toString());
 
       return -1;

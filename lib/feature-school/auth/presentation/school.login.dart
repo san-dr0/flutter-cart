@@ -36,6 +36,7 @@ class _SchoolLoginPage extends ConsumerState<SchoolLoginPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(schoolLoginPageTitle),
+        backgroundColor: goldColor,
       ),
       body: SafeArea(
         child: Padding(padding: EdgeInsets.all(10.0),
