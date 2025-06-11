@@ -22,7 +22,7 @@ class TeacherPod extends AsyncNotifier<List<TeacherModel>> {
   
   FutureOr<List<TeacherModel>> getTeacherList() async {
     List<TeacherModel> teacherList = [];
-    teacherList = await ref.read(schoolPodProvider.notifier).getTeacherList();
+    teacherList = await ref.read(schoolPodProvider.notifier).getTeacherListV2();
 
     return teacherList;
   }

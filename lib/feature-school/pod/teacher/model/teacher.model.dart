@@ -13,8 +13,8 @@ class TeacherModel {
     return TeacherModel(
       id: teacherJson['id'],
       courseId: teacherJson['course_id'],
-      fname: teacherJson['fname'] ?? '',
-      lname: teacherJson['lname'] ?? '',
+      fname: teacherJson['firstName'] ?? '',
+      lname: teacherJson['lastName'] ?? '',
       age: teacherJson['age']
     );
   }

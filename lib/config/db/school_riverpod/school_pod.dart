@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:clean_arch2/config/api-dio/dio-api.dart';
 import 'package:clean_arch2/feature-school/pod/teacher/model/teacher.model.dart';
 import 'package:clean_arch2/feature-school/registration/model/student.model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -40,9 +41,11 @@ class SchoolPod extends _$SchoolPod{
     List<TeacherModel> teacherList = [];
     SupabaseClient instance = Supabase.instance.client;
     var teacherResp = await instance.from("teachers").select("fname, lname, id, age");
+    
     for(var tp in teacherResp) {
       teacherList.add(TeacherModel.fromJson(tp));
     }
+
     return teacherList;
   }
 
@@ -132,5 +135,23 @@ class SchoolPod extends _$SchoolPod{
     }
   }
 
-  
+  // nestJS
+  FutureOr<List<TeacherModel>> getTeacherListV2() async{
+    try{
+      ApplicationApiService applicationApiService = ApplicationApiService();
+
+      var teacherRecord = await applicationApiService.getRequest(baseUrl: 'teacher/get-all-teachers');
+      List<TeacherModel> teacherList = [];
+      for(var tr in teacherRecord) {
+        teacherList.add(TeacherModel.fromJson(tr));
+      }
+      
+      return teacherList;
+    }
+    catch(error) {
+      log('Error >>> getTeacherListV2');
+      log(error.toString());
+      return [];
+    }
+  }
 }
