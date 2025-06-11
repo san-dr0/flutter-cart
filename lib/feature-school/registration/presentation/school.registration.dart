@@ -46,7 +46,7 @@ class _SchoolRegistration extends ConsumerState<SchoolRegistration> {
       return;
     }
     
-    StudentModel studentModel = StudentModel(firstname: firstname, lastname: lastname, age: int.parse(age), teacherId: choosenActionTeacher!.id);
+    StudentModel studentModel = StudentModel(firstName: firstname, lastName: lastname, age: int.parse(age), teacherId: choosenActionTeacher!.id);
     int? resp = await ref.read(studentPod.notifier).insertNewStudentRecord(studentModel);
 
     if (resp! == 0) {

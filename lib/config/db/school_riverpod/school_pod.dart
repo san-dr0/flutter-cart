@@ -22,8 +22,8 @@ class SchoolPod extends _$SchoolPod{
       await supaInstance.from("students")
         .insert([{
           "teacher_id": student.teacherId,
-          "fname": student.firstname,
-          "lname": student.lastname,
+          "fname": student.firstName,
+          "lname": student.lastName,
           "age": student.age,
         }]);
 
@@ -120,8 +120,8 @@ class SchoolPod extends _$SchoolPod{
       SupabaseClient instance = Supabase.instance.client;
       await instance.from("students")
         .update({
-          "fname": student.firstname,
-          "lname": student.lastname,
+          "fname": student.firstName,
+          "lname": student.lastName,
           "age": student.age,
         }).eq("id", student.id!);
         
@@ -152,6 +152,23 @@ class SchoolPod extends _$SchoolPod{
       log('Error >>> getTeacherListV2');
       log(error.toString());
       return [];
+    }
+  }
+
+  FutureOr<int?> insertNewStudentRecordV2(StudentModel student) async{
+    try{
+      ApplicationApiService applicationApiService = ApplicationApiService();
+      var response = await applicationApiService.postRequest(baseUrl: "auth/");
+      log("Response >>> ");
+      log(response.toString());
+
+      return 1;
+    }
+    catch(error) {
+      log("Error >>> insertNewStudentRecordV2");
+      log(error.toString());
+
+      return -1;
     }
   }
 }

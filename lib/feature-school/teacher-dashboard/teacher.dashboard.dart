@@ -62,8 +62,8 @@ class _SchoolTeacherDashboardPage extends ConsumerState<SchoolTeacherDashboardPa
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Lastname: ${studentList![index].lastname}"),
-                        Text("Firstname: ${studentList![index].firstname}"),
+                        Text("Lastname: ${studentList![index].lastName}"),
+                        Text("Firstname: ${studentList![index].firstName}"),
                         Text("Age: ${studentList![index].age}"),
                         const SizedBox(height: 8.0,),
                         Row(

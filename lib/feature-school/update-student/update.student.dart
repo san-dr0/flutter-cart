@@ -25,8 +25,8 @@ class _SchoolUpdateStudent extends ConsumerState<SchoolUpdateStudent> {
   @override
   void initState() {
     super.initState();
-    _txtFname.text = widget.studentModel!.firstname;
-    _txtLname.text = widget.studentModel!.lastname;
+    _txtFname.text = widget.studentModel!.firstName;
+    _txtLname.text = widget.studentModel!.lastName;
     _txtAge.text = widget.studentModel!.age.toString();
   }
 
@@ -40,7 +40,7 @@ class _SchoolUpdateStudent extends ConsumerState<SchoolUpdateStudent> {
     String age = _txtAge.text;
 
     var teacherId = ref.read(teacherPod).value![0].id;
-    StudentModel student = StudentModel(id: studentId, firstname: fname, lastname: lname, age: int.parse(age));
+    StudentModel student = StudentModel(id: studentId, firstName: fname, lastName: lname, age: int.parse(age));
     int? studentUpdateResp = await ref.read(teacherPod.notifier).updateStudentRecord(teacherId!, student);
 
     if (studentUpdateResp! > 0) {

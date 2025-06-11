@@ -8,9 +8,15 @@ class ApplicationApiService {
   }
 
   FutureOr<dynamic> getRequest({String baseUrl="/"}) async {
-    var record = await dio.get(baseUrl);
+    var response = await dio.get(baseUrl);
     
-    return record.data;
+    return response.data;
+  }
+
+  FutureOr<dynamic> postRequest({String baseUrl = "/", Object? data}) async {
+    var response = await dio.post(baseUrl, data: data);
+
+    return response.data;
   }
 
 }
