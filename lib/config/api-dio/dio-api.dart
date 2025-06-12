@@ -18,7 +18,8 @@ class ApplicationApiService {
   FutureOr<dynamic> postRequest({String baseUrl = "/", required Map<String, dynamic> data}) async {
     var response = await dio.post(baseUrl, data: data, options: Options(
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Accept": "application/json"
       }
     ));
 
