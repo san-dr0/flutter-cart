@@ -179,24 +179,26 @@ class SchoolPod extends _$SchoolPod{
     }
   }
 
-  FutureOr<int?> loginTeacherV2(TeacherModel teacher) async {
+  FutureOr<List<TeacherModel>?> loginTeacherV2(TeacherModel teacher) async {
     try{
       ApplicationApiService applicationApiService = ApplicationApiService();
+      List<TeacherModel> teacherInfo = [];
       Map<String, dynamic> teacherRecord = {
         "id": teacher.id,
         "firstName": teacher.fname,
         "lastName": teacher.lname,
       };
-
-      await applicationApiService.postRequest(baseUrl: "auth/teacher-login", data: teacherRecord);
-
-      return 1;
+      log("ID ${teacher.id}");
+      teacherInfo = await applicationApiService.postRequest(baseUrl: "auth/teacher-login", data: teacherRecord);
+      log("TeacherInfso >>> ");
+      log(teacherInfo.toString());
+      return teacherInfo;
     }
     catch(error) {
       log('Error >>> loginTeacherV2');
       log(error.toString());
 
-      return -1;
+      return null;
     }
   }
 }

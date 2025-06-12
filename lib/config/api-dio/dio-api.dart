@@ -1,10 +1,12 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 class ApplicationApiService {
   var dio = Dio();
   ApplicationApiService() {
-    dio.options.baseUrl = 'http://10.10.4.100:4001/';
+    dio.options.baseUrl = 'http://192.168.64.134:4000/';
   }
 
   FutureOr<dynamic> getRequest({String baseUrl="/"}) async {

@@ -12,7 +12,7 @@ class TeacherModel {
   factory TeacherModel.fromJson(Map<String, dynamic> teacherJson) {
     return TeacherModel(
       id: teacherJson['id'],
-      courseId: teacherJson['course_id'],
+      courseId: teacherJson['courseId'],
       fname: teacherJson['firstName'] ?? '',
       lname: teacherJson['lastName'] ?? '',
       age: teacherJson['age']
