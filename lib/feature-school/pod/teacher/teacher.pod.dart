@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:clean_arch2/config/db/school_riverpod/school_pod.dart';
 import 'package:clean_arch2/core/string.dart';
-import 'package:clean_arch2/feature-school/pod-entry/pod_entry.pod.dart';
 import 'package:clean_arch2/feature-school/pod/teacher/model/teacher.model.dart';
 import 'package:clean_arch2/feature-school/registration/model/student.model.dart';
 import 'package:flutter/material.dart';
@@ -25,19 +24,6 @@ class TeacherPod extends AsyncNotifier<List<TeacherModel>> {
     teacherList = await ref.read(schoolPodProvider.notifier).getTeacherListV2();
 
     return teacherList;
-  }
-
-  FutureOr<void> loginTeacher(TeacherModel signIn, BuildContext context, bool isMounted) async{
-    var teacherResp = await ref.read(schoolPodProvider.notifier).loginTeacherV2(signIn);
-    
-    if (teacherResp != null) {
-      Fluttertoast.showToast(msg: invalidCredsTitle, toastLength: Toast.LENGTH_SHORT);
-      return;
-    }
-
-    // state = AsyncValue.data(teacherResp);
-    if (!isMounted) return;
-    // context.go("/school-teacher-dashboard");
   }
 
   FutureOr<List<StudentModel>?> getStudentList (int teacherId) async{

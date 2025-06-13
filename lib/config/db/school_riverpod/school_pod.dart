@@ -183,16 +183,17 @@ class SchoolPod extends _$SchoolPod{
     try{
       ApplicationApiService applicationApiService = ApplicationApiService();
       List<TeacherModel> teacherInfo = [];
+      
       Map<String, dynamic> teacherRecord = {
         "id": teacher.id,
         "firstName": teacher.fname,
         "lastName": teacher.lname,
       };
+
       log("ID ${teacher.id}");
-      teacherInfo = await applicationApiService.postRequest(baseUrl: "auth/teacher-login", data: teacherRecord);
-      log("TeacherInfso >>> ");
-      log(teacherInfo.toString());
-      return teacherInfo;
+      var credsResp = await applicationApiService.postRequest(baseUrl: "auth/teacher-login", data: teacherRecord);
+      log(credsResp.data.toString());
+      return [];
     }
     catch(error) {
       log('Error >>> loginTeacherV2');

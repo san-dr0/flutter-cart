@@ -28,7 +28,7 @@ class _SchoolLoginPage extends ConsumerState<SchoolLoginPage> {
     String teacherFname = _teacherFname.text;
     String teacherLname = _teacherLname.text;
     TeacherModel teacherModel = TeacherModel(id: int.parse(teacherID), fname: teacherFname, lname: teacherLname);
-    ref.read(teacherPod.notifier).loginTeacher(teacherModel, context, mounted);
+    ref.read(schoolAuthPod.notifier).loginTeacher(teacherModel, context, mounted);
   }
 
   @override
