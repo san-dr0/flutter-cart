@@ -53,7 +53,7 @@ class _SchoolAttendancePage extends ConsumerState<SchoolAttendancePage> {
             return Card(
               child: Padding(padding: const EdgeInsets.all(10.0),
                 child: Row(
-                  
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,11 +64,11 @@ class _SchoolAttendancePage extends ConsumerState<SchoolAttendancePage> {
                     ),
                     Row(
                     mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      iconButton(buttonAction: onButtonAction, icon: Icons.check, color: Colors.green[400]!),
-                      iconButton(buttonAction: onButtonAction, icon: Icons.close, color: Colors.red[600]!),
-                    ],
-                                        )
+                      children: [
+                        iconButton(buttonAction: onButtonAction, icon: Icons.check, color: Colors.green[400]!),
+                        iconButton(buttonAction: onButtonAction, icon: Icons.close, color: Colors.red[600]!),
+                      ],
+                    )
                   ],
                 ),
               ),

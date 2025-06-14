@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:clean_arch2/config/api-dio/dio-api.dart';
+import 'package:clean_arch2/config/api-dio/generic.dart';
 import 'package:clean_arch2/feature-school/pod/teacher/model/teacher.model.dart';
 import 'package:clean_arch2/feature-school/registration/model/student.model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -221,5 +222,26 @@ class SchoolPod extends _$SchoolPod{
 
       return [];
     }
+  }
+
+  FutureOr<List<StudentModel>> getStudentListV2(int teacherId) async{
+    try{
+      ApplicationApiService applicationApiService = ApplicationApiService();
+      var studentResp = await applicationApiService.getRequest(baseUrl: 'student/$teacherId');
+      List<StudentModel> studentList = [];
+
+      for(var sr in studentResp.data) {
+        studentList.add(StudentModel.fromJson(sr));
+      }
+
+      return studentList;
+    }
+    catch(error) {
+      log('Errror >>> ');
+      log(error.toString());
+
+      return [];
+    }
+
   }
 }

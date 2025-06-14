@@ -18,7 +18,7 @@ class SchoolTeacherDashboardPage extends ConsumerStatefulWidget {
 }
 
 class _SchoolTeacherDashboardPage extends ConsumerState<SchoolTeacherDashboardPage> {
-  List<StudentModel>? studentList = [];
+  List<StudentModel> studentList = [];
   RefreshController dashboardController = RefreshController();
 
   @override
@@ -28,7 +28,11 @@ class _SchoolTeacherDashboardPage extends ConsumerState<SchoolTeacherDashboardPa
   }
   void getStudentList() async {
     var teacherInfo = ref.read(schoolAuthPod).value;
-    var studentListResp = await ref.read(teacherPod.notifier).getStudentList(teacherInfo!.id!);
+    if (teacherInfo == null) {
+      return;
+    }
+    var studentListResp = await ref.read(teacherPod.notifier).getStudentListV2(teacherInfo.id!);
+
     setState(() {
       studentList = studentListResp;
     });
@@ -85,9 +89,9 @@ class _SchoolTeacherDashboardPage extends ConsumerState<SchoolTeacherDashboardPa
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Lastname: ${studentList![index].lastName}"),
-                        Text("Firstname: ${studentList![index].firstName}"),
-                        Text("Age: ${studentList![index].age}"),
+                        Text("Lastname: ${studentList[index].lastName}"),
+                        Text("Firstname: ${studentList[index].firstName}"),
+                        Text("Age: ${studentList[index].age}"),
                         const SizedBox(height: 8.0,),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -97,7 +101,7 @@ class _SchoolTeacherDashboardPage extends ConsumerState<SchoolTeacherDashboardPa
                               child: inkButton(
                                 tapped: (param) {
                                 onUpdateStudent(
-                                  studentList![index],
+                                  studentList[index],
                                 );
                                 }, subTitle: "Update",
                                 bgColor: Colors.amber[900]!,
@@ -125,7 +129,7 @@ class _SchoolTeacherDashboardPage extends ConsumerState<SchoolTeacherDashboardPa
               separatorBuilder: (context, index) {
                 return SizedBox(height: 8.0,);
               },
-              itemCount: studentList!.length
+              itemCount: studentList.length
             ),
           ),
         )
