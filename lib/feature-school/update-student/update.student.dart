@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:clean_arch2/core/color.dart';
 import 'package:clean_arch2/core/string.dart';
@@ -26,7 +27,7 @@ class _SchoolUpdateStudent extends ConsumerState<SchoolUpdateStudent> {
   final TextEditingController _txtLname = TextEditingController();
   final TextEditingController _txtAge = TextEditingController();
   ImagePicker _imagePicker = ImagePicker();
-  XFile? selectedImage;
+  List<XFile>? selectedImage;
 
   @override
   void initState() {
@@ -64,7 +65,7 @@ class _SchoolUpdateStudent extends ConsumerState<SchoolUpdateStudent> {
       if (xFile != null) {
         pickedFiles.add(xFile);
         setState(() {
-          selectedImage = xFile;
+          selectedImage = pickedFiles;
         });
       }
     }
@@ -99,6 +100,9 @@ class _SchoolUpdateStudent extends ConsumerState<SchoolUpdateStudent> {
                       iconSize: 50.0
                     ),
                     Text(schoolEditProfile),
+                    // Image.file(File(
+                    //   selectedImage![0].path
+                    // )),
                     TextFormField(
                       controller: _txtFname,
                       decoration: _inputDecoration(label: "Firstname"),
