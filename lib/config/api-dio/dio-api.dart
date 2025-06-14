@@ -10,10 +10,11 @@ class ApplicationApiService {
     dio.options.baseUrl = 'http://10.10.4.100:4000/';
   }
 
-  FutureOr<dynamic> getRequest({String baseUrl="/"}) async {
+  FutureOr<GenericModel> getRequest({String baseUrl="/"}) async {
     var response = await dio.get(baseUrl);
     
-    return response.data;
+    GenericModel genericModel = GenericModel.factory(response.data);
+    return genericModel;
   }
 
   FutureOr<GenericModel> postRequest({String baseUrl = "/", required Map<String, dynamic> data}) async {

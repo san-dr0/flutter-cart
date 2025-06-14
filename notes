@@ -8,3 +8,9 @@ The .cxx folder in android/app/
 The build folder in android/
 The .dart_tool folder
 The build folder in your project root
+
+<!-- FEATURE to add -->
+*) Enrollments
+*) Attendance
+*) Scoring System
+*) Yearly / Monthly / Daily reports for specific students

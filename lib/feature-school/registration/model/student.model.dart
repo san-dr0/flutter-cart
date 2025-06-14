@@ -13,10 +13,10 @@ class StudentModel {
   factory StudentModel.fromJson(Map<String, dynamic> studentJson) {
     return StudentModel(
       id: studentJson['id'] ?? 0,
-      firstName: studentJson['fname'], 
-      lastName: studentJson['lname'], 
+      firstName: studentJson['firstName'], 
+      lastName: studentJson['lastName'], 
       age: studentJson['age'],
-      teacherId: studentJson["teacher_id"]
+      teacherId: studentJson["teacherId"]
     );
   }
 }

@@ -142,7 +142,7 @@ class SchoolPod extends _$SchoolPod{
 
       var teacherRecord = await applicationApiService.getRequest(baseUrl: 'teacher/get-all-teachers');
       List<TeacherModel> teacherList = [];
-      for(var tr in teacherRecord) {
+      for(var tr in teacherRecord.data) {
         teacherList.add(TeacherModel.fromJson(tr));
       }
       
@@ -200,6 +200,26 @@ class SchoolPod extends _$SchoolPod{
       log(error.toString());
 
       return null;
+    }
+  }
+
+  FutureOr<List<StudentModel>> getAllStudentForAttendance(int teacherId) async {
+    try{
+      List<StudentModel> studentList = [];
+      ApplicationApiService applicationApiService = ApplicationApiService();
+      var studentRecord = await applicationApiService.getRequest(baseUrl: 'teacher/get-all-students-for-attendance/$teacherId');
+      
+      for(var sr in studentRecord.data) {
+        studentList.add(StudentModel.fromJson(sr));
+      }
+
+      return studentList;
+    }
+    catch(error) {
+      log('Error --- getAllStudentForAttendance');
+      log(error.toString());
+
+      return [];
     }
   }
 }

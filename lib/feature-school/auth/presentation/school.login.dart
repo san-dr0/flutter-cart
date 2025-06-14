@@ -15,9 +15,9 @@ class SchoolLoginPage extends ConsumerStatefulWidget {
 
 class _SchoolLoginPage extends ConsumerState<SchoolLoginPage> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _teacherID = TextEditingController();
-  final TextEditingController _teacherFname = TextEditingController();
-  final TextEditingController _teacherLname = TextEditingController();
+  final TextEditingController _teacherID = TextEditingController(text: '1');
+  final TextEditingController _teacherFname = TextEditingController(text: 'Teacher1');
+  final TextEditingController _teacherLname = TextEditingController(text: 'Teacher1');
 
   void onLoginTeacher () {
     if (!_formKey.currentState!.validate()) {

@@ -4,9 +4,11 @@ import 'package:clean_arch2/core/color.dart';
 import 'package:clean_arch2/core/string.dart';
 import 'package:clean_arch2/feature-school/pod-entry/pod_entry.pod.dart';
 import 'package:clean_arch2/feature-school/registration/model/student.model.dart';
+import 'package:clean_arch2/feature-school/teacher-dashboard/presentation/teacher.nav.dart';
 import 'package:clean_arch2/feature/riverpod-feature/component/button/ink.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 class SchoolTeacherDashboardPage extends ConsumerStatefulWidget {
@@ -46,6 +48,18 @@ class _SchoolTeacherDashboardPage extends ConsumerState<SchoolTeacherDashboardPa
 
   }
 
+  void studentAttendance() {
+    context.push('/school-teacher-attendance');
+  }
+
+  void studentScoring() {
+
+  }
+
+  void studentReports () {
+
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -53,6 +67,9 @@ class _SchoolTeacherDashboardPage extends ConsumerState<SchoolTeacherDashboardPa
       appBar: AppBar(
         title: Text(schoolTeacherDashboardTitle),
         backgroundColor: goldColor,
+        actions: [
+          ...teacherNav(studentAttendance, studentScoring, studentReports)
+        ],
       ),
       body: SafeArea(
         child: SmartRefresher(
