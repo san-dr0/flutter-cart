@@ -19,10 +19,17 @@ class _SchoolTeacherDashboardPage extends ConsumerState<SchoolTeacherDashboardPa
   List<StudentModel>? studentList = [];
   RefreshController dashboardController = RefreshController();
 
+  @override
+  void initState() {
+    super.initState();
+    getStudentList();
+  }
   void getStudentList() async {
-    var teacherInfo = ref.read(teacherPod).value;
-    var studentListResp = await ref.read(teacherPod.notifier).getStudentList(teacherInfo![0].id!);
-    studentList = studentListResp;
+    var teacherInfo = ref.read(schoolAuthPod).value;
+    var studentListResp = await ref.read(teacherPod.notifier).getStudentList(teacherInfo!.id!);
+    setState(() {
+      studentList = studentListResp;
+    });
   }
 
   void onRefreshTeacherDashboardController () {
@@ -31,8 +38,8 @@ class _SchoolTeacherDashboardPage extends ConsumerState<SchoolTeacherDashboardPa
   }
 
   void onUpdateStudent (StudentModel student) async{
-    var currentActiveTeacher = ref.read(teacherPod).value;
-    ref.read(teacherPod.notifier).updateStudent(currentActiveTeacher![0].id!, student, context);
+    var currentActiveTeacher = ref.read(schoolAuthPod).value;
+    ref.read(teacherPod.notifier).updateStudent(currentActiveTeacher!.id!, student, context);
   }
 
   void onDeleteStudent () {
@@ -41,7 +48,6 @@ class _SchoolTeacherDashboardPage extends ConsumerState<SchoolTeacherDashboardPa
 
   @override
   Widget build(BuildContext context) {
-    getStudentList();
 
     return Scaffold(
       appBar: AppBar(

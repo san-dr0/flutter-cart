@@ -39,7 +39,7 @@ class _SchoolUpdateStudent extends ConsumerState<SchoolUpdateStudent> {
     String lname = _txtLname.text;
     String age = _txtAge.text;
 
-    var teacherId = ref.read(teacherPod).value![0].id;
+    var teacherId = ref.read(schoolAuthPod).value!.id!;
     StudentModel student = StudentModel(id: studentId, firstName: fname, lastName: lname, age: int.parse(age));
     int? studentUpdateResp = await ref.read(teacherPod.notifier).updateStudentRecord(teacherId!, student);
 

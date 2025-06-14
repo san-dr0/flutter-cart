@@ -190,10 +190,10 @@ class SchoolPod extends _$SchoolPod{
         "lastName": teacher.lname,
       };
 
-      log("ID ${teacher.id}");
       var credsResp = await applicationApiService.postRequest(baseUrl: "auth/teacher-login", data: teacherRecord);
-      log(credsResp.data.toString());
-      return [];
+      teacherInfo.add(TeacherModel.fromJson(credsResp.data[0]));
+
+      return teacherInfo;
     }
     catch(error) {
       log('Error >>> loginTeacherV2');

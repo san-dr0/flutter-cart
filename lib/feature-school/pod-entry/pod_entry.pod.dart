@@ -14,6 +14,6 @@ var teacherPod = AsyncNotifierProvider<TeacherPod, List<TeacherModel>>(() {
   return TeacherPod();
 });
 
-var schoolAuthPod = AsyncNotifierProvider<SchoolAuthPod, SchoolAuthModel>(() {
+var schoolAuthPod = AsyncNotifierProvider<SchoolAuthPod, SchoolAuthModel?>(() {
   return SchoolAuthPod();
 });
