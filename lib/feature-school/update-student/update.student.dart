@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:clean_arch2/core/color.dart';
 import 'package:clean_arch2/core/string.dart';
 import 'package:clean_arch2/feature-school/component/icon.button.dart';
@@ -7,6 +9,7 @@ import 'package:clean_arch2/feature/riverpod-feature/component/button/ink.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
 
 // ignore: must_be_immutable
 class SchoolUpdateStudent extends ConsumerStatefulWidget {
@@ -22,6 +25,8 @@ class _SchoolUpdateStudent extends ConsumerState<SchoolUpdateStudent> {
   final TextEditingController _txtFname = TextEditingController();
   final TextEditingController _txtLname = TextEditingController();
   final TextEditingController _txtAge = TextEditingController();
+  ImagePicker _imagePicker = ImagePicker();
+  XFile? selectedImage;
 
   @override
   void initState() {
@@ -51,8 +56,22 @@ class _SchoolUpdateStudent extends ConsumerState<SchoolUpdateStudent> {
     Fluttertoast.showToast(msg: schoolUpdateStudentRecordFailed, toastLength: Toast.LENGTH_SHORT);
   }
 
-  void onOpenGallery() {
+  void onOpenGallery() async {
+    try{
+      final List<XFile> pickedFiles = <XFile>[];
+      final XFile? xFile =await  _imagePicker.pickMedia();
 
+      if (xFile != null) {
+        pickedFiles.add(xFile);
+        setState(() {
+          selectedImage = xFile;
+        });
+      }
+    }
+    catch(error) {
+      log('Error --- onOpenGallery');
+      log(error.toString());
+    }
   }
 
   @override
