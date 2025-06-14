@@ -15,9 +15,9 @@ class SchoolLoginPage extends ConsumerStatefulWidget {
 
 class _SchoolLoginPage extends ConsumerState<SchoolLoginPage> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _teacherID = TextEditingController();
-  final TextEditingController _teacherFname = TextEditingController();
-  final TextEditingController _teacherLname = TextEditingController();
+  final TextEditingController _teacherID = TextEditingController(text: '1');
+  final TextEditingController _teacherFname = TextEditingController(text: 'Teacher1');
+  final TextEditingController _teacherLname = TextEditingController(text: 'Teacher1');
 
   void onLoginTeacher () {
     if (!_formKey.currentState!.validate()) {
@@ -28,7 +28,7 @@ class _SchoolLoginPage extends ConsumerState<SchoolLoginPage> {
     String teacherFname = _teacherFname.text;
     String teacherLname = _teacherLname.text;
     TeacherModel teacherModel = TeacherModel(id: int.parse(teacherID), fname: teacherFname, lname: teacherLname);
-    ref.read(teacherPod.notifier).loginTeacher(teacherModel, context, mounted);
+    ref.read(schoolAuthPod.notifier).loginTeacher(teacherModel, context, mounted);
   }
 
   @override
@@ -36,6 +36,7 @@ class _SchoolLoginPage extends ConsumerState<SchoolLoginPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(schoolLoginPageTitle),
+        backgroundColor: goldColor,
       ),
       body: SafeArea(
         child: Padding(padding: EdgeInsets.all(10.0),

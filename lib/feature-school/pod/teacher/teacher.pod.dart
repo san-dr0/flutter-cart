@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:clean_arch2/config/db/school_riverpod/school_pod.dart';
 import 'package:clean_arch2/core/string.dart';
-import 'package:clean_arch2/feature-school/pod-entry/pod_entry.pod.dart';
 import 'package:clean_arch2/feature-school/pod/teacher/model/teacher.model.dart';
 import 'package:clean_arch2/feature-school/registration/model/student.model.dart';
 import 'package:flutter/material.dart';
@@ -22,22 +21,9 @@ class TeacherPod extends AsyncNotifier<List<TeacherModel>> {
   
   FutureOr<List<TeacherModel>> getTeacherList() async {
     List<TeacherModel> teacherList = [];
-    teacherList = await ref.read(schoolPodProvider.notifier).getTeacherList();
+    teacherList = await ref.read(schoolPodProvider.notifier).getTeacherListV2();
 
     return teacherList;
-  }
-
-  FutureOr<void> loginTeacher(TeacherModel signIn, BuildContext context, bool isMounted) async{
-    var teacherResp = await ref.read(schoolPodProvider.notifier).loginTeacher(signIn);
-    
-    if (teacherResp!.isEmpty) {
-      Fluttertoast.showToast(msg: invalidCredsTitle, toastLength: Toast.LENGTH_SHORT);
-      return;
-    }
-
-    state = AsyncValue.data(teacherResp);
-    if (!isMounted) return;
-    context.go("/school-teacher-dashboard");
   }
 
   FutureOr<List<StudentModel>?> getStudentList (int teacherId) async{
@@ -67,5 +53,15 @@ class TeacherPod extends AsyncNotifier<List<TeacherModel>> {
     var studentUpdateResp = await ref.read(schoolPodProvider.notifier).updateStudentRecord(teacherId, student);
 
     return studentUpdateResp;
+  }
+  FutureOr<List<StudentModel>> getStudentListV2(int teacherId) async {
+    var studentRecord = await ref.read(schoolPodProvider.notifier).getStudentListV2(teacherId);
+
+    return studentRecord;
+  }
+
+  FutureOr<List<StudentModel>> getAllStudentForAttendance(int teacherId) async {    
+    var studentList = await ref.read(schoolPodProvider.notifier).getAllStudentForAttendance(teacherId);
+    return studentList;
   }
 }

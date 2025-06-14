@@ -91,3 +91,5 @@ const String teacherCantDoActions = "Sorry, but you are not allowed for this act
 const String updateStudentTitle = "Update student";
 const String schoolUpdateStudentRecord = "Update student record was successfull.";
 const String schoolUpdateStudentRecordFailed = "Updating record has failed.";
+const String schoolAttendanceTitle = "Attendance";
+const String schoolEditProfile = "Edit profile";

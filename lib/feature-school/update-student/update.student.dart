@@ -1,5 +1,6 @@
 import 'package:clean_arch2/core/color.dart';
 import 'package:clean_arch2/core/string.dart';
+import 'package:clean_arch2/feature-school/component/icon.button.dart';
 import 'package:clean_arch2/feature-school/pod-entry/pod_entry.pod.dart';
 import 'package:clean_arch2/feature-school/registration/model/student.model.dart';
 import 'package:clean_arch2/feature/riverpod-feature/component/button/ink.dart';
@@ -25,8 +26,8 @@ class _SchoolUpdateStudent extends ConsumerState<SchoolUpdateStudent> {
   @override
   void initState() {
     super.initState();
-    _txtFname.text = widget.studentModel!.firstname;
-    _txtLname.text = widget.studentModel!.lastname;
+    _txtFname.text = widget.studentModel!.firstName;
+    _txtLname.text = widget.studentModel!.lastName;
     _txtAge.text = widget.studentModel!.age.toString();
   }
 
@@ -39,15 +40,19 @@ class _SchoolUpdateStudent extends ConsumerState<SchoolUpdateStudent> {
     String lname = _txtLname.text;
     String age = _txtAge.text;
 
-    var teacherId = ref.read(teacherPod).value![0].id;
-    StudentModel student = StudentModel(id: studentId, firstname: fname, lastname: lname, age: int.parse(age));
-    int? studentUpdateResp = await ref.read(teacherPod.notifier).updateStudentRecord(teacherId!, student);
+    var teacherId = ref.read(schoolAuthPod).value!.id!;
+    StudentModel student = StudentModel(id: studentId, firstName: fname, lastName: lname, age: int.parse(age));
+    int? studentUpdateResp = await ref.read(teacherPod.notifier).updateStudentRecord(teacherId, student);
 
     if (studentUpdateResp! > 0) {
       Fluttertoast.showToast(msg: schoolUpdateStudentRecord, toastLength: Toast.LENGTH_SHORT);
       return;
     }
     Fluttertoast.showToast(msg: schoolUpdateStudentRecordFailed, toastLength: Toast.LENGTH_SHORT);
+  }
+
+  void onOpenGallery() {
+
   }
 
   @override
@@ -68,6 +73,13 @@ class _SchoolUpdateStudent extends ConsumerState<SchoolUpdateStudent> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    iconButton(
+                      buttonAction: onOpenGallery,
+                      icon: Icons.person,
+                      color: Colors.amber[900]!,
+                      iconSize: 50.0
+                    ),
+                    Text(schoolEditProfile),
                     TextFormField(
                       controller: _txtFname,
                       decoration: _inputDecoration(label: "Firstname"),

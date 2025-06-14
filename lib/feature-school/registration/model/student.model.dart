@@ -1,22 +1,22 @@
 class StudentModel {
   int? id;
-  String firstname;
-  String lastname;
+  String firstName;
+  String lastName;
   int age;
   int? teacherId;
 
   StudentModel({
     this.id, this.teacherId,
-    required this.firstname, required this.lastname, required this.age,
+    required this.firstName, required this.lastName, required this.age,
   });
 
   factory StudentModel.fromJson(Map<String, dynamic> studentJson) {
     return StudentModel(
       id: studentJson['id'] ?? 0,
-      firstname: studentJson['fname'], 
-      lastname: studentJson['lname'], 
+      firstName: studentJson['firstName'], 
+      lastName: studentJson['lastName'], 
       age: studentJson['age'],
-      teacherId: studentJson["teacher_id"]
+      teacherId: studentJson["teacherId"]
     );
   }
 }

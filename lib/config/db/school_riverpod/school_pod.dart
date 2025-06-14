@@ -1,5 +1,7 @@
 import 'dart:developer';
 
+import 'package:clean_arch2/config/api-dio/dio-api.dart';
+import 'package:clean_arch2/config/api-dio/generic.dart';
 import 'package:clean_arch2/feature-school/pod/teacher/model/teacher.model.dart';
 import 'package:clean_arch2/feature-school/registration/model/student.model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -21,8 +23,8 @@ class SchoolPod extends _$SchoolPod{
       await supaInstance.from("students")
         .insert([{
           "teacher_id": student.teacherId,
-          "fname": student.firstname,
-          "lname": student.lastname,
+          "fname": student.firstName,
+          "lname": student.lastName,
           "age": student.age,
         }]);
 
@@ -40,9 +42,11 @@ class SchoolPod extends _$SchoolPod{
     List<TeacherModel> teacherList = [];
     SupabaseClient instance = Supabase.instance.client;
     var teacherResp = await instance.from("teachers").select("fname, lname, id, age");
+    
     for(var tp in teacherResp) {
       teacherList.add(TeacherModel.fromJson(tp));
     }
+
     return teacherList;
   }
 
@@ -117,8 +121,8 @@ class SchoolPod extends _$SchoolPod{
       SupabaseClient instance = Supabase.instance.client;
       await instance.from("students")
         .update({
-          "fname": student.firstname,
-          "lname": student.lastname,
+          "fname": student.firstName,
+          "lname": student.lastName,
           "age": student.age,
         }).eq("id", student.id!);
         
@@ -132,5 +136,112 @@ class SchoolPod extends _$SchoolPod{
     }
   }
 
-  
+  // nestJS
+  FutureOr<List<TeacherModel>> getTeacherListV2() async{
+    try{
+      ApplicationApiService applicationApiService = ApplicationApiService();
+
+      var teacherRecord = await applicationApiService.getRequest(baseUrl: 'teacher/get-all-teachers');
+      List<TeacherModel> teacherList = [];
+      for(var tr in teacherRecord.data) {
+        teacherList.add(TeacherModel.fromJson(tr));
+      }
+      
+      return teacherList;
+    }
+    catch(error) {
+      log('Error >>> getTeacherListV2');
+      log(error.toString());
+      return [];
+    }
+  }
+
+  FutureOr<int?> insertNewStudentRecordV2(StudentModel student) async{
+    try{
+      ApplicationApiService applicationApiService = ApplicationApiService();
+      Map<String, dynamic> studentRecord = {
+        "firstName": student.firstName,
+        "lastName": student.lastName,
+        "age": student.age,
+        "teacherId": student.teacherId
+      };
+      var response = await applicationApiService.postRequest(baseUrl: "auth/register-student", data: studentRecord);
+
+      log("Response >>> ");
+      log(response.toString());
+
+      return 1;
+    }
+    catch(error) {
+      log("Error >>> insertNewStudentRecordV2");
+      log(error.toString());
+
+      return -1;
+    }
+  }
+
+  FutureOr<List<TeacherModel>?> loginTeacherV2(TeacherModel teacher) async {
+    try{
+      ApplicationApiService applicationApiService = ApplicationApiService();
+      List<TeacherModel> teacherInfo = [];
+      
+      Map<String, dynamic> teacherRecord = {
+        "id": teacher.id,
+        "firstName": teacher.fname,
+        "lastName": teacher.lname,
+      };
+
+      var credsResp = await applicationApiService.postRequest(baseUrl: "auth/teacher-login", data: teacherRecord);
+      teacherInfo.add(TeacherModel.fromJson(credsResp.data[0]));
+
+      return teacherInfo;
+    }
+    catch(error) {
+      log('Error >>> loginTeacherV2');
+      log(error.toString());
+
+      return null;
+    }
+  }
+
+  FutureOr<List<StudentModel>> getAllStudentForAttendance(int teacherId) async {
+    try{
+      List<StudentModel> studentList = [];
+      ApplicationApiService applicationApiService = ApplicationApiService();
+      var studentRecord = await applicationApiService.getRequest(baseUrl: 'teacher/get-all-students-for-attendance/$teacherId');
+      
+      for(var sr in studentRecord.data) {
+        studentList.add(StudentModel.fromJson(sr));
+      }
+
+      return studentList;
+    }
+    catch(error) {
+      log('Error --- getAllStudentForAttendance');
+      log(error.toString());
+
+      return [];
+    }
+  }
+
+  FutureOr<List<StudentModel>> getStudentListV2(int teacherId) async{
+    try{
+      ApplicationApiService applicationApiService = ApplicationApiService();
+      var studentResp = await applicationApiService.getRequest(baseUrl: 'student/$teacherId');
+      List<StudentModel> studentList = [];
+
+      for(var sr in studentResp.data) {
+        studentList.add(StudentModel.fromJson(sr));
+      }
+
+      return studentList;
+    }
+    catch(error) {
+      log('Errror >>> ');
+      log(error.toString());
+
+      return [];
+    }
+
+  }
 }

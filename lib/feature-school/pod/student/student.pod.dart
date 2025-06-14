@@ -11,7 +11,7 @@ class StudentPod extends AsyncNotifier<List<StudentModel>> {
   }
 
   FutureOr<int?> insertNewStudentRecord(StudentModel student) async {
-    int? resp = await ref.read(schoolPodProvider.notifier).insertNewStudentRecord(student);
+    int? resp = await ref.read(schoolPodProvider.notifier).insertNewStudentRecordV2(student);
 
     return resp;
   }

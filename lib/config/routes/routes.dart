@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:clean_arch2/config/db/hive_model/product_model/product_model.dart';
 import 'package:clean_arch2/config/db/hiver_riverpod/hiver_riverpod_model/hive_riverpod_model.dart';
+import 'package:clean_arch2/feature-school/attendance/presentation/school.attendance.dart';
 import 'package:clean_arch2/feature-school/auth/presentation/school.login.dart';
 import 'package:clean_arch2/feature-school/registration/model/student.model.dart';
 import 'package:clean_arch2/feature-school/registration/presentation/school.registration.dart';
@@ -90,6 +91,7 @@ GoRouter appRoutes = GoRouter(routes: [
     
     return  SchoolUpdateStudent(studentModel: studentRecord);
   }),
+  GoRoute(path: '/school-teacher-attendance', builder: (context, state) => SchoolAttendancePage(),)
 ]);
 
 // ADD pages here, it it belongs to admin
