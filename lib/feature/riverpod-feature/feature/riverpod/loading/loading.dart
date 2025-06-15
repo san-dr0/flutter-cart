@@ -11,6 +11,10 @@ class LoadingPod extends AsyncNotifier<bool> {
     return state.isLoading;
   }
 
+  FutureOr<void> showLoadingStatus () {
+    state = AsyncValue.data(true);
+  }
+
   FutureOr<void> setLoadingStatus() {
     state = AsyncValue.data(false);
   }

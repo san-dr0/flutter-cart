@@ -1,8 +1,10 @@
 import 'package:clean_arch2/core/color.dart';
 import 'package:clean_arch2/core/string.dart';
+import 'package:clean_arch2/feature-school/component/loading.dart';
 import 'package:clean_arch2/feature-school/pod-entry/pod_entry.pod.dart';
 import 'package:clean_arch2/feature-school/pod/teacher/model/teacher.model.dart';
 import 'package:clean_arch2/feature/riverpod-feature/component/button/ink.dart';
+import 'package:clean_arch2/feature/riverpod-feature/feature/riverpod/pod-entry/pod_entry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -18,21 +20,38 @@ class _SchoolLoginPage extends ConsumerState<SchoolLoginPage> {
   final TextEditingController _teacherID = TextEditingController(text: '1');
   final TextEditingController _teacherFname = TextEditingController(text: 'Teacher1');
   final TextEditingController _teacherLname = TextEditingController(text: 'Teacher1');
+  bool isLoading = false;
 
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(appLoading.notifier).setLoadingStatus();
+    });
+  }
   void onLoginTeacher () {
+    ref.read(appLoading.notifier).showLoadingStatus();
     if (!_formKey.currentState!.validate()) {
       return;
     }
+
+    setState(() {
+      isLoading = ref.read(appLoading).value!;
+    });
 
     String teacherID = _teacherID.text;
     String teacherFname = _teacherFname.text;
     String teacherLname = _teacherLname.text;
     TeacherModel teacherModel = TeacherModel(id: int.parse(teacherID), fname: teacherFname, lname: teacherLname);
     ref.read(schoolAuthPod.notifier).loginTeacher(teacherModel, context, mounted);
+    setState(() {
+      isLoading = ref.read(appLoading).value!;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: Text(schoolLoginPageTitle),
@@ -91,9 +110,11 @@ class _SchoolLoginPage extends ConsumerState<SchoolLoginPage> {
                         tapped: (param) => onLoginTeacher(),
                         subTitle: "Login",
                         splashColor: Colors.amber[900]!,
-                        bgColor: goldColor!
+                        bgColor: goldColor!,
                       ),
-                    )
+                    ),
+                    if (isLoading)
+                      loadingSpinner()
                   ],
                 ),
               ),

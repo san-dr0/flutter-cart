@@ -4,6 +4,7 @@ import 'package:clean_arch2/config/api-dio/dio-api.dart';
 import 'package:clean_arch2/config/api-dio/generic.dart';
 import 'package:clean_arch2/feature-school/pod/teacher/model/teacher.model.dart';
 import 'package:clean_arch2/feature-school/registration/model/student.model.dart';
+import 'package:clean_arch2/feature/riverpod-feature/feature/riverpod/pod-entry/pod_entry.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 part 'school_pod.g.dart';
@@ -193,12 +194,14 @@ class SchoolPod extends _$SchoolPod{
 
       var credsResp = await applicationApiService.postRequest(baseUrl: "auth/teacher-login", data: teacherRecord);
       teacherInfo.add(TeacherModel.fromJson(credsResp.data[0]));
+      ref.read(appLoading.notifier).setLoadingStatus();
 
       return teacherInfo;
     }
     catch(error) {
       log('Error >>> loginTeacherV2');
       log(error.toString());
+      ref.read(appLoading.notifier).setLoadingStatus();
 
       return null;
     }
