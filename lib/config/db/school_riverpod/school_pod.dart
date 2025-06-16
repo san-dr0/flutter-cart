@@ -249,11 +249,26 @@ class SchoolPod extends _$SchoolPod{
 
   FutureOr<int?> updateStudentRecordV2(int teacherId, StudentModel student, Map<String, dynamic> profileImage) {
     try{
+      ApplicationApiService applicationApiService = ApplicationApiService();
       
+      Map<String, dynamic> updatePayload = {
+        "teacherId": teacherId,
+        "profileImage": profileImage,
+        "studentId": student.id,
+        "age": student.age,
+        "studentFirstname": student.firstName,
+        "studentLastname": student.lastName,
+      };
+
+      applicationApiService.postRequest(baseUrl: 'student/update-student-record-with-image', data: updatePayload);
+
+      return 1;
     }
     catch(error) {
       log("Errror ----- updateStudentRecordV2");
       log(error.toString());
+
+      return -1;
     }
   }
 }
