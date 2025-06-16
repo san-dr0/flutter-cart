@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:clean_arch2/config/api-dio/dio-api.dart';
-import 'package:clean_arch2/config/api-dio/generic.dart';
 import 'package:clean_arch2/feature-school/pod/teacher/model/teacher.model.dart';
 import 'package:clean_arch2/feature-school/registration/model/student.model.dart';
 import 'package:clean_arch2/feature/riverpod-feature/feature/riverpod/pod-entry/pod_entry.dart';
@@ -246,5 +245,15 @@ class SchoolPod extends _$SchoolPod{
       return [];
     }
 
+  }
+
+  FutureOr<int?> updateStudentRecordV2(int teacherId, StudentModel student, Map<String, dynamic> profileImage) {
+    try{
+      
+    }
+    catch(error) {
+      log("Errror ----- updateStudentRecordV2");
+      log(error.toString());
+    }
   }
 }

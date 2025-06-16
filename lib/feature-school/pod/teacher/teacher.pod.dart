@@ -64,4 +64,8 @@ class TeacherPod extends AsyncNotifier<List<TeacherModel>> {
     var studentList = await ref.read(schoolPodProvider.notifier).getAllStudentForAttendance(teacherId);
     return studentList;
   }
+
+  FutureOr<int?> updateStudentRecordV2(int teacherId, StudentModel student, Map<String, dynamic> profileImage) async {
+    return await ref.read(schoolPodProvider.notifier).updateStudentRecordV2(teacherId, student, profileImage);
+  }
 }

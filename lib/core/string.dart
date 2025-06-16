@@ -93,3 +93,4 @@ const String schoolUpdateStudentRecord = "Update student record was successfull.
 const String schoolUpdateStudentRecordFailed = "Updating record has failed.";
 const String schoolAttendanceTitle = "Attendance";
 const String schoolEditProfile = "Edit profile";
+const String pleaseSelectImageTitle = "Please select image";
