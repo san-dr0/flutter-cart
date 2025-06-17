@@ -42,11 +42,6 @@ class _SchoolUpdateStudent extends ConsumerState<SchoolUpdateStudent> {
       return;
     }
 
-    if (selectedImage == null) {
-      Fluttertoast.showToast(msg: pleaseSelectImageTitle, toastLength: Toast.LENGTH_SHORT);
-      return;
-    }
-
     String fname = _txtFname.text;
     String lname = _txtLname.text;
     String age = _txtAge.text;
@@ -57,7 +52,13 @@ class _SchoolUpdateStudent extends ConsumerState<SchoolUpdateStudent> {
       "image": selectedImage
     };
 
-    int? studentUpdateResp = await ref.read(teacherPod.notifier).updateStudentRecordV2(teacherId, student, profileImage);
+    if (selectedImage == null) {
+      Fluttertoast.showToast(msg: pleaseSelectImageTitle, toastLength: Toast.LENGTH_SHORT);
+      await ref.read(teacherPod.notifier).updateStudentRecordV2WithoutImage(teacherId, student);
+      return;
+    }
+
+    int? studentUpdateResp = await ref.read(teacherPod.notifier).updateStudentRecordV2WithImage(teacherId, student, profileImage);
 
     if (studentUpdateResp! > 0) {
       Fluttertoast.showToast(msg: schoolUpdateStudentRecord, toastLength: Toast.LENGTH_SHORT);

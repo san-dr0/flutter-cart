@@ -80,6 +80,17 @@ class _SchoolTeacherDashboardPage extends ConsumerState<SchoolTeacherDashboardPa
           ...teacherNav(studentAttendance, studentScoring, studentReports, onGoToHome)
         ],
       ),
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            DrawerHeader(
+              child: Column(
+                children: [],
+              ),
+            )
+          ],
+        ),
+      ),
       body: SafeArea(
         child: SmartRefresher(
           controller: dashboardController,

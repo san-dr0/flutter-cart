@@ -247,7 +247,20 @@ class SchoolPod extends _$SchoolPod{
 
   }
 
-  FutureOr<int?> updateStudentRecordV2(int teacherId, StudentModel student, Map<String, dynamic> profileImage) {
+  FutureOr<int?> updateStudentRecordV2WithoutImage(int teacherId, StudentModel student) {
+    try{
+      
+      return 1;
+    }
+    catch(error) {
+      log('updateStudentRecordV2WithoutImage >>> ');
+      log(error.toString());
+
+      return -1;
+    }
+  }
+
+  FutureOr<int?> updateStudentRecordV2WithImage(int teacherId, StudentModel student, Map<String, dynamic> profileImage) {
     try{
       ApplicationApiService applicationApiService = ApplicationApiService();
       
