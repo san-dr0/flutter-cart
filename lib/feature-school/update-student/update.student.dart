@@ -48,17 +48,14 @@ class _SchoolUpdateStudent extends ConsumerState<SchoolUpdateStudent> {
 
     var teacherId = ref.read(schoolAuthPod).value!.id!;
     StudentModel student = StudentModel(id: studentId, firstName: fname, lastName: lname, age: int.parse(age));
-    Map<String, dynamic> profileImage = {
-      "image": selectedImage
-    };
 
     if (selectedImage == null) {
-      Fluttertoast.showToast(msg: pleaseSelectImageTitle, toastLength: Toast.LENGTH_SHORT);
-      await ref.read(teacherPod.notifier).updateStudentRecordV2WithoutImage(teacherId, student);
+      dynamic updateResp = await ref.read(teacherPod.notifier).updateStudentRecordV2WithoutImage(teacherId, student);
+      Fluttertoast.showToast(msg: updateResp, toastLength: Toast.LENGTH_SHORT);
       return;
     }
 
-    int? studentUpdateResp = await ref.read(teacherPod.notifier).updateStudentRecordV2WithImage(teacherId, student, profileImage);
+    int? studentUpdateResp = await ref.read(teacherPod.notifier).updateStudentRecordV2WithImage(teacherId, student, selectedImage);
 
     if (studentUpdateResp! > 0) {
       Fluttertoast.showToast(msg: schoolUpdateStudentRecord, toastLength: Toast.LENGTH_SHORT);

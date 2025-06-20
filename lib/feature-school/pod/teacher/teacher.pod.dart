@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:clean_arch2/config/db/school_riverpod/school_pod.dart';
 import 'package:clean_arch2/core/string.dart';
@@ -8,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 
 class TeacherPod extends AsyncNotifier<List<TeacherModel>> {
   @override
@@ -65,11 +67,13 @@ class TeacherPod extends AsyncNotifier<List<TeacherModel>> {
     return studentList;
   }
 
-  FutureOr<int?> updateStudentRecordV2WithoutImage(int teacherId, StudentModel student) async {
-    return await ref.read(schoolPodProvider.notifier).updateStudentRecordV2WithoutImage(teacherId, student);
+  FutureOr<dynamic> updateStudentRecordV2WithoutImage(int teacherId, StudentModel student) async {
+    dynamic record = await ref.read(schoolPodProvider.notifier).updateStudentRecordV2WithoutImage(teacherId, student);
+    
+    return record;
   }
 
-  FutureOr<int?> updateStudentRecordV2WithImage(int teacherId, StudentModel student, Map<String, dynamic> profileImage) async {
+  FutureOr<int?> updateStudentRecordV2WithImage(int teacherId, StudentModel student, List<XFile>? profileImage) async {
     return await ref.read(schoolPodProvider.notifier).updateStudentRecordV2WithImage(teacherId, student, profileImage);
   }
   

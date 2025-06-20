@@ -30,4 +30,18 @@ class ApplicationApiService {
     return genericModel;
   }
 
+  FutureOr<GenericModel?> postRequestWithImage({String baseUrl = "/", required FormData data}) async {
+    log(data.toString());
+    await dio.post(
+      baseUrl,
+      data: data,
+      options: Options(
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      )
+    );
+
+    return null;
+  }
 }
