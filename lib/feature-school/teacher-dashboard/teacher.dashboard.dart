@@ -26,6 +26,7 @@ class _SchoolTeacherDashboardPage extends ConsumerState<SchoolTeacherDashboardPa
     super.initState();
     getStudentList();
   }
+
   void getStudentList() async {
     var teacherInfo = ref.read(schoolAuthPod).value;
     if (teacherInfo == null) {
@@ -64,6 +65,10 @@ class _SchoolTeacherDashboardPage extends ConsumerState<SchoolTeacherDashboardPa
 
   }
 
+  void onGoToHome() {
+    context.go('/school-home');
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -72,8 +77,19 @@ class _SchoolTeacherDashboardPage extends ConsumerState<SchoolTeacherDashboardPa
         title: Text(schoolTeacherDashboardTitle),
         backgroundColor: goldColor,
         actions: [
-          ...teacherNav(studentAttendance, studentScoring, studentReports)
+          ...teacherNav(studentAttendance, studentScoring, studentReports, onGoToHome)
         ],
+      ),
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            DrawerHeader(
+              child: Column(
+                children: [],
+              ),
+            )
+          ],
+        ),
       ),
       body: SafeArea(
         child: SmartRefresher(

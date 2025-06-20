@@ -11,7 +11,7 @@ class GenericModel<T> {
     return GenericModel(
       statusCode: genericData['statusCode'] ?? 0, 
       message: genericData['message'] ?? '',
-      data: genericData['data'],
+      data: genericData['data'] ?? '',
     );
   }
 }

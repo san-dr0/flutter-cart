@@ -4,8 +4,11 @@ import 'package:clean_arch2/config/api-dio/dio-api.dart';
 import 'package:clean_arch2/config/api-dio/generic.dart';
 import 'package:clean_arch2/feature-school/pod/teacher/model/teacher.model.dart';
 import 'package:clean_arch2/feature-school/registration/model/student.model.dart';
+import 'package:clean_arch2/feature/riverpod-feature/feature/riverpod/pod-entry/pod_entry.dart';
+import 'package:dio/dio.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' as Supabase;
 part 'school_pod.g.dart';
 
 @riverpod
@@ -18,7 +21,7 @@ class SchoolPod extends _$SchoolPod{
 
   FutureOr<int?> insertNewStudentRecord(StudentModel student) async {
     try{
-      SupabaseClient supaInstance = Supabase.instance.client;
+      Supabase.SupabaseClient supaInstance = Supabase.Supabase.instance.client;
       
       await supaInstance.from("students")
         .insert([{
@@ -40,7 +43,7 @@ class SchoolPod extends _$SchoolPod{
 
   FutureOr<List<TeacherModel>> getTeacherList() async {
     List<TeacherModel> teacherList = [];
-    SupabaseClient instance = Supabase.instance.client;
+    Supabase.SupabaseClient instance = Supabase.Supabase.instance.client;
     var teacherResp = await instance.from("teachers").select("fname, lname, id, age");
     
     for(var tp in teacherResp) {
@@ -52,7 +55,7 @@ class SchoolPod extends _$SchoolPod{
 
   FutureOr<List<TeacherModel>?> loginTeacher(TeacherModel signIn) async{
     try{
-      SupabaseClient instance = Supabase.instance.client;
+      Supabase.SupabaseClient instance = Supabase.Supabase.instance.client;
       List<TeacherModel> teacher = [];
       var teacherResp = await instance.from("teachers")
         .select("id, course_id, fname, lname, age")
@@ -77,7 +80,7 @@ class SchoolPod extends _$SchoolPod{
   FutureOr<List<StudentModel>?> getStudentList(int teacherId) async{
     try{
       List<StudentModel> studentList = [];
-      SupabaseClient instance = Supabase.instance.client;
+      Supabase.SupabaseClient instance = Supabase.Supabase.instance.client;
       var studentResp = await instance.from("students")
         .select("id, teacher_id, fname, lname, age")
         .eq("teacher_id", teacherId);
@@ -97,7 +100,7 @@ class SchoolPod extends _$SchoolPod{
 
   FutureOr<int> updateStudent(int teacherId, int studentId) async {
     try{
-      SupabaseClient instance = Supabase.instance.client;
+      Supabase.SupabaseClient instance = Supabase.Supabase.instance.client;
       var teacherResp = await instance.from("students")
         .select("id")
         .eq("teacher_id", teacherId)
@@ -118,7 +121,7 @@ class SchoolPod extends _$SchoolPod{
   
   FutureOr<int?> updateStudentRecord (int teacherId, StudentModel student) async{
     try{
-      SupabaseClient instance = Supabase.instance.client;
+      Supabase.SupabaseClient instance = Supabase.Supabase.instance.client;
       await instance.from("students")
         .update({
           "fname": student.firstName,
@@ -193,12 +196,14 @@ class SchoolPod extends _$SchoolPod{
 
       var credsResp = await applicationApiService.postRequest(baseUrl: "auth/teacher-login", data: teacherRecord);
       teacherInfo.add(TeacherModel.fromJson(credsResp.data[0]));
+      ref.read(appLoading.notifier).setLoadingStatus();
 
       return teacherInfo;
     }
     catch(error) {
       log('Error >>> loginTeacherV2');
       log(error.toString());
+      ref.read(appLoading.notifier).setLoadingStatus();
 
       return null;
     }
@@ -243,5 +248,51 @@ class SchoolPod extends _$SchoolPod{
       return [];
     }
 
+  }
+
+  FutureOr<dynamic> updateStudentRecordV2WithoutImage(int teacherId, StudentModel student) async {
+    try{
+      ApplicationApiService applicationApiService = ApplicationApiService();
+      Map<String, dynamic> data = {
+        "teacherId": teacherId,
+        "studentId": student.id,
+        "studentFirstname": student.firstName,
+        "studentLastname": student.lastName,
+        "age": student.age,
+      };
+
+      GenericModel genericModel = await applicationApiService.postRequest(baseUrl: 'student/update-student-record-without-image', data: data);
+      return genericModel.data;
+    }
+    catch(error) {
+      log('updateStudentRecordV2WithoutImage >>> ');
+      log(error.toString());
+
+      return null;
+    }
+  }
+
+  FutureOr<int?> updateStudentRecordV2WithImage(int teacherId, StudentModel student, List<XFile>? profileImage) async{
+    try{
+      ApplicationApiService applicationApiService = ApplicationApiService();
+
+      var formData = FormData.fromMap({
+        "profileImage": await MultipartFile.fromFile(profileImage![0].path, filename: profileImage[0].name),
+        "studentId": student.id,
+        "age": student.age,
+        "studentFirstname": student.firstName,
+        "studentLastname": student.lastName
+      });
+
+      applicationApiService.postRequestWithImage(baseUrl: 'student/update-student-record-with-image', data: formData);
+
+      return 1;
+    }
+    catch(error) {
+      log("Errror ----- updateStudentRecordV2");
+      log(error.toString());
+
+      return -1;
+    }
   }
 }

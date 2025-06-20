@@ -7,12 +7,13 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 class ApplicationApiService {
   var dio = Dio();
   ApplicationApiService() {
-    dio.options.baseUrl = 'http://10.10.4.100:4000/';
+    dio.options.baseUrl = 'http://10.10.8.202:4000/';
+    // dio.options.baseUrl = 'http://192.168.64.134:4000/';
   }
 
   FutureOr<GenericModel> getRequest({String baseUrl="/"}) async {
     var response = await dio.get(baseUrl);
-    
+
     GenericModel genericModel = GenericModel.factory(response.data);
     return genericModel;
   }
@@ -29,4 +30,18 @@ class ApplicationApiService {
     return genericModel;
   }
 
+  FutureOr<GenericModel?> postRequestWithImage({String baseUrl = "/", required FormData data}) async {
+    log(data.toString());
+    await dio.post(
+      baseUrl,
+      data: data,
+      options: Options(
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      )
+    );
+
+    return null;
+  }
 }
