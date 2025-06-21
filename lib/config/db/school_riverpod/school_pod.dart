@@ -281,7 +281,8 @@ class SchoolPod extends _$SchoolPod{
         "studentId": student.id,
         "age": student.age,
         "studentFirstname": student.firstName,
-        "studentLastname": student.lastName
+        "studentLastname": student.lastName,
+        "teacherId": teacherId,
       });
 
       applicationApiService.postRequestWithImage(baseUrl: 'student/update-student-record-with-image', data: formData);
