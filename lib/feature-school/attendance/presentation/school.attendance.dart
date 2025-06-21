@@ -30,9 +30,11 @@ class _SchoolAttendancePage extends ConsumerState<SchoolAttendancePage> {
 
     int teacherId = ref.read(schoolAuthPod).value!.id!;
     var studentList = await ref.read(teacherPod.notifier).getAllStudentForAttendance(teacherId);
-    setState(() {
-      studentRecord = studentList;
-    });
+    if (mounted) {
+      setState(() {
+        studentRecord = studentList;
+      });
+    }
   }
 
   void onButtonAction () {
